@@ -1,23 +1,20 @@
 ---
-description:
-  'When you implement a custom edge it is wrapped in a component that enables some basic
-  functionality. Your custom edge component receives the following props:'
+
+description: '当您实现自定义边时，它会被包裹在一个提供基础功能的组件中。您的自定义边组件将接收以下属性：'
 ---
 
 # EdgeProps
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts/#L100)
 
-When you implement a custom edge it is wrapped in a component that enables some basic
-functionality. The `EdgeProps` type takes a generic parameter to specify the type of edges
-you use in your application:
+当您实现自定义边时，它会被包裹在一个提供基础功能的组件中。`EdgeProps` 类型接受泛型参数来指定您在应用程序中使用的边类型：
 
 ```ts
 type AppEdgeProps = EdgeProps<MyEdgeType>;
 ```
 
-Your custom edge component receives the following props:
+您的自定义边组件将接收以下属性：
 
-## Fields
+## 字段说明
 
 <APIDocs typeName="EdgeProps" />

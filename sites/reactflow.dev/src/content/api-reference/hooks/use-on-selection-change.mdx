@@ -1,22 +1,17 @@
 ---
-description:
-  'This hook lets you listen for changes to both node and edge selection. As the
-  name implies, the callback you provide will be called whenever the selection of
-  either nodes or edges changes.'
+
+description: '该钩子函数允许您监听节点和边选择状态的变化。顾名思义，每当节点或边的选择状态发生变化时，您提供的回调函数就会被调用。'
 ---
 
 # useOnSelectionChange()
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useOnSelectionChange.ts)
 
-This hook lets you listen for changes to both node and edge selection. As the
-name implies, the callback you provide will be called whenever the selection of
-_either_ nodes or edges changes.
+该钩子函数允许您监听节点和边选择状态的变化。顾名思义，每当_任意_节点或边的选择状态发生变化时，您提供的回调函数就会被调用。
 
 > [!WARNING]
 >
-> You need to memoize the passed `onChange` handler, otherwise the hook will not
-> work correctly.
+> 必须对传入的 `onChange` 处理函数进行记忆化(memoize)处理，否则该钩子将无法正常工作。
 
 ```jsx
 import { useState } from 'react';
@@ -45,12 +40,10 @@ function SelectionDisplay() {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="useOnSelectionChange" />
 
-## Notes
+## 注意事项
 
-- This hook can only be used in a component that is a child of a
-  [`<ReactFlowProvider />`](/api-reference/react-flow-provider) or a
-  [`<ReactFlow />`](/api-reference/react-flow) component.
+- 该钩子只能在 [`<ReactFlowProvider />`](/api-reference/react-flow-provider) 或 [`<ReactFlow />`](/api-reference/react-flow) 组件的子组件中使用。

@@ -1,17 +1,13 @@
 ---
-description:
-  "This util is a convenience function to add a new Edge to an array of edges.
-  It also performs some validation to make sure you don't add an invalid edge or
-  duplicate an existing one."
+
+description: "该工具函数用于便捷地向边数组添加新边，同时会执行验证以确保不会添加无效边或重复边"
 ---
 
 # addEdge()
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/utils/edges/general.ts/#L100)
+[GitHub源码](https://github.com/xyflow/xyflow/blob/main/packages/system/src/utils/edges/general.ts/#L100)
 
-This util is a convenience function to add a new [`Edge`](/api-reference/types/edge) to an
-array of edges. It also performs some validation to make sure you don't add an
-invalid edge or duplicate an existing one.
+该工具函数用于便捷地向边数组添加新的[`Edge`](/api-reference/types/edge)，同时会执行验证以确保不会添加无效边或重复边。
 
 ```js
 import { useCallback } from 'react';
@@ -36,12 +32,10 @@ export default function Flow() {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="addEdge" />
 
-## Notes
+## 注意事项
 
-- If an edge with the same `target` and `source` already exists (and the same
-  `targetHandle` and `sourceHandle` if those are set), then this util won't add
-  a new edge even if the `id` property is different.
+- 如果已存在具有相同`target`和`source`的边（若设置了`targetHandle`和`sourceHandle`则还需相同），即使`id`属性不同，该工具也不会添加新边

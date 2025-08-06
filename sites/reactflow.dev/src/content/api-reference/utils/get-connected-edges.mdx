@@ -1,15 +1,13 @@
 ---
-description:
-  'Given an array of nodes that may be connected to one another and an array of
-  all your edges, this util gives you an array of edges that connect any of the
-  given nodes together.'
+
+description: '给定一个可能相互连接的节点数组和一个包含所有边的数组，该工具函数会返回连接给定节点中任意节点的边数组。'
 ---
 
 # getConnectedEdges()
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/utils/graph.ts/#L224)
+[GitHub 源代码](https://github.com/xyflow/xyflow/blob/main/packages/system/src/utils/graph.ts/#L224)
 
-This utility filters an array of edges, keeping only those where either the source or target node is present in the given array of nodes.
+该工具函数会过滤边数组，仅保留那些源节点或目标节点存在于给定节点数组中的边。
 
 ```js
 import { getConnectedEdges } from '@xyflow/react';
@@ -27,6 +25,6 @@ const connectedEdges = getConnectedEdges(nodes, edges);
 // => [{ id: 'a->c', source: 'a', target: 'c' }]
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="getConnectedEdges" />

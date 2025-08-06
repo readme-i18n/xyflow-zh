@@ -1,17 +1,14 @@
 ---
-title: The EdgeText component
+
+title: EdgeText 组件
 sidebarTitle: '<EdgeText />'
-description:
-  'You can use the EdgeText component as a helper component to display text within
-  your custom edges.'
----
+description: '您可以使用 EdgeText 组件作为辅助组件，在自定义边线上显示文本。'
 
 # \<EdgeText />
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/components/Edges/EdgeText.tsx)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/components/Edges/EdgeText.tsx)
 
-You can use the `<EdgeText />` component as a helper component to display text
-within your custom edges.
+您可以使用 `<EdgeText />` 组件作为辅助组件，在自定义边线上显示文本。
 
 ```jsx
 import { EdgeText } from '@xyflow/react';
@@ -32,12 +29,10 @@ export function CustomEdgeLabel({ label }) {
 }
 ```
 
-## Props
+## Props 属性
 
-For TypeScript users, the props type for the `<EdgeText />` component is exported
-as `EdgeTextProps`.
+对于 TypeScript 用户，`<EdgeText />` 组件的属性类型已导出为 `EdgeTextProps`。
 
 <APIDocs componentName="EdgeText" groupKeys="Omit<SVGAttributes<SVGElement>, 'x' | 'y'>" />
 
-Additionally, you may also pass any standard React HTML attributes such as `onClick`,
-`className` and so on.
+此外，您还可以传递任何标准的 React HTML 属性，例如 `onClick`、`className` 等。

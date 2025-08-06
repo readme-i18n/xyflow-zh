@@ -1,17 +1,16 @@
 ---
-title: The ReactFlowProvider component
+
+title: ReactFlowProvider 组件
 sidebarTitle: <ReactFlowProvider />
 ---
 
 # \<ReactFlowProvider />
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/components/ReactFlowProvider/index.tsx/#L9)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/components/ReactFlowProvider/index.tsx/#L9)
 
-The `<ReactFlowProvider />` component is a
-[context provider](https://react.dev/learn/passing-data-deeply-with-context#) that
-makes it possible to access a flow's internal state outside of the
-[`<ReactFlow />`](/api-reference/react-flow) component. Many of the hooks we
-provide rely on this component to work.
+`<ReactFlowProvider />` 是一个
+[上下文提供器](https://react.dev/learn/passing-data-deeply-with-context#)，
+它使得在 [`<ReactFlow />`](/api-reference/react-flow) 组件外部访问流程内部状态成为可能。我们提供的许多钩子都依赖此组件才能正常工作。
 
 ```tsx
 import { ReactFlow, ReactFlowProvider, useNodes } from '@xyflow/react'
@@ -44,14 +43,11 @@ function Sidebar() {
 }
 ```
 
-## Props
+## Props 属性
 
 <APIDocs componentName="ReactFlowProvider" />
 
-## Notes
+## 注意事项
 
-- If you're using a router and want your flow's state to persist across routes,
-  it's vital that you place the `<ReactFlowProvider />` component _outside_ of
-  your router.
-- If you have multiple flows on the same page you will need to use a separate
-  `<ReactFlowProvider />` for each flow.
+- 如果您使用路由并希望流程状态在路由间保持持久化，必须将 `<ReactFlowProvider />` 组件置于路由组件 _外部_
+- 如果同一页面存在多个流程，需要为每个流程单独使用 `<ReactFlowProvider />`

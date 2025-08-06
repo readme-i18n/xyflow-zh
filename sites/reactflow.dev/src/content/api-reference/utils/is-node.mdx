@@ -1,17 +1,13 @@
 ---
-description:
-  'Test whether an object is usable as a Node. In TypeScript this is a type
-  guard that will narrow the type of whatever you pass in to Node if it returns
-  true.'
+
+description: '测试一个对象是否可用作节点。在 TypeScript 中，这是一个类型守卫，当返回值为 `true` 时，会将传入参数的类型收窄为 Node 类型。'
 ---
 
 # isNode()
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/utils/graph.ts/#L49)
 
-Test whether an object is usable as a [`Node`](/api-reference/types/node). In TypeScript
-this is a type guard that will narrow the type of whatever you pass in to
-[`Node`](/api-reference/types/node) if it returns `true`.
+测试一个对象是否可用作 [`Node`](/api-reference/types/node)。在 TypeScript 中，这是一个类型守卫，当返回值为 `true` 时，会将传入参数的类型收窄为 [`Node`](/api-reference/types/node)。
 
 ```js
 import { isNode } from '@xyflow/react';
@@ -32,6 +28,6 @@ if (isNode(node)) {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="isNode" />

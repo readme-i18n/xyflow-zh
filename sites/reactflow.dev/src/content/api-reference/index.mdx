@@ -1,20 +1,15 @@
 import { ContentGrid, ContentGridItem } from '@xyflow/xy-ui';
 import { BlogPostPreview } from 'xy-shared';
 
-# API Reference
+# API 参考
 
-This reference attempts to document every function, hook, component, and type
-exported by React Flow. If you are looking for guides and tutorials, please refer to our [learn section](/learn).
+本参考文档旨在全面记录 React Flow 导出的每个函数、钩子、组件和类型。如需查看指南和教程，请访问我们的[学习章节](/learn)。
 
-## How to use this reference
+## 如何使用本参考
 
-We think that documentation should answer two broad
-questions: "what is this thing?" and "how do I use it?"
+我们认为文档应当回答两个核心问题："这是什么？"以及"如何使用它？"
 
-To that end, our API reference aims to **concisely** answer that first question
-and learn section goes into more detail on the second. If you find yourself clicking
-around the reference wondering what the heck any of this means, maybe we have a
-guide that can help you out!
+为此，我们的API参考力求**简洁**地回答第一个问题，而学习章节会详细阐述第二个问题。如果您在查阅参考时感到困惑，或许我们的指南能为您提供帮助！
 
 <ContentGrid className="mt-8">
   <ContentGridItem route="/learn/customization/custom-nodes">
@@ -31,44 +26,26 @@ guide that can help you out!
   </ContentGridItem>
 </ContentGrid>
 
-## A note for our long-term users
+## 致长期用户的重要说明
 
-If you're coming here from our old API pages things might look a bit different!
-We've reorganized our documentation to make it easier to look things up if you
-know what you're looking for. All our types, components, hooks, and util functions
-get their own page now to help you find exactly what you need.
+如果您是从旧版API页面跳转而来，可能会发现这里有些不同！我们重组了文档结构，让已知目标内容的用户能更便捷地查找。现在所有类型、组件、钩子和工具函数都有独立页面，助您精准定位所需内容。
 
-If you're new to React Flow or you're not sure where to look for something, take
-a look at the section below.
+如果您是React Flow的新用户或不确定查找方向，请查看下方章节。
 
-## A note for JavaScript users
+## 致JavaScript用户的说明
 
-React Flow is written in TypeScript, but we know that not everyone uses it. We
-encourage developers to use the technology that works best for them, and
-throughout our documentation there is a blend of TypeScript and JavaScript
-examples.
+React Flow虽采用TypeScript编写，但我们理解并非所有开发者都使用它。我们鼓励开发者选用最适合的技术方案，因此在文档中会同时呈现TypeScript和JavaScript的示例代码。
 
-For our API reference, however, we use TypeScript's syntax to document the types
-of props and functions. Here's a quick crash course on how to read it:
+然而，在我们的 API 参考文档中，我们使用 TypeScript 语法来记录属性和函数的类型。以下是快速理解这些语法的指南：
 
-• `?` means that the field or argument is optional.
+• `?` 表示该字段或参数是可选的。
 
-• `<T>` in a type definition represents a generic type parameter. Like a function
-argument but for types! The definition `type Array<T> = ...` means a type called
-`Array` that takes a generic type parameter `T`.
+• 类型定义中的 `<T>` 表示泛型类型参数。就像函数的参数，但用于类型！定义 `type Array<T> = ...` 表示一个名为 `Array` 的类型，它接受泛型类型参数 `T`。
 
-• `<T>` when referring to a type is like "filling in" a generic type parameter.
-It's like calling a function but for types! The type `Array<number>` is the
-type `Array` with the generic type parameter `T` filled in with the type
-`number`.
+• 当引用类型时，`<T>` 类似于"填充"泛型类型参数。就像调用函数，但针对类型！类型 `Array<number>` 表示用 `number` 类型填充了泛型参数 `T` 的 `Array` 类型。
 
-• `T | U` means that the type is either `T` or `U`: this is often called a
-_union_.
+• `T | U` 表示该类型可以是 `T` 或 `U`：这通常被称为 _联合类型_。
 
-• `T & U` means that the type is both `T` and `U`: this is often called an
-_intersection_.
+• `T & U` 表示该类型同时是 `T` 和 `U`：这通常被称为 _交叉类型_。
 
-The TypeScript folks have their own
-[handy guide for reading types](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
-that you might find useful. If you're still stuck on something, feel free to
-drop by our [Discord](https://discord.com/invite/RVmnytFmGW) and ask for help!
+TypeScript 官方提供了[类型阅读指南](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)，您可能会觉得有用。如果仍有疑问，欢迎加入我们的 [Discord](https://discord.com/invite/RVmnytFmGW) 寻求帮助！

@@ -1,12 +1,13 @@
 ---
-description: 'Data about an ongoing connection.'
+
+description: '关于当前连接的数据信息'
 ---
 
 # ConnectionState
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/general.ts/#L148-L174)
+[GitHub 源代码](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/general.ts/#L148-L174)
 
-The `ConnectionState` type bundles all information about an ongoing connection. It is returned by the [`useConnection`](/api-reference/hooks/use-connection) hook.
+`ConnectionState` 类型包含了关于当前连接的所有信息。该类型由 [`useConnection`](/api-reference/hooks/use-connection) 钩子返回。
 
 ```ts
 type NoConnection = {
@@ -37,6 +38,6 @@ type ConnectionInProgress = {
 type ConnectionState = ConnectionInProgress | NoConnection;
 ```
 
-## Fields
+## 字段说明
 
 <APIDocs typeName="ConnectionState" />

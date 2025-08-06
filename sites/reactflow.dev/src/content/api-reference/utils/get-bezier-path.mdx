@@ -1,15 +1,13 @@
 ---
-description:
-  'The getBezierPath util returns everything you need to render a bezier edge
-  between two nodes.'
+
+description: 'getBezierPath 工具函数返回渲染两个节点间贝塞尔曲线边所需的所有参数'
 ---
 
 # getBezierPath()
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/utils/edges/bezier-edge.ts/#L95)
 
-The `getBezierPath` util returns everything you need to render a bezier edge
-between two nodes.
+`getBezierPath` 工具函数返回渲染两个节点间贝塞尔曲线边所需的所有参数
 
 ```js
 import { Position, getBezierPath } from '@xyflow/react';
@@ -31,11 +29,10 @@ console.log(labelX, labelY); //=> 75, 60
 console.log(offsetX, offsetY); //=> 75, 40
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="getBezierPath" />
 
-## Notes
+## 注意事项
 
-- This function returns a tuple (aka a fixed-size array) to make it easier to
-  work with multiple edge paths at once.
+- 该函数返回一个元组（即固定大小的数组），以便更轻松地同时处理多条边路径

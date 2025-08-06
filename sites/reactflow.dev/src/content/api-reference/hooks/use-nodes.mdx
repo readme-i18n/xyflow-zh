@@ -1,17 +1,13 @@
 ---
-description:
-  'This hook returns an array of the current nodes. Components that use this hook
-  will re-render whenever any node changes, including when a node is selected or
-  moved.'
+
+description: '该钩子返回当前节点的数组。使用此钩子的组件会在任何节点发生变化时重新渲染，包括节点被选中或移动的情况。'
 ---
 
 # useNodes()
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useNodes.ts)
 
-This hook returns an array of the current nodes. Components that use this hook
-will re-render **whenever any node changes**, including when a node is selected
-or moved.
+该钩子返回当前节点的数组。使用此钩子的组件会在**任何节点发生变化时**重新渲染，包括节点被选中或移动的情况。
 
 ```jsx
 import { useNodes } from '@xyflow/react';
@@ -23,23 +19,19 @@ export default function () {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="useNodes" />
 
 ## TypeScript
 
-This hook accepts a generic type argument of custom node types. See this
-[section in our TypeScript guide](/learn/advanced-use/typescript#nodetype-edgetype-unions) for more information.
+该钩子接受自定义节点类型的泛型参数。更多信息请参阅
+[TypeScript指南中的相关章节](/learn/advanced-use/typescript#nodetype-edgetype-unions)。
 
 ```tsx
 const nodes = useNodes<CustomNodeType>();
 ```
 
-## Notes
+## 注意事项
 
-- Relying on `useNodes` unnecessarily can be a common cause of performance
-  issues. Whenever any node changes, this hook will cause the component to
-  re-render. Often we actually care about something more specific, like when
-  the _number_ of nodes changes: where possible try to use
-  [`useStore`](/api-reference/hooks/use-store) instead.
+- 不必要地依赖 `useNodes` 是导致性能问题的常见原因。任何节点变化时，该钩子都会触发组件重新渲染。实际上我们通常更关心某些特定变化，比如节点_数量_的变化：在可能的情况下，尽量改用 [`useStore`](/api-reference/hooks/use-store)。

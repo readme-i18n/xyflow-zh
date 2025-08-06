@@ -1,12 +1,13 @@
 ---
-description: The OnEdgesDelete type defines the callback function that is called when edges are deleted.
+
+description: OnEdgesDelete 类型定义了当边被删除时调用的回调函数。
 ---
 
 # OnEdgesDelete
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/general.ts#L52)
 
-The `OnEdgesDelete` type defines the callback function that is called when edges are deleted. This callback receives an array of the deleted edges.
+`OnEdgesDelete` 类型定义了当边被删除时调用的回调函数。该回调会接收一个包含被删除边的数组。
 
 ```ts
 type OnEdgesDelete = (edges: Edge[]) => void;

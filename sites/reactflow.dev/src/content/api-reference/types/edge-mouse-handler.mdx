@@ -1,12 +1,13 @@
 ---
-description: The EdgeMouseHandler type defines the callback function that is called when mouse events occur on an edge.
+
+description: EdgeMouseHandler 类型定义了当边线上发生鼠标事件时调用的回调函数。
 ---
 
 # EdgeMouseHandler
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts#L81)
 
-The `EdgeMouseHandler` type defines the callback function that is called when mouse events occur on an edge. This callback receives the event and the edge that triggered it.
+`EdgeMouseHandler` 类型定义了当边线上发生鼠标事件时调用的回调函数。该回调会接收触发事件的事件对象和对应的边线。
 
 ```ts
 type EdgeMouseHandler = (event: React.MouseEvent, edge: Edge) => void;

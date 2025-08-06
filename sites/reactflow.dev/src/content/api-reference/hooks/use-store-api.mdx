@@ -1,23 +1,17 @@
 ---
-description:
-  'In some cases, you might need to access the store directly. This hook returns
-  the store object which can be used on demand to access the state or dispatch
-  actions.'
+
+description: '在某些情况下，您可能需要直接访问存储。该钩子返回可按需使用的存储对象，用于访问状态或派发操作。'
 ---
 
 # useStoreApi()
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useStore.ts)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useStore.ts)
 
-In some cases, you might need to access the store directly. This hook returns the store object which can be used on demand to access the state or dispatch actions.
+某些情况下，您可能需要直接访问存储。该钩子返回可按需使用的存储对象，用于访问状态或派发操作。
 
 > [!NOTE]
 >
-> This hook should only be used if there is no other way to access the internal
-> state. For many of the common use cases, there are dedicated hooks available
-> such as [`useReactFlow`](/api-reference/hooks/use-react-flow),
-> [`useViewport`](/api-reference/hooks/use-viewport), etc.
-
+> 仅当没有其他方式访问内部状态时，才应使用此钩子。对于大多数常见用例，已有专用钩子可用，例如 [`useReactFlow`](/api-reference/hooks/use-react-flow)、[`useViewport`](/api-reference/hooks/use-viewport) 等。
 
 ```tsx
 import { useState, useCallback } from 'react';
@@ -51,27 +45,19 @@ function Flow() {
 }
 ```
 
-This example computes the number of nodes in the flow _on-demand_. This is in
-contrast to the example in the [`useStore`](/api-reference/hooks/use-store) hook that re-renders
-the component whenever the number of nodes changes.
+此示例演示了如何_按需_计算流程中的节点数量。这与 [`useStore`](/api-reference/hooks/use-store) 钩子中的示例形成对比，后者会在节点数量变化时重新渲染组件。
 
-Choosing whether to calculate values on-demand or to subscribe to changes as they
-happen is a bit of a balancing act. On the one hand, putting too many heavy
-calculations in an event handler can make your app feel sluggish or unresponsive.
-On the other hand, computing values eagerly can lead to slow or unnecessary
-re-renders.
+选择按需计算值还是订阅变更事件需要权衡考量。一方面，在事件处理程序中执行过多繁重计算可能导致应用响应迟缓；另一方面，过早计算值可能引发不必要的重复渲染或性能下降。
 
-We make both this hook and [`useStore`](/api-reference/hooks/use-store) available so that you can
-choose the approach that works best for your use-case.
+我们同时提供这个钩子函数和 [`useStore`](/api-reference/hooks/use-store)，以便您可以根据实际使用场景选择最适合的方案。
 
-## Signature
+## 签名
 
 <APIDocs functionName="useStoreApi" />
 
 ## TypeScript
 
-This hook accepts a generic type argument of custom node & edge types. See this
-[section in our TypeScript guide](/learn/advanced-use/typescript#nodetype-edgetype-unions) for more information.
+此钩子接受自定义节点和边类型的泛型参数。详见 [TypeScript 指南](/learn/advanced-use/typescript#nodetype-edgetype-unions) 中的相关章节。
 
 ```tsx
 const store = useStoreApi<CustomNodeType, CustomEdgeType>();

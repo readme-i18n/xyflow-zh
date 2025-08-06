@@ -1,15 +1,13 @@
 ---
-description:
-  'This hook returns an array of the current edges. Components that use this hook
-  will re-render whenever any edge changes.'
+
+description: '该钩子返回当前边的数组。使用此钩子的组件会在任何边发生变化时重新渲染。'
 ---
 
 # useEdges()
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useEdges.ts)
+[GitHub源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useEdges.ts)
 
-This hook returns an array of the current edges. Components that use this hook
-will re-render **whenever any edge changes**.
+该钩子返回当前边的数组。使用此钩子的组件会在**任何边发生变化**时重新渲染。
 
 ```jsx
 import { useEdges } from '@xyflow/react';
@@ -21,23 +19,18 @@ export default function () {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="useEdges" />
 
 ## TypeScript
 
-This hook accepts a generic type argument of custom edge types. See this
-[section in our TypeScript guide](/learn/advanced-use/typescript#nodetype-edgetype-unions) for more information.
+该钩子接受自定义边类型的泛型参数。更多信息请参阅[TypeScript指南中的相关章节](/learn/advanced-use/typescript#nodetype-edgetype-unions)。
 
 ```tsx
 const nodes = useEdges<CustomEdgeType>();
 ```
 
-## Notes
+## 注意事项
 
-- Relying on `useEdges` unnecessarily can be a common cause of performance
-  issues. Whenever any edge changes, this hook will cause the component to
-  re-render. Often we actually care about something more specific, like when
-  the _number_ of edges changes: where possible try to use
-  [`useStore`](/api-reference/hooks/use-store) instead.
+- 不必要地依赖`useEdges`可能导致性能问题。任何边发生变化时，该钩子都会触发组件重新渲染。实际上我们通常更关心特定变化（如边的_数量_变化）：尽可能尝试改用[`useStore`](/api-reference/hooks/use-store)。

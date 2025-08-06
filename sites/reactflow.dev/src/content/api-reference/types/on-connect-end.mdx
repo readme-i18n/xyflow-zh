@@ -1,12 +1,13 @@
 ---
-description: Callback function triggered when finishing or canceling a connection attempt between nodes.
+
+description: 当节点间连接尝试完成或取消时触发的回调函数。
 ---
 
 # OnConnectEnd
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/general.ts#L89)
 
-The `OnConnectEnd` type represents a callback function that is called when finishing or canceling a connection attempt. It receives the mouse or touch event and the final state of the connection attempt.
+`OnConnectEnd` 类型表示一个回调函数，在完成或取消连接尝试时被调用。该函数接收鼠标或触摸事件以及连接尝试的最终状态。
 
 ```ts
 type OnConnectEnd = (

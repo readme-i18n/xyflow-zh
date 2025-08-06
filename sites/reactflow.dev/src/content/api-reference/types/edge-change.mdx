@@ -1,18 +1,14 @@
 ---
+
 description:
-  The onEdgesChange callback takes an array of EdgeChange objects that you should
-  use to update your flow's state. The EdgeChange type is a union of four different
-  object types that represent that various ways an edge can change in a flow.
+  onEdgesChange 回调函数接收一个 EdgeChange 对象数组，用于更新流程状态。EdgeChange 类型是四种不同对象类型的联合，表示流程中边(edge)可能发生的各种变化。
 ---
 
 # EdgeChange
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/changes.ts/#L68-L72)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/changes.ts/#L68-L72)
 
-The [`onEdgesChange`](/api-reference/react-flow#on-edges-change) callback takes
-an array of `EdgeChange` objects that you should use to update your flow's state.
-The `EdgeChange` type is a union of four different object types that represent that
-various ways an edge can change in a flow.
+[`onEdgesChange`](/api-reference/react-flow#on-edges-change) 回调函数接收一个 `EdgeChange` 对象数组，用于更新流程状态。`EdgeChange` 类型是四种不同对象类型的联合，表示流程中边(edge)可能发生的各种变化方式。
 
 ```ts
 export type EdgeChange =
@@ -22,7 +18,7 @@ export type EdgeChange =
   | EdgeSelectionChange;
 ```
 
-## Variants
+## 变体类型
 
 ### EdgeAddChange
 

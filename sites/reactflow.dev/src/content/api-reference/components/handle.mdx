@@ -1,15 +1,15 @@
 ---
+
 title: The Handle component
 sidebarTitle: '<Handle />'
-description: 'The Handle component is used in your custom nodes to define connection points.'
+description: 'Handle 组件用于在自定义节点中定义连接点。'
 ---
 
 # \<Handle />
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/components/Handle/index.tsx)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/components/Handle/index.tsx)
 
-The `<Handle />` component is used in your [custom nodes](/learn/customization/custom-nodes)
-to define connection points.
+`<Handle />` 组件用于在[自定义节点](/learn/customization/custom-nodes)中定义连接点。
 
 ```jsx
 import { Handle, Position } from '@xyflow/react';
@@ -28,10 +28,8 @@ export const CustomNode = ({ data }) => {
 };
 ```
 
-## Props
+## Props 属性
 
-For TypeScript users, the props type for the `<Handle />` component is exported
-as `HandleProps`.
+对于 TypeScript 用户，`<Handle />` 组件的属性类型以 `HandleProps` 形式导出。
 
 <APIDocs componentName="Handle" groupKeys="Omit<ComponentProps<'div'>, 'id'>" />
-

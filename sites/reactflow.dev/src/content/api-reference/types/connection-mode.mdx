@@ -1,15 +1,16 @@
 ---
-description: Specifies the rules for how connections between nodes are established.
+
+description: 指定节点之间连接建立的规则
 ---
 
 # ConnectionMode
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/general.ts#L68)
+[GitHub 源代码](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/general.ts#L68)
 
-The `ConnectionMode` enum provides two options for connection behavior in React Flow:
+`ConnectionMode` 枚举为 React Flow 中的连接行为提供了两种选项：
 
-- `Strict`: Connections can only be made starting from a source handle and ending on a target handle
-- `Loose`: Connections can be made between any handles, regardless of type
+- `Strict`(严格模式)：连接只能从源句柄开始并在目标句柄结束
+- `Loose`(宽松模式)：可以在任意类型的句柄之间建立连接
 
 ```ts
 enum ConnectionMode {

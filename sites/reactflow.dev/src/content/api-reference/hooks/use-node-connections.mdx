@@ -1,7 +1,6 @@
 ---
-description:
-  'This hook returns an array of connected edges. Components that use this hook
-  will re-render whenever any edge changes.'
+
+description: '该钩子返回一个包含已连接边的数组。使用此钩子的组件会在任何边发生变化时重新渲染。'
 created_at: 2025-01-15
 ---
 
@@ -9,7 +8,7 @@ created_at: 2025-01-15
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useNodeConnections.ts)
 
-This hook returns an array of connections on a specific node, handle type ('source', 'target') or handle ID.
+该钩子返回特定节点、连接类型('source', 'target')或连接ID上的连接数组。
 
 ```jsx
 import { useNodeConnections } from '@xyflow/react';
@@ -26,6 +25,6 @@ export default function () {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="useNodeConnections" />

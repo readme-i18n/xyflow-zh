@@ -1,23 +1,19 @@
 ---
-description:
-  'Internally, React Flow maintains a coordinate system that is independent of the rest of
-  the page. The Viewport type tells you where in that system your flow is currently being
-  display at and how zoomed in or out it is.'
+
+description: 
+  '在内部，React Flow 维护着一个独立于页面其他部分的坐标系。Viewport 类型会告诉你当前流程在该坐标系中的显示位置以及缩放级别。'
 ---
 
-# Viewport
+# 视口
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/general.ts/#L149-L153)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/general.ts/#L149-L153)
 
-Internally, React Flow maintains a coordinate system that is independent of the rest of
-the page. The `Viewport` type tells you where in that system your flow is currently being
-display at and how zoomed in or out it is.
+在内部，React Flow 维护着一个独立于页面其他部分的坐标系。`Viewport` 类型会告诉你当前流程在该坐标系中的显示位置以及缩放级别。
 
-## Fields
+## 字段说明
 
 <APIDocs typeName="Viewport" />
 
-## Notes
+## 注意事项
 
-- A `Transform` has the same properties as the viewport, but they represent different
-  things. Make sure you don't get them muddled up or things will start to look weird!
+- `Transform` 具有与视口相同的属性，但它们代表不同的概念。请确保不要混淆它们，否则显示效果会出现异常！

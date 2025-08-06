@@ -1,19 +1,13 @@
 ---
-description:
-  "When you programmatically add or remove handles to a node or update a node's
-  handle position, you need to let React Flow know about it using this hook. This
-  will update the internal dimensions of the node and properly reposition handles
-  on the canvas if necessary."
+
+description: "当你通过编程方式为节点添加或移除连接手柄，或更新节点手柄位置时，需要使用此钩子函数通知 React Flow。这将更新节点的内部尺寸，并在必要时重新定位画布上的手柄位置。"
 ---
 
 # useUpdateNodeInternals()
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useUpdateNodeInternals.ts)
 
-When you programmatically add or remove handles to a node or update a node's
-handle position, you need to let React Flow know about it using this hook. This
-will update the internal dimensions of the node and properly reposition handles
-on the canvas if necessary.
+当你通过编程方式为节点添加或移除连接手柄，或更新节点手柄位置时，需要使用此钩子函数通知 React Flow。这将更新节点的内部尺寸，并在必要时重新定位画布上的手柄位置。
 
 ```jsx
 import { useCallback, useState } from 'react';
@@ -47,12 +41,10 @@ export default function RandomHandleNode({ id }) {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="useUpdateNodeInternals" />
 
-## Notes
+## 注意事项
 
-- This hook can only be used in a component that is a child of a
-  [`<ReactFlowProvider />`](/api-reference/react-flow-provider) or a
-  [`<ReactFlow />`](/api-reference/react-flow) component.
+- 该钩子只能在 [`<ReactFlowProvider />`](/api-reference/react-flow-provider) 或 [`<ReactFlow />`](/api-reference/react-flow) 组件的子组件中使用。

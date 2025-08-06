@@ -1,12 +1,13 @@
 ---
-description: Called whenever the selection of nodes or edges changes in the flow diagram.
+
+description: 当流程图中的节点或边选择状态发生变化时触发。
 ---
 
 # OnSelectionChangeFunc
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/general.ts#98)
 
-The `OnSelectionChangeFunc` type is a callback that is triggered when the selection of nodes or edges changes. It receives an object containing the currently selected nodes and edges.
+`OnSelectionChangeFunc` 类型是一个回调函数，当节点或边的选择状态发生变化时触发。它接收一个包含当前选中节点和边的对象作为参数。
 
 ```ts
 type OnSelectionChangeFunc = (params: { nodes: Node[]; edges: Edge[] }) => void;

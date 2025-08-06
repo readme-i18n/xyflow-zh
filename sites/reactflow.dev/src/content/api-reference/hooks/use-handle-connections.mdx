@@ -1,7 +1,6 @@
 ---
-description:
-  'This hook returns an array of the current edges. Components that use this hook
-  will re-render whenever any edge changes.'
+
+description: '该钩子返回当前边的数组。使用此钩子的组件会在任何边发生变化时重新渲染。'
 created_at: 2024-07-09
 ---
 
@@ -9,12 +8,11 @@ created_at: 2024-07-09
 
 > [!WARNING]
 >
->  `useHandleConnections` is deprecated in favor of the more capable
->  [useNodeConnections](/api-reference/hooks/use-node-connections).
+> `useHandleConnections` 已被弃用，建议使用功能更强大的 [useNodeConnections](/api-reference/hooks/use-node-connections)。
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useHandleConnections.ts)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useHandleConnections.ts)
 
-This hook returns an array connections on a specific handle or handle type.
+该钩子返回特定连接点或连接点类型的连接数组。
 
 ```jsx
 import { useHandleConnections } from '@xyflow/react';
@@ -28,6 +26,6 @@ export default function () {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="useHandleConnections" />

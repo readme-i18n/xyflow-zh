@@ -1,12 +1,13 @@
 ---
-description: The OnNodeDrag type defines the callback function that is called when a node is being dragged.
+
+description: OnNodeDrag 类型定义了当节点被拖动时调用的回调函数。
 ---
 
 # OnNodeDrag
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/nodes.ts#L34)
 
-The `OnNodeDrag` type defines the callback function that is called when a node is being dragged. This callback receives the event and the node that is being dragged.
+`OnNodeDrag` 类型定义了当节点被拖动时调用的回调函数。该回调会接收事件对象和被拖动的节点。
 
 ```ts
 type OnNodeDrag = (event: React.MouseEvent, node: Node) => void;

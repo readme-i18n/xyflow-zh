@@ -1,12 +1,13 @@
 ---
-description: Custom React component for rendering the connection line during edge creation.
+
+description: 用于在创建边时渲染连接线的自定义 React 组件。
 ---
 
 # ConnectionLineComponent
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts#L265)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts#L265)
 
-The `ConnectionLineComponent` type allows you to provide a custom React component to render the connection line when users create new edges. The component receives `ConnectionLineComponentProps` as its props.
+`ConnectionLineComponent` 类型允许你提供一个自定义 React 组件，用于在用户创建新边时渲染连接线。该组件接收 `ConnectionLineComponentProps` 作为其 props。
 
 ```ts
 type ConnectionLineComponent = React.ComponentType<ConnectionLineComponentProps>;

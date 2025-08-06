@@ -1,16 +1,16 @@
 ---
-description:
-  'This hook returns a ReactFlowInstance that can be used to update nodes and
-  edges, manipulate the viewport, or query the current state of the flow.'
+
+description: '该钩子返回一个 ReactFlowInstance 实例，可用于更新节点与边、操作视口或查询流程的当前状态。'
 ---
 
 # useReactFlow()
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useReactFlow.ts)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useReactFlow.ts)
 
-This hook returns a [`ReactFlowInstance`](/api-reference/types/react-flow-instance) that can
-be used to update nodes and edges, manipulate the viewport, or query the current
-state of the flow.
+该钩子返回一个 [`ReactFlowInstance`](/api-reference/types/react-flow-instance) 实例，可用于：
+- 更新节点与边
+- 操作视口
+- 查询流程的当前状态
 
 ```jsx
 import { useCallback, useState } from 'react';
@@ -34,25 +34,19 @@ export function NodeCounter() {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="useReactFlow" />
 
 ## TypeScript
 
-This hook accepts a generic type argument of custom node & edge types. See this
-[section in our TypeScript guide](/learn/advanced-use/typescript#nodetype-edgetype-unions) for more information.
+此钩子接受自定义节点和边类型的泛型参数。详见 [TypeScript 指南](/learn/advanced-use/typescript#nodetype-edgetype-unions) 中的相关章节。
 
 ```tsx
 const reactFlow = useReactFlow<CustomNodeType, CustomEdgeType>();
 ```
 
-## Notes
+## 注意事项
 
-- This hook can only be used in a component that is a child of a
-  [`<ReactFlowProvider />`](/api-reference/react-flow-provider) or a
-  [`<ReactFlow />`](/api-reference/react-flow) component.
-- Unlike [`useNodes`](/api-reference/hooks/use-nodes) or [`useEdges`](/api-reference/hooks/use-edges), this hook won't
-  cause your component to re-render when state changes. Instead, you can query
-  the state when you need it by using methods on the [`ReactFlowInstance`](/api-reference/types/react-flow-instance)
-  this hook returns.
+- 该钩子只能在 [`<ReactFlowProvider />`](/api-reference/react-flow-provider) 或 [`<ReactFlow />`](/api-reference/react-flow) 组件的子组件中使用
+- 与 [`useNodes`](/api-reference/hooks/use-nodes) 或 [`useEdges`](/api-reference/hooks/use-edges) 不同，此钩子不会在状态变更时触发组件重新渲染。您可以通过调用返回的 [`ReactFlowInstance`](/api-reference/types/react-flow-instance) 上的方法来按需查询状态

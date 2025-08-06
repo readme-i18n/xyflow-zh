@@ -1,41 +1,31 @@
 ---
-description:
-  'The Node type represents everything React Flow needs to know about a given node.
-  Many of these properties can be manipulated both by React Flow or by you, but
-  some such as width and height should be considered read-only.'
+
+description: 'Node 类型包含了 React Flow 需要了解关于节点的所有信息。其中许多属性既可由 React Flow 操作也可由用户控制，但诸如 width 和 height 等部分属性应视为只读。'
 ---
 
-# Node
+# 节点
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/nodes.ts/#L10)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/system/src/types/nodes.ts/#L10)
 
-The `Node` type represents everything React Flow needs to know about a given node.
-Many of these properties can be manipulated both by React Flow or by you, but
-some such as `width` and `height` should be considered read-only.
+`Node` 类型定义了 React Flow 需要了解的节点全部信息。这些属性大多可由 React Flow 或用户双向操作，但 `width` 和 `height` 等部分属性应视为只读。
 
-## Fields
+## 字段说明
 
 <APIDocs typeName="Node" packageName="react" />
 
-## Default node types
+## 默认节点类型
 
-You can create any of React Flow's default nodes by setting the `type` property
-to one of the following values:
+通过设置 `type` 属性为以下值之一，可以创建 React Flow 的任意默认节点：
 
 - `"default"`
 - `"input"`
 - `"output"`
 - `"group"`
 
-If you don't set the `type` property at all, React Flow will fallback to the
-`"default"` node with both an input and output port.
+若不设置 `type` 属性，React Flow 将回退为同时具备输入输出端口的 `"default"` 节点。
 
-These default nodes are available even if you set the [`nodeTypes`](/api-reference/react-flow#node-types)
-prop to something else, unless you override any of these keys directly.
+即使设置了 [`nodeTypes`](/api-reference/react-flow#node-types) 属性，这些默认节点仍然可用——除非直接覆盖了这些键值。
 
-## Notes
+## 注意事项
 
-- You shouldn't try to set the `width` or `height` of a node directly. It is
-  calculated internally by React Flow and used when rendering the node in the
-  viewport. To control a node's size you should use the `style` or `className`
-  props to apply CSS styles instead.
+- 不应直接设置节点的 `width` 或 `height`。这些值由 React Flow 内部计算，用于节点在视口中的渲染。如需控制节点尺寸，应通过 `style` 或 `className` 属性应用 CSS 样式来实现。

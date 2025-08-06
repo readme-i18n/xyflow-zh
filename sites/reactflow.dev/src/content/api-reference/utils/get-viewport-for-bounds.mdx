@@ -1,8 +1,7 @@
 ---
-description: 'This util returns the viewport for the given bounds.
-  You might use this to pre-calculate the viewport for a given set of nodes on the
-  server or calculate the viewport for the given bounds _without_ changing the
-  viewport directly.'
+
+description: '该工具函数返回给定边界的视口。
+  可用于在服务器端预计算一组节点的视口，或在不直接改变视口的情况下计算给定边界的视口。'
 ---
 
 import { Callout } from 'nextra/components';
@@ -11,14 +10,12 @@ import { Callout } from 'nextra/components';
 
 [Source on Github](https://github.com/xyflow/xyflow/blob/main/packages/system/src/utils/general.ts/#L170)
 
-This util returns the viewport for the given bounds.
-You might use this to pre-calculate the viewport for a given set of nodes on the
-server or calculate the viewport for the given bounds _without_ changing the
-viewport directly.
+该工具函数返回给定边界的视口。
+可用于在服务器端预计算一组节点的视口，或在不直接改变视口的情况下计算给定边界的视口。
 
 > [!NOTE]
 >
-> This function was previously called `getTransformForBounds`
+> 该函数曾命名为 `getTransformForBounds`
 
 ```js
 import { getViewportForBounds } from '@xyflow/react';
@@ -37,13 +34,10 @@ const { x, y, zoom } = getViewportForBounds(
 );
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="getViewportForBounds" />
 
-## Notes
+## 注意事项
 
-- This is quite a low-level utility. You might want to look at the
-  [`fitView`](/api-reference/types/react-flow-instance#fitview) or
-  [`fitBounds`](/api-reference/types/react-flow-instance#fitbounds) methods for a more practical
-  api.
+- 这是一个底层工具函数。如需更实用的 API，可参考 [`fitView`](/api-reference/types/react-flow-instance#fitview) 或 [`fitBounds`](/api-reference/types/react-flow-instance#fitbounds) 方法。

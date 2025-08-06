@@ -1,19 +1,17 @@
 ---
-title: The NodeResizer component
+
+title: NodeResizer 组件
 sidebarTitle: '<NodeResizer />'
-description:
-  'The NodeResizer component can be used to add a resize functionality to your
-  nodes. It renders draggable controls around the node to resize in all directions.'
+description: 'NodeResizer 组件可为节点添加尺寸调整功能，它会在节点周围渲染可拖拽的控制点，支持全方位缩放'
 ---
 
 import { RemoteCodeViewer } from 'xy-shared/server';
 
 # \<NodeResizer />
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/additional-components/NodeResizer/NodeResizer.tsx)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/additional-components/NodeResizer/NodeResizer.tsx)
 
-The `<NodeResizer />` component can be used to add a resize functionality to your
-nodes. It renders draggable controls around the node to resize in all directions.
+`<NodeResizer />` 组件可为节点添加尺寸调整功能，它会在节点周围渲染可拖拽的控制点，支持全方位缩放。
 
 ```jsx
 import { memo } from 'react';
@@ -33,25 +31,23 @@ const ResizableNode = ({ data }) => {
 export default memo(ResizableNode);
 ```
 
-## Props
+## Props 属性
 
-For TypeScript users, the props type for the `<NodeResizer />` component is exported
-as `NodeResizerProps`.
+TypeScript 用户可通过 `NodeResizerProps` 类型获取该组件的属性定义。
 
 <APIDocs componentName="NodeResizer" />
 
-## Examples
+## 使用示例
 
-Head over to the [example page](/examples/nodes/node-resizer) to see how this is done.
+前往 [示例页面](/examples/nodes/node-resizer) 查看具体实现。
 
 <RemoteCodeViewer route="examples/nodes/node-resizer" framework="react" />
 
-### Custom Resize Controls
+### 自定义缩放控制
 
-To build custom resize controls, you can use the [NodeResizeControl](/api-reference/components/node-resize-control) component and customize it.
+如需构建自定义缩放控制组件，可使用 [NodeResizeControl](/api-reference/components/node-resize-control) 组件进行定制化开发。
 
-## Notes
+## 注意事项
 
-- Take a look at the docs for the [`NodeProps`](/api-reference/types/node-props) type or the
-  guide on [custom nodes](/learn/customization/custom-nodes) to see how to
-  implement your own nodes.
+- 参考 [`NodeProps`](/api-reference/types/node-props) 类型文档
+- 或查阅 [自定义节点](/learn/customization/custom-nodes) 指南了解如何实现专属节点

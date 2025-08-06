@@ -1,17 +1,15 @@
 ---
-title: The Controls component
+
+title: Controls 组件
 sidebarTitle: '<Controls />'
-description:
-  'The Controls component renders a small panel that contains convenient buttons
-  to zoom in, zoom out, fit the view, and lock the viewport.'
+description: 'Controls 组件渲染一个包含便捷按钮的小面板，用于放大、缩小、适应视图以及锁定视口。'
 ---
 
 # \<Controls />
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/additional-components/Controls/Controls.tsx)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/additional-components/Controls/Controls.tsx)
 
-The `<Controls />` component renders a small panel that contains convenient
-buttons to zoom in, zoom out, fit the view, and lock the viewport.
+`<Controls />` 组件会渲染一个包含便捷按钮的小面板，功能包括放大、缩小、适应视图以及锁定视口。
 
 ```tsx
 import { ReactFlow, Controls } from '@xyflow/react'
@@ -25,14 +23,12 @@ export default function Flow() {
 }
 ```
 
-## Props
+## Props 属性
 
-For TypeScript users, the props type for the `<Controls />` component is exported
-as `ControlProps`.
+对于 TypeScript 用户，`<Controls />` 组件的属性类型以 `ControlProps` 形式导出。
 
 <APIDocs componentName="Controls" />
 
-## Notes
+## 注意事项
 
-- To extend or customize the controls, you can use the [`<ControlButton />`](/api-reference/components/control-button)
-  component
+- 如需扩展或自定义控制按钮，可使用 [`<ControlButton />`](/api-reference/components/control-button) 组件

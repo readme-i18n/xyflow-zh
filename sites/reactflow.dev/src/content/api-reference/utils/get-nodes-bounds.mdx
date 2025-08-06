@@ -1,21 +1,17 @@
 ---
-description:
-  'Returns the bounding box that contains all the given nodes in an array. This can
-  be useful when combined with `getViewportForBounds` to calculate the correct
-  transform to fit the given nodes in a viewport.'
+
+description: '返回包含数组中所有给定节点的边界框。当与 `getViewportForBounds` 结合使用时，可用于计算正确的变换以使给定节点适应视口。'
 ---
 
 # getNodesBounds()
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/system/src/utils/graph.ts/#L133)
+[GitHub 源代码](https://github.com/xyflow/xyflow/blob/main/packages/system/src/utils/graph.ts/#L133)
 
-Returns the bounding box that contains all the given nodes in an array. This can
-be useful when combined with [`getViewportForBounds`](/api-reference/utils/get-viewport-for-bounds)
-to calculate the correct transform to fit the given nodes in a viewport.
+返回包含数组中所有给定节点的边界框。当与 [`getViewportForBounds`](/api-reference/utils/get-viewport-for-bounds) 结合使用时，可用于计算正确的变换以使给定节点适应视口。
 
 > [!NOTE]
 >
-> This function was previously called `getRectOfNodes`
+> 该函数之前名为 `getRectOfNodes`
 
 ```js
 import { getNodesBounds } from '@xyflow/react';
@@ -40,6 +36,6 @@ const nodes = [
 const bounds = getNodesBounds(nodes);
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="getNodesBounds" />

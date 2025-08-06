@@ -1,12 +1,13 @@
 ---
-description: The OnDelete type defines the callback function that is called when nodes or edges are deleted.
+
+description: OnDelete 类型定义了当节点或边被删除时调用的回调函数。
 ---
 
 # OnDelete
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/general.ts#L59)
 
-The `OnDelete` type defines the callback function that is called when nodes or edges are deleted. This callback receives an object containing the deleted nodes and edges.
+`OnDelete` 类型定义了当节点或边被删除时调用的回调函数。该回调接收一个包含被删除节点和边的对象。
 
 ```ts
 type OnDelete = (params: { nodes: Node[]; edges: Edge[] }) => void;

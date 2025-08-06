@@ -1,14 +1,15 @@
 ---
-description: 'This hook returns an InternalNode object for the given node ID.'
+
+description: '该钩子返回给定节点ID对应的InternalNode对象'
 ---
 
 # useInternalNode()
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useInternalNode.ts)
+[GitHub源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useInternalNode.ts)
 
-This hook returns the internal representation of a specific node. Components that use this hook
-will re-render **whenever any node changes**, including when a node is selected
-or moved.
+该钩子返回特定节点的内部表示。使用此钩子的组件
+会在**任何节点发生变化时重新渲染**，包括节点被选中
+或移动时。
 
 ```jsx
 import { useInternalNode } from '@xyflow/react';
@@ -27,14 +28,14 @@ export default function () {
 }
 ```
 
-## Signature
+## 函数签名
 
 <APIDocs functionName="useInternalNode" />
 
 ## TypeScript
 
-This hook accepts a generic type argument of custom node types. See this
-[section in our TypeScript guide](/learn/advanced-use/typescript#nodetype-edgetype-unions) for more information.
+该钩子接受自定义节点类型的泛型参数。更多信息请参阅
+[TypeScript指南中的相关章节](/learn/advanced-use/typescript#nodetype-edgetype-unions)。
 
 ```tsx
 const internalNode = useInternalNode<CustomNodeType>();

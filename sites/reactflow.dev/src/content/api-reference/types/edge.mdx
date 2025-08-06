@@ -1,37 +1,35 @@
 ---
-description:
-  'Where a Connection is the minimal description of an edge between two nodes,
-  an `Edge` is the complete description with everything React Flow needs to know
-  in order to render it.'
+
+description: 
+  '如果说 [`Connection`](/api-reference/types/connection) 是描述两个节点间连边的最小化定义，那么 `Edge` 则是包含 React Flow 渲染所需全部信息的完整定义。'
 ---
 
-# Edge
+# 边(Edge)
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts/#L34-L353)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts/#L34-L353)
 
-Where a [`Connection`](/api-reference/types/connection) is the minimal description of an edge between
-two nodes, an `Edge` is the complete description with everything React Flow needs
-to know in order to render it.
+[`Connection`](/api-reference/types/connection) 是描述两个节点间连边的最小化定义，而 `Edge` 则是包含 React Flow 渲染所需全部信息的完整定义。
 
 ```ts
 export type Edge<T> = DefaultEdge<T> | SmoothStepEdge<T> | BezierEdge<T>;
 ```
 
-## Variants
+## 变体类型
 
-### Edge
+### Edge 类型
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts/#L34-L353)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts/#L34-L353)
 
 <APIDocs typeName="Edge" />
 
 ### SmoothStepEdge
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts/#L45-L46)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts/#L45-L46)
 
-The `SmoothStepEdge` variant has all the same fields as an `Edge`, but it also has the following additional fields:
+`SmoothStepEdge` 变体包含 `Edge` 的所有字段，并额外具有以下字段：
 
 {/* type SmoothStepEdge isn't exported, and conflicts with SmoothStepEdge component name */}
+
 <APIDocs code={`
 type $ = {
   type: "smoothstep"
@@ -42,11 +40,12 @@ export default $
 
 ### BezierEdge
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts/#L52-L53)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/edges.ts/#L52-L53)
 
-The `BezierEdge` variant has all the same fields as an `Edge`, but it also has the following additional fields:
+`BezierEdge` 变体包含 `Edge` 的所有字段，并额外具有以下字段：
 
 {/* type BezierEdge isn't exported, and conflicts with BezierEdge component name */}
+
 <APIDocs code={`
 type $ = {
   type: "default"
@@ -55,10 +54,9 @@ type $ = {
 export default $
 `} />
 
-## Default edge types
+## 默认边类型
 
-You can create any of React Flow's default edges by setting the `type` property
-to one of the following values:
+通过将 `type` 属性设置为以下值之一，可以创建 React Flow 的默认边类型：
 
 - `"default"`
 - `"straight"`
@@ -66,8 +64,6 @@ to one of the following values:
 - `"smoothstep"`
 - `"simplebezier"`
 
-If you don't set the `type` property at all, React Flow will fallback to the
-`"default"` bezier curve edge type.
+如果不设置 `type` 属性，React Flow 将回退到默认的贝塞尔曲线边类型 `"default"`。
 
-These default edges are available even if you set the [`edgeTypes`](/api-reference/react-flow#edge-types)
-prop to something else, unless you override any of these keys directly.
+即使你将 [`edgeTypes`](/api-reference/react-flow#edge-types) 属性设置为其他值，这些默认边类型仍然可用，除非你直接覆盖了其中的任何键。

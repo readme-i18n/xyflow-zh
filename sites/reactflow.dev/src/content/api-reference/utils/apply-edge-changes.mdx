@@ -1,19 +1,13 @@
 ---
-description:
-  "Various events on the ReactFlow component can produce an EdgeChange that
-  describes how to update the edges of your flow in some way. If you don't need
-  any custom behavior, this util can be used to take an array of these changes
-  and apply them to your edges."
+
+description: "ReactFlow 组件上的各种事件可能会产生 EdgeChange，用于描述如何以某种方式更新流程中的边。如果不需要自定义行为，可以使用此工具函数接收这些变更数组并将其应用到边的更新中。"
 ---
 
 # applyEdgeChanges()
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/utils/changes.ts/#L167)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/utils/changes.ts/#L167)
 
-Various events on the [`<ReactFlow />`](/api-reference/react-flow) component can produce an
-[`EdgeChange`](/api-reference/types/edge-change) that describes how to update the edges of your
-flow in some way. If you don't need any custom behavior, this util can be used to
-take an array of these changes and apply them to your edges.
+[`<ReactFlow />`](/api-reference/react-flow) 组件上的各种事件可能会产生 [`EdgeChange`](/api-reference/types/edge-change)，用于描述如何以某种方式更新流程中的边。如果不需要自定义行为，可以使用此工具函数接收这些变更数组并将其应用到边的更新中。
 
 ```js
 import { useState, useCallback } from 'react';
@@ -35,12 +29,10 @@ export default function Flow() {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="applyEdgeChanges" />
 
-## Notes
+## 注意事项
 
-- If you don't need any custom behavior, the [`useEdgesState`](/api-reference/hooks/use-edges-state)
-  hook conveniently wraps this util and React's `useState` hook for you and might
-  be simpler to use.
+- 如果不需要自定义行为，[`useEdgesState`](/api-reference/hooks/use-edges-state) 钩子已将此工具函数与 React 的 `useState` 钩子封装在一起，使用起来可能更为简便。

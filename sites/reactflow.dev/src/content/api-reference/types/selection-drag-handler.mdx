@@ -1,12 +1,13 @@
 ---
-description: Handles drag events for selected nodes during interactive operations.
+
+description: 处理交互操作期间选中节点的拖拽事件
 ---
 
 # SelectionDragHandler
 
 [Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/types/nodes.ts#L33)
 
-The `SelectionDragHandler` type is a callback for handling drag events involving selected nodes. It receives the triggering mouse or touch event and an array of the affected nodes.
+`SelectionDragHandler` 类型是一个回调函数，用于处理涉及选中节点的拖拽事件。它接收触发事件的鼠标或触摸事件以及受影响节点数组作为参数。
 
 ```ts
 type SelectionDragHandler<NodeType extends Node = Node> = (
