@@ -1,37 +1,34 @@
 ---
-description: Troubleshooting and fixes for common issues with React Flow.
+
+description: React Flow 常见问题排查与修复方法
 ---
 
-# Common Errors
+# 常见错误
 
 import { Callout } from 'nextra/components';
 
-This guide contains warnings and errors that can occur when using React Flow. We are also
-adding common questions and pitfalls that we collect from our
-[Discord Server](https://discord.gg/RVmnytFmGW),
-[Github Issues](https://github.com/xyflow/xyflow/issues) and
-[Github Discussions](https://github.com/xyflow/xyflow/discussions).
+本指南包含使用 React Flow 时可能出现的警告和错误。我们还整理了来自
+[Discord 社区](https://discord.gg/RVmnytFmGW)、
+[GitHub Issues](https://github.com/xyflow/xyflow/issues) 和
+[GitHub Discussions](https://github.com/xyflow/xyflow/discussions) 的常见问题与易错点。
 
 <div id="001" />
-### Warning: Seems like you have not used zustand provider as an ancestor.
 
-This usually happens when:
+### 警告：检测到未使用 zustand provider 作为祖先组件
 
-**A:** You have two different versions of @reactflow/core installed.<br /> **B:** You are
-trying to access the internal React Flow state outside of the React Flow context.
+通常由以下情况导致：
 
-#### Solution for A
+**情况A:** 安装了多个不同版本的 @reactflow/core<br /> **情况B:** 尝试在 React Flow 上下文之外访问其内部状态
 
-Update reactflow and @reactflow/node-resizer (in case you are using it), remove
-node_modules and package-lock.json and reinstall the dependencies.
+#### 情况A解决方案
 
-#### Solution for B
+更新 reactflow 和 @reactflow/node-resizer（如使用），删除 node_modules 和 package-lock.json 后重新安装依赖。
 
-A possible solution is to wrap your component with a
-[`<ReactFlowProvider />`](/api-reference/react-flow-provider) or move the code that is
-accessing the state inside a child of your React Flow instance.
+#### 情况B解决方案
 
-<Callout type="error">This will cause an error:</Callout>
+可用方案包括：使用 [`<ReactFlowProvider />`](/api-reference/react-flow-provider) 包裹组件，或将访问状态的代码移至 React Flow 实例的子组件中。
+
+<Callout type="error">这将导致错误：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -47,7 +44,7 @@ function FlowWithoutProvider(props) {
 export default FlowWithoutProvider;
 ```
 
-<Callout type="error">This will cause an error, too:</Callout>
+<Callout type="error">同样会导致错误：</Callout>
 
 ```jsx
 import { ReactFlow, ReactFlowProvider } from '@xyflow/react';
@@ -68,11 +65,9 @@ function Flow(props) {
 export default FlowWithProvider;
 ```
 
-<Callout type="info">This works:</Callout>
+<Callout type="info">此方案有效：</Callout>
 
-As soon as you want to access the internal state of React Flow (for example by using the
-`useReactFlow` hook), you need to wrap your component with a `<ReactFlowProvider />`. Here
-the wrapping is done outside of the component:
+当你需要访问 React Flow 的内部状态时（例如使用 `useReactFlow` 钩子），必须用 `<ReactFlowProvider />` 包裹你的组件。这里的包裹操作是在组件外部完成的：
 
 ```jsx
 import { ReactFlow, ReactFlowProvider } from '@xyflow/react';
@@ -98,19 +93,14 @@ export default FlowWithProvider;
 ```
 
 <div id="002" />
-### It looks like you have created a new nodeTypes or edgeTypes object.
 
-If this wasn't on purpose please define the nodeTypes/edgeTypes outside of the component
-or memoize them.
+### 检测到新建了 nodeTypes 或 edgeTypes 对象
 
-This warning appears when the `nodeTypes` or `edgeTypes` properties change after the
-initial render. The `nodeTypes` or `edgeTypes` should only be changed dynamically in very
-rare cases. Usually, they are defined once, along with all the types you use in your
-application. It can happen easily that you are defining the nodeTypes or edgeTypes object
-inside of your component render function, which will cause React Flow to re-render every
-time your component re-renders.
+若非有意为之，请将 nodeTypes/edgeTypes 定义在组件外部或进行记忆化处理。
 
-<Callout type="error">Causes a warning:</Callout>
+当 `nodeTypes` 或 `edgeTypes` 属性在初始渲染后发生变化时会出现此警告。除非极特殊情况，否则这些类型定义应保持静态。通常它们只需定义一次，包含应用中使用的所有类型。常见情况是在组件渲染函数内部定义 nodeTypes 或 edgeTypes 对象，这将导致每次组件重新渲染时 React Flow 都会跟着重新渲染。
+
+<Callout type="error">会触发警告的写法：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -131,7 +121,7 @@ function Flow(props) {
 export default Flow;
 ```
 
-<Callout type="info">Recommended implementation:</Callout>
+<Callout type="info">推荐实现方式：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -149,10 +139,9 @@ function Flow(props) {
 export default Flow;
 ```
 
-<Callout type="info">Alternative implementation:</Callout>
+<Callout type="info">替代实现方案：</Callout>
 
-You can use this if you want to change your nodeTypes dynamically without causing
-unnecessary re-renders.
+若需动态变更 nodeTypes 同时避免不必要的重新渲染，可采用此方案。
 
 ```jsx
 import { useMemo } from 'react';
@@ -176,13 +165,12 @@ export default Flow;
 ```
 
 <div id="003" />
-### Node type not found. Using fallback type "default".
 
-This usually happens when you specify a custom node type for one of your nodes but do not
-pass the correct nodeTypes property to React Flow. The string for the type option of your
-custom node needs to be exactly the same as the key of the nodeTypes object.
+### 未找到节点类型，将使用默认类型 "default"
 
-<Callout type="error">Doesn't work:</Callout>
+这种情况通常发生在您为某个节点指定了自定义节点类型，但未向 React Flow 传递正确的 nodeTypes 属性时。自定义节点的 type 选项字符串必须与 nodeTypes 对象的键名完全一致。
+
+<Callout type="error">无效示例：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -204,7 +192,7 @@ function Flow(props) {
 }
 ```
 
-<Callout type="error">Doesn't work either:</Callout>
+<Callout type="error">同样无效：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -230,7 +218,7 @@ function Flow(props) {
 }
 ```
 
-<Callout type="info">This does work:</Callout>
+<Callout type="info">有效示例：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -256,14 +244,12 @@ function Flow(props) {
 ```
 
 <div id="004" />
-### The React Flow parent container needs a width and a height to render the graph.
 
-Under the hood, React Flow measures the parent DOM element to adjust the renderer. If you
-try to render React Flow in a regular div without a height, we cannot display the graph.
-If you encounter this warning, you need to make sure that your wrapper component has some
-CSS attached to it so that it gets a fixed height or inherits the height of its parent.
+### React Flow 父容器需要设置宽度和高度才能渲染图表
 
-<Callout type="error">This will cause the warning:</Callout>
+React Flow 底层会测量父级 DOM 元素的尺寸来调整渲染器。如果您尝试在没有高度的普通 div 中渲染 React Flow，我们将无法显示图表。若遇到此警告，请确保为包裹组件添加 CSS 样式，使其具有固定高度或继承父级高度。
+
+<Callout type="error">会触发警告的配置：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -278,7 +264,7 @@ function Flow(props) {
 }
 ```
 
-<Callout type="info">Working example:</Callout>
+<Callout type="info">正常工作的示例：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -293,13 +279,12 @@ function Flow(props) {
 ```
 
 <div id="005" />
-### Only child nodes can use a parent extent.
 
-This warning appears when you are trying to add the `extent` option to a node that does
-not have a parent node. Depending on what you are trying to do, you can remove the
-`extent` option or specify a `parentNode`.
+### 仅子节点可使用父级范围限制
 
-<Callout type="error">Does show a warning:</Callout>
+当您尝试为没有父节点的节点添加 `extent` 选项时会出现此警告。根据实际需求，您可以移除 `extent` 选项或指定 `parentNode`。
+
+<Callout type="error">会显示警告的情况：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -318,7 +303,7 @@ function Flow(props) {
 }
 ```
 
-<Callout type="info">Warning resolved:</Callout>
+<Callout type="info">解决警告的方案：</Callout>
 
 ```jsx import { ReactFlow } from '@xyflow/react';
 const nodes = [
@@ -336,12 +321,12 @@ function Flow(props) {
 ```
 
 <div id="006" />
-### Can't create edge. An edge needs a source and a target.
 
-This happens when you do not pass a `source` and a `target` option to the edge object.
-Without the source and target, the edge cannot be rendered.
+### 无法创建边。边必须包含源节点和目标节点。
 
-<Callout type="error">Will show a warning:</Callout>
+这种情况发生在未向边对象传递 `source` 和 `target` 选项时。缺少源节点和目标节点信息，边将无法被渲染。
+
+<Callout type="error">会显示警告：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -363,7 +348,7 @@ function Flow(props) {
 }
 ```
 
-<Callout type="info">This works:</Callout>
+<Callout type="info">以下方式有效：</Callout>
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -385,38 +370,32 @@ function Flow(props) {
 ```
 
 <div id="007" />
-### The old edge with id="some-id" does not exist.
 
-This can happen when you are trying to [reconnect an edge](/examples/edges/reconnect-edge)
-but the edge you want to update is already removed from the state. This is a very rare
-case. Please see the [Reconnect Edge example](/examples/edges/reconnect-edge) for
-implementation details.
+### 旧边 id="some-id" 不存在
+
+当尝试[重新连接边](/examples/edges/reconnect-edge)时可能出现此问题，但需更新的边已从状态中移除。这种情况非常罕见，具体实现请参阅[重新连接边示例](/examples/edges/reconnect-edge)。
 
 <div id="008" />
-### Couldn't create edge for source/target handle id: "some-id"; edge id: "some-id".
 
-This can happen if you are working with multiple handles and a handle is not found by its
-`id` property or if you haven't
-[updated the node internals after adding or removing handles](/api-reference/hooks/use-update-node-internals)
-programmatically. Please see the [Custom Node Example](/examples/nodes/custom-node) for an
-example of working with multiple handles.
+### 无法为源/目标手柄 id: "some-id" 创建边；边 id: "some-id"
+
+当使用多个手柄且未通过 `id` 属性找到对应手柄，或未通过编程方式[在添加/移除手柄后更新节点内部状态](/api-reference/hooks/use-update-node-internals)时会出现此问题。多手柄操作示例请见[自定义节点示例](/examples/nodes/custom-node)。
 
 <div id="009" />
-### Marker type doesn't exist.
 
-This warning occurs when you are trying to specify a marker type that is not built into
-React Flow. The existing marker types are documented
-[here](/api-reference/types/edge#edgemarker).
+### 标记类型不存在
+
+当尝试指定 React Flow 内置不支持的标记类型时会触发此警告。现有标记类型文档参见[此处](/api-reference/types/edge#edgemarker)。
 
 <div id="010" />
-### Handle: No node id found.
 
-This warning occurs when you try to use a `<Handle />` component outside of a custom node
-component.
+### 手柄：未找到节点 id
 
-### I get an error when building my app with webpack 4.
+此警告发生在自定义节点组件外部使用 `<Handle />` 组件时。
 
-If you're using webpack 4, you'll likely run into an error like this:
+### 使用 webpack 4 构建应用时出现错误
+
+如果您使用 webpack 4，很可能会遇到如下错误：
 
 ```
 ERROR in /node_modules/@reactflow/core/dist/esm/index.js 16:19
@@ -424,17 +403,15 @@ Module parse failed: Unexpected token (16:19)
 You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
 ```
 
-React Flow is a modern JavaScript code base and makes use of lots of newer JavaScript
-features. By default, webpack 4 does not transpile your code and it doesn't know how to
-handle React Flow.
+React Flow 采用现代 JavaScript 代码库，使用了大量新特性。默认情况下，webpack 4 不会转译代码，因此无法正确处理 React Flow。
 
-You need to add a number of babel plugins to your webpack config to make it work:
+您需要在 webpack 配置中添加以下 babel 插件才能使其正常工作：
 
 ```sh npm2yarn copy
 npm i --save-dev babel-loader@8.2.5 @babel/preset-env @babel/preset-react @babel/plugin-proposal-optional-chaining @babel/plugin-proposal-nullish-coalescing-operator
 ```
 
-and configure the loader like this:
+并按如下方式配置加载器：
 
 ```js
 {
@@ -453,67 +430,32 @@ and configure the loader like this:
 ```
 
 <Callout type="info">
-  If you're using webpack 5, you don't need to do anything! React Flow will work out of
-  the box.
+  如果使用 webpack 5，则无需任何操作！React Flow 可直接运行。
 </Callout>
 
-### Mouse events aren't working consistently when my nodes contain a `<canvas />` element.
+### 当节点包含 `<canvas />` 元素时鼠标事件响应不一致
 
-If you’re using a `<canvas />` element inside your custom node, you might run into
-problems with seemingly incorrect coordinates in mouse events from the canvas.
+如果在自定义节点中使用 `<canvas />` 元素，可能会遇到画布鼠标事件坐标计算异常的问题。
 
-React Flow uses CSS transforms to scale nodes as you zoom in and out. However, from the
-DOM’s perspective, the element is still the same size. This can cause problems if you have
-event listeners that want to calculate the mouse position relative to the canvas element.
+React Flow 使用 CSS 变换来实现缩放功能，但从 DOM 视角看元素实际尺寸并未改变。如果您的事件监听器需要计算相对于画布元素的鼠标位置，这会导致问题。
 
-To remedy this in event handlers you control, you can scale your computed relative
-position by `1 / zoom` where `zoom` is the current zoom level of the flow. To get the
-current zoom level, you can use the `getZoom` method from the
-[`useReactFlow`](/api-reference/hooks/use-react-flow) hook.
+解决方案是在您控制的事件处理器中，将计算得到的相对位置乘以 `1 / zoom`（其中 `zoom` 是当前流程图缩放级别）。可通过 [`useReactFlow`](/api-reference/hooks/use-react-flow) 钩子的 `getZoom` 方法获取当前缩放值。
 
-### Edges are not displaying.
+### 边线未显示
 
-If your edges are not displaying in React Flow, this might be due to one of the following
-reasons:
+如果在 React Flow 中无法显示边线，可能是以下原因之一导致的：
 
-- You have not imported the React Flow stylesheet. If you haven't imported it, you can
-  import it like `import '@xyflow/react/dist/style.css';`.
-- If you have replaced your default nodes with a custom node, check if that custom node
-  has appropriate `source/target` handles in the custom node component. An edge cannot be
-  made without a handle.
-- If you use an external styling library like Tailwind or Bulma, ensure it doesn't
-  override the edge styles. For example, sometimes styling libraries override the
-  `.react-flow__edges` SVG selector with `overflow: hidden`, which hides the edges.
-- If you are using an async operation like a request to the backend, make sure to call the
-  `updateNodeInternals` function returned by the
-  [`useUpdateNodeInternal`](/api-reference/hooks/use-update-node-internals) hook after the
-  async operation so React Flow updates the handle position internally.
+- 未导入 React Flow 样式表。如需导入，可使用 `import '@xyflow/react/dist/style.css';` 语句。
+- 若使用自定义节点替换了默认节点，请检查该自定义节点组件是否包含正确的 `source/target` 连接手柄。缺少手柄将无法创建边线。
+- 若使用 Tailwind 或 Bulma 等外部样式库，请确保其未覆盖边线样式。例如，某些样式库会通过 `overflow: hidden` 覆盖 `.react-flow__edges` SVG 选择器，导致边线隐藏。
+- 若涉及异步操作（如后端请求），务必在操作完成后调用 [`useUpdateNodeInternal`](/api-reference/hooks/use-update-node-internals) 钩子返回的 `updateNodeInternals` 函数，以便 React Flow 内部更新手柄位置。
 
-### Edges are not displaying correctly.
+### 边线显示异常
 
-If your edges are not rendering as they should, this could be due to one of the following
-reasons:
+若边线未能正确渲染，可能由以下原因引起：
 
-- If you want to hide your handles, do not use `display: none` to hide them. Use either
-  `opacity: 0` or `visibility: hidden`.
-- If edges are not connected to the correct handle, check if you have added more than one
-  handle of the same type(`source` or `target`) in your custom node component. If that is
-  the case, assign IDs to them. Multiple handles of the same kind on a node need to have
-  distinguishable IDs so that React Flow knows which handle an edge corresponds to.
-- If you are changing the position of the handles (via reordering, etc.), make sure to
-  call the `updateNodeInternals` function returned by the
-  [`useUpdateNodeInternals`](/api-reference/hooks/use-update-node-internals) hook after so
-  React Flow knows to update the handle position internally.
-- If you are using a custom edge and want your edge to go from the source handle to a
-  target handle, make sure to correctly pass the `sourceX, sourceY, targetX, and targetY`
-  props you get from the custom edge component in the edge path creation function(e.g.,
-  [`getBezierPath`](/api-reference/utils/get-bezier-path), etc.). `sourceX, sourceY`, and
-  `targetX, targetY` represent the `x,y` coordinates for the source and target handle,
-  respectively.
-- If the custom edge from the source or target side is not going towards the handle as
-  expected (entering or exiting from a handle at a weird angle), make sure to pass the
-  `sourcePosition` and `targetPosition` props you get from the custom edge component in
-  the edge path creation function(e.g.,
-  [`getBezierPath`](/api-reference/utils/get-bezier-path)). Passing the source/target
-  handle position in the path creation function is necessary for the edge to start or end
-  properly at a handle.
+- 如需隐藏连接点(handle)，请勿使用 `display: none`，应改用 `opacity: 0` 或 `visibility: hidden`
+- 若边(edge)未正确连接到目标连接点，请检查自定义节点组件中是否包含多个同类型连接点（`source` 或 `target`）。若存在此情况，需为它们分配唯一ID。同一节点上的同类型连接点必须具有可区分的ID，以便React Flow识别边对应的连接点
+- 当调整连接点位置（如重新排序等操作）后，务必调用 [`useUpdateNodeInternals`](/api-reference/hooks/use-update-node-internals) 钩子返回的 `updateNodeInternals` 函数，通知React Flow更新内部连接点位置
+- 使用自定义边时，若需实现从源连接点到目标连接点的路径，请确保在边路径创建函数（如 [`getBezierPath`](/api-reference/utils/get-bezier-path)）中正确传递自定义边组件提供的 `sourceX, sourceY, targetX, targetY` 属性。这些属性分别表示源/目标连接点的x,y坐标
+- 若自定义边的源端或目标端未按预期指向连接点（出现异常角度进出），请确保在边路径创建函数（如 [`getBezierPath`](/api-reference/utils/get-bezier-path)）中传递自定义边组件提供的 `sourcePosition` 和 `targetPosition` 属性。这些连接点位置参数对边的正确起始/终止至关重要

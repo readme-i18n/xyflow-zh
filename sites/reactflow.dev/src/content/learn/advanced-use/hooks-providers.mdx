@@ -1,42 +1,31 @@
 ---
-description: Overview of Hooks and Providers in React Flow.
+
+description: React Flow 中的 Hooks 与 Providers 概述。
 ---
 
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Hooks and Providers
+# Hooks 与 Providers
 
-React Flow provides several [hooks](/api-reference/hooks) and a context provider
-for you to enhance the functionality of your flow. These tools help you to
-manage state, access internal methods, and create custom components more
-effectively.
+React Flow 提供了多个 [hooks](/api-reference/hooks) 和一个上下文 provider，用于增强流程的功能。这些工具能帮助您更有效地管理状态、访问内部方法以及创建自定义组件。
 
 ## ReactFlowProvider
 
-The ReactFlowProvider is a context provider that allows you to access the
-internal state of the flow, such as nodes, edges, and viewport, from anywhere in
-your component tree even outside the [`ReactFlow`](/api-reference/react-flow)
-component. It is typically used at the top level of your application.
+ReactFlowProvider 是一个上下文 provider，允许您从组件树的任何位置（包括 [`ReactFlow`](/api-reference/react-flow) 组件外部）访问流程的内部状态，例如节点、边和视口。通常用于应用的顶层。
 
-There are several cases where you might need to use the
-[`ReactFlowProvider`](/api-reference/react-flow-provider) component:
+以下情况可能需要使用 [`ReactFlowProvider`](/api-reference/react-flow-provider) 组件：
 
-- Many of the [hooks](/api-reference/hooks) we provide rely on this component to
-  work.
-- You want to access the internal state of the flow outside of the `ReactFlow`
-  component.
-- You are working with multiple flows on a page.
-- You are using a client-side router.
+- 我们提供的许多 [hooks](/api-reference/hooks) 依赖此组件才能工作
+- 您需要在 `ReactFlow` 组件外部访问流程内部状态
+- 您在页面中处理多个流程
+- 您正在使用客户端路由
 
 <RemoteCodeViewer route="examples/misc/provider" framework="react" />
 
 ## useReactFlow
 
-The [`useReactFlow`](/api-reference/hooks/use-react-flow) hook provides access
-to the [`ReactFlowInstance`](/api-reference/types/react-flow-instance) and its
-methods. It allows you to manipulate nodes, edges, and the viewport
-programmatically.
+[`useReactFlow`](/api-reference/hooks/use-react-flow) hook 提供了对 [`ReactFlowInstance`](/api-reference/types/react-flow-instance) 及其方法的访问权限。它允许您以编程方式操作节点、边和视口。
 
-This example illustrates how to use the `useReactFlow` hook.
+此示例演示了如何使用 `useReactFlow` hook。
 
 <RemoteCodeViewer route="examples/misc/use-react-flow-hook" framework="react" />

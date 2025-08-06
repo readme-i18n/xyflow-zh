@@ -1,45 +1,43 @@
 ---
+
 sidebarTitle: The Viewport
-description: Learn how to customize the panning and zooming behavior of React Flow.
+description: 了解如何自定义 React Flow 的平移和缩放行为。
 ---
 
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Panning and Zooming
+# 平移与缩放
 
-The default pan and zoom behavior of React Flow is inspired by
-[slippy maps](https://wiki.openstreetmap.org/wiki/Slippy_map). You pan by dragging your
-pointer and zoom by scrolling. You can customize this behavior easily with the
-[interaction](/api-reference/react-flow#interaction-props) and
-[keyboard](/api-reference/react-flow#keyboard-props) props on the `<ReactFlow />`
-component.
+React Flow 默认的平移和缩放行为灵感来源于
+[slippy maps](https://wiki.openstreetmap.org/wiki/Slippy_map)。您可以通过拖动指针进行平移，通过滚轮进行缩放。您可以使用 `<ReactFlow />` 组件上的
+[interaction](/api-reference/react-flow#interaction-props) 和
+[keyboard](/api-reference/react-flow#keyboard-props) 属性轻松自定义此行为。
 
-## Viewport configurations
+## 视口配置
 
-Here we will list and explain some configurations that other tools use.
+这里我们将列出并解释其他工具使用的一些配置。
 
-### Default viewport controls
+### 默认视口控制
 
-As mentioned above, the ReactFlow default controls are as follows:
+如上所述，ReactFlow 的默认控制方式如下：
 
-- `pan:` pointer drag
-- `zoom:` pinch or scroll
-- `select:` shift + pointer drag
+- `平移:` 指针拖动
+- `缩放:` 捏合或滚轮
+- `选择:` shift + 指针拖动
 
 <RemoteCodeViewer aspectRatio='3' route="learn/zoom-pan" framework="react" />
 
-### Design tool viewport controls
+### 设计工具视口控制
 
-If you prefer figma/sketch/design tool controls you can set
-[`panOnScroll`](/api-reference/react-flow#panonscroll) and
-[`selectionOnDrag`](/api-reference/react-flow#selectionondrag) to `true` and
-[`panOnDrag`](/api-reference/react-flow#panondrag) to `false`:
+如果您偏好 figma/sketch/设计工具的控制方式，可以将
+[`panOnScroll`](/api-reference/react-flow#panonscroll) 和
+[`selectionOnDrag`](/api-reference/react-flow#selectionondrag) 设为 `true`，
+[`panOnDrag`](/api-reference/react-flow#panondrag) 设为 `false`：
 
-- `pan:` scroll, middle / right mouse drag, space + pointer drag
-- `zoom:` pinch or cmd + scroll
-- `select:` pointer drag
+- `平移:` 滚轮、中键/右键拖动、空格 + 指针拖动
+- `缩放:` 捏合或 cmd + 滚轮
+- `选择:` 指针拖动
 
 <RemoteCodeViewer aspectRatio='3' route="learn/zoom-pan-2" framework="react" />
 
-In this example we also set `selectionMode="partial"` to be able to add nodes to a
-selection that are only partially selected.
+在此示例中，我们还设置了 `selectionMode="partial"`，以便能够选择部分选中的节点。

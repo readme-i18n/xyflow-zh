@@ -1,38 +1,27 @@
 ---
-description:
-  Custom nodes in React Flow are just React components. This guide shows you how to
-  implement your own nodes.
+
+description: React Flow 中的自定义节点本质上是 React 组件。本指南将展示如何实现您自己的节点。
 sidebarTitle: Nodes
 ---
 
 import { Callout, Steps } from 'nextra/components';
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Custom Nodes
+# 自定义节点
 
-A powerful feature of React Flow is the ability to create custom nodes. This gives you the
-flexibility to render anything you want within your nodes. We generally recommend creating
-your own custom nodes rather than relying on built-in ones. With custom nodes, you can add
-as many source and target [handles](/learn/customization/handles) as you like—or even
-embed form inputs, charts, and other interactive elements.
+React Flow 的强大特性之一在于能够创建自定义节点。这使您可以自由决定节点内部的渲染内容。我们通常建议创建自己的自定义节点，而非依赖内置节点。通过自定义节点，您可以添加任意数量的源/目标[连接点](/learn/customization/handles)——甚至嵌入表单输入框、图表及其他交互元素。
 
-In this section, we'll walk through creating a custom node featuring an input field that
-updates text elsewhere in your application. For further examples, we recommend checking
-out our [Custom Node Example](/examples/nodes/custom-node).
+本节将逐步指导创建一个带有输入字段的自定义节点，该字段可更新应用程序其他位置的文本。更多示例请参考[自定义节点示例](/examples/nodes/custom-node)。
 
-## Implementing a custom node
+## 实现自定义节点
 
-To create a custom node, all you need to do is create a React component. React Flow will
-automatically wrap it in an interactive container that injects essential props like the
-node's id, position, and data, and provides functionality for selection, dragging, and
-connecting handles. For a full overview on all available node props, see the
-[Node](/api-reference/types/node-props) reference.
+创建自定义节点只需构建一个 React 组件。React Flow 会自动将其包裹在交互式容器中，注入节点 ID、位置和数据等关键属性，并提供选择、拖拽和连接点等功能。完整节点属性说明请参阅[节点](/api-reference/types/node-props)参考文档。
 
 <Steps>
-### Create the component
+### 创建组件
 
-Let's dive into an example by creating a custom node called `TextUpdaterNode`. For this,
-we've added a simple input field with a change handler.
+让我们通过创建一个名为 `TextUpdaterNode` 的自定义节点来深入示例。为此，
+我们添加了一个带有变更处理器的简单输入框。
 
 ```jsx
 export function TextUpdaterNode(props) {
@@ -43,7 +32,7 @@ export function TextUpdaterNode(props) {
   return (
     <div className="text-updater-node">
       <div>
-        <label htmlFor="text">Text:</label>
+        <label htmlFor="text">文本:</label>
         <input id="text" name="text" onChange={onChange} className="nodrag" />
       </div>
     </div>
@@ -51,10 +40,10 @@ export function TextUpdaterNode(props) {
 }
 ```
 
-### Initialize nodeTypes
+### 初始化 nodeTypes
 
-You can add a new node type to React Flow by adding it to the `nodeTypes` prop like below.
-We define the `nodeTypes` outside of the component to prevent re-renderings.
+您可以通过将新节点类型添加到 `nodeTypes` 属性来将其加入 React Flow，
+如下所示。我们在组件外部定义 `nodeTypes` 以防止重新渲染。
 
 ```jsx
 const nodeTypes = {
@@ -62,7 +51,7 @@ const nodeTypes = {
 };
 ```
 
-### Pass nodeTypes to React Flow
+### 将 nodeTypes 传递给 React Flow
 
 ```jsx {4}
 <ReactFlow
@@ -75,10 +64,9 @@ const nodeTypes = {
 />
 ```
 
-### Update node definitions
+### 更新节点定义
 
-After defining your new node type, you can use it by specifying the `type` property on
-your node definition:
+定义新节点类型后，您可以通过在节点定义中指定 `type` 属性来使用它：
 
 ```jsx {4}
 const nodes = [
@@ -91,19 +79,16 @@ const nodes = [
 ];
 ```
 
-### Flow with custom node
+### 使用自定义节点的流程图
 
-After putting all together and adding some basic styles we get a custom node that prints
-text to the console:
+将所有部分整合并添加一些基础样式后，我们得到了一个将文本打印到控制台的自定义节点：
 
 <RemoteCodeViewer aspectRatio="4" route="learn/custom-node" framework="react" />
 
 </Steps>
 
-## Full code example 🏁
+## 完整代码示例 🏁
 
 <RemoteCodeViewer route="learn/custom-node" framework="react" />
 
-To enable your custom node to connect with other nodes, check out the
-[Handles](/learn/customization/handles) page to learn how to add source and target
-handles.
+要使自定义节点能够与其他节点连接，请查看 [Handles](/learn/customization/handles) 页面，了解如何添加源和目标连接点。

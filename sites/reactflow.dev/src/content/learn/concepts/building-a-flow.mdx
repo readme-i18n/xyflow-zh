@@ -1,43 +1,37 @@
 ---
-description: Learn how to build your first static flow with React Flow.
+
+description: 学习如何使用 React Flow 构建你的第一个静态流程图。
 ---
 
 import { Callout, Steps } from 'nextra/components';
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Building a Flow
+# 构建流程图
 
-In the following pages we will introduce you to the core concepts of React Flow and
-explain how to create a basic interactive flow. A flow consists of
-[nodes](/api-reference/types/node), [edges](/api-reference/types/edge) and the viewport.
+在接下来的页面中，我们将向你介绍 React Flow 的核心概念，并解释如何创建一个基础的交互式流程图。一个流程图由[节点](/api-reference/types/node)、[边](/api-reference/types/edge)和视口组成。
 
-To follow along with this guide you will need to have a React project set up and install
-the `@xyflow/react` package:
+要跟随本指南操作，你需要先设置一个 React 项目并安装 `@xyflow/react` 包：
 
 ```bash copy npm2yarn
 npm install @xyflow/react
 ```
 
-## Creating the flow
+## 创建流程图
 
-Let's start by creating an empty flow with viewport
-[`<Controls />`](/api-reference/components/controls) and a dotted
-[`<Background />`](/api-reference/components/background).
+让我们从创建一个带有视口[`<Controls />`](/api-reference/components/controls)控件和虚线[`<Background />`](/api-reference/components/background)背景的空流程图开始。
 
 <Steps>
-### Add imports
-First, we need to import some basic components from the `@xyflow/react` package 
-and the **css stylesheet**, which is **required** for React Flow to work:
+### 添加导入
+首先，我们需要从 `@xyflow/react` 包中导入一些基础组件以及 **CSS 样式表**，这是 React Flow 正常运行所**必需**的：
 
 ```jsx "import '@xyflow/react/dist/style.css';"
 import { ReactFlow, Background, Controls } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 ```
 
-### Render ReactFlow
+### 渲染 ReactFlow
 
-Now we create a React component, that renders our flow. The **width and height** on the
-parent container are **required** because React Flow uses these dimensions.
+接下来创建一个 React 组件来渲染流程图。父容器的**宽度和高度**是**必需参数**，因为 React Flow 依赖这些尺寸进行计算。
 
 ```jsx "height: '100%', width: '100%'"
 export default function App() {
@@ -52,25 +46,22 @@ export default function App() {
 }
 ```
 
-### Empty flow
+### 空白流程图
 
-That's it! You have created your first empty flow 🎉
+大功告成！您已创建了第一个空白流程图 🎉
 
 <RemoteCodeViewer aspectRatio="4" route="learn/building-a-flow-1" framework="react" />
 
 </Steps>
 
-## Adding nodes
+## 添加节点
 
-Now that the flow is set up, it's time to add nodes — each node represents an element in
-your diagram with a specific position and content.
+流程图框架搭建完成后，现在可以添加节点了——每个节点代表图表中的一个元素，具有特定位置和内容。
 
 <Steps> 
-### Create node objects
+### 创建节点对象
 
-Outside of your React component, create an array of [node](/api-reference/types/node)
-objects. Each node object needs a unique `id` and a `position`. Let's also add a label to
-them:
+在 React 组件外部，创建一个[node](/api-reference/types/node)对象数组。每个节点对象需要唯一的`id`和`position`属性。我们还可以为它们添加标签：
 
 ```jsx
 const initialNodes = [
@@ -88,10 +79,9 @@ const initialNodes = [
 ];
 ```
 
-### Add nodes to the flow
+### 将节点添加到流程中
 
-Now we can pass our `initialNodes` array to the `<ReactFlow />` component using the
-`nodes` prop:
+现在我们可以通过`nodes`属性将`initialNodes`数组传递给`<ReactFlow />`组件：
 
 ```jsx "nodes={initialNodes}"
 <ReactFlow nodes={initialNodes}>
@@ -100,29 +90,24 @@ Now we can pass our `initialNodes` array to the `<ReactFlow />` component using 
 </ReactFlow>
 ```
 
-### Flow with nodes
+### 带节点的流程图
 
-This gives us a flow with two labeled nodes 🎉
+这样我们就得到了一个包含两个带标签节点的流程图 🎉
 
 <RemoteCodeViewer aspectRatio="4" route="learn/building-a-flow-2" framework="react" />
 
 </Steps>
 
-We have several built-in nodes that you can explore in the
-[node](/api-reference/types/node) reference. However, once you start building your own
-application, you will want to use [custom nodes](/learn/customization/custom-nodes).
+我们在[node](/api-reference/types/node)参考文档中提供了多个内置节点类型可供探索。但当您开始构建自己的应用时，您会需要使用[自定义节点](/learn/customization/custom-nodes)。
 
-## Adding edges
+## 添加边连接
 
-Now that we have two nodes, let's connect them with an edge.
+现在我们有两个节点了，让我们用边连接将它们连接起来。
 
 <Steps>
-### Create an edge
+### 创建边
 
-To create an edge, we define an array of [edge](/api-reference/types/edge) objects. Each
-edge object needs to have an `id`, a `source` (where the edge begins), and a `target`
-(where it ends). In this example, we use the `id` values of the two nodes we created so
-far (`n1` and `n2`) to define the edge:
+要创建边，我们需要定义一个[edge](/api-reference/types/edge)对象数组。每个边对象必须包含`id`、`source`（边的起点）和`target`（边的终点）。在本例中，我们使用之前创建的两个节点（`n1`和`n2`）的`id`值来定义边：
 
 ```js
 const initialEdges = [
@@ -134,15 +119,13 @@ const initialEdges = [
 ];
 ```
 
-This edge connects the node with `id: 'n1'` (the source) to the node with `id: 'n2'` (the
-target).
+这条边将`id: 'n1'`的节点（源节点）连接到`id: 'n2'`的节点（目标节点）。
 
 <RemoteCodeViewer aspectRatio="4" route="learn/building-a-flow-3" framework="react" />
 
-### Label the edge
+### 为边添加标签
 
-Let's give this edge two properties that are built into React Flow, a `label` and a
-`type: "step"`.
+让我们为这条边添加两个React Flow内置属性：`label`和`type: "step"`。
 
 ```jsx {6-7}
 const initialEdges = [
@@ -151,23 +134,21 @@ const initialEdges = [
     source: 'n1',
     target: 'n2',
     type: 'step',
-    label: 'connects with',
+    label: '连接至',
   },
 ];
 ```
 
-### Basic flow
+### 基础流程图
 
-Now we have completed a basic flow with nodes and edges! 🎉
+现在我们已经完成了一个包含节点和边的基础流程图！🎉
 
 <RemoteCodeViewer aspectRatio="4" route="learn/building-a-flow-4" framework="react" />
 
 </Steps>
 
-## Full code example 🏁
+## 完整代码示例 🏁
 
 <RemoteCodeViewer route="learn/building-a-flow-4" framework="react" />
 
-You took your first steps in React Flow! You might have realized that you can't drag or
-otherwise interact with nodes. On the next page you'll learn how to make the flow
-interactive.
+您已经迈出了使用React Flow的第一步！您可能注意到目前还无法拖动或与节点交互。在下一页中，您将学习如何使流程图具备交互功能。

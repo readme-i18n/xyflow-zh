@@ -1,200 +1,132 @@
 ---
-description:
-  React Flow doesn't include any layouting algorithms out of the box. This guide surveys
-  some of the options out there and shows you how to use them with React Flow.
+
+description: 
+  React Flow 默认不包含任何布局算法。本指南将介绍一些可选方案，并展示如何将它们与 React Flow 结合使用。
 ---
 
 import { Callout } from 'nextra/components';
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Overview
+# 概述
 
-We regularly get asked how to handle layouting in React Flow. We have not implemented our
-own layouting solution yet, but will present some viable external libraries on this page.
-We'll split things up into resources for layouting nodes and resources for routing edges.
+我们经常被问及如何在 React Flow 中处理布局问题。目前我们尚未实现自己的布局解决方案，但会在本页面介绍一些可用的外部库。我们将内容分为节点布局资源和边路由资源两部分。
 
-You can test out some of the layouting options in our [playground](/playground/layouting)
-or have a look at the [examples](/examples#layout) we've put together.
+您可以在我们的[演练场](/playground/layouting)测试部分布局选项，或查看我们整理的[示例](/examples#layout)。
 
-To start let's put together a simple example flow that we can use as a base for testing
-out the different layouting options.
+首先让我们构建一个简单的流程图，作为测试不同布局方案的基础。
 
 <RemoteCodeViewer route="learn/layouting-flow-1-empty" framework="react" />
 
-Each of the examples that follow will be built on this empty flow. Where possible we've
-tried to keep the examples confined to just one `index.js` file so it's easy for you to
-compare how they're set up.
+后续每个示例都将基于这个空白流程图构建。我们尽可能将所有示例限制在单个 `index.js` 文件中，方便您对比它们的配置方式。
 
-## Layouting nodes
+## 节点布局
 
-For layouting nodes, there are a few third-party libraries that we think are worth
-checking out:
+对于节点布局，我们推荐以下几个值得关注的第三方库：
 
-| Library                                            | Dynamic node sizes | Sub-flow layouting | Edge routing | Bundle size                                                                                                                                   |
-| -------------------------------------------------- | ------------------ | ------------------ | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Dagre](https://github.com/dagrejs/dagre)          | Yes                | Yes¹               | No           | <a href="https://pkg-size.dev/@dagrejs/dagre"><img src="https://pkg-size.dev/badge/bundle/39882" title="Bundle size for @dagrejs/dagre"/></a> |
-| [D3-Hierarchy](https://github.com/d3/d3-hierarchy) | No                 | No                 | No           | <a href="https://pkg-size.dev/d3-hierarchy"><img src="https://pkg-size.dev/badge/bundle/14697" title="Bundle size for d3-hierarchy"/></a>     |
-| [D3-Force](https://github.com/d3/d3-force)         | Yes                | No                 | No           | <a href="https://pkg-size.dev/d3-force"><img src="https://pkg-size.dev/badge/bundle/15623" title="Bundle size for d3-force"/></a>             |
-| [ELK](https://github.com/kieler/elkjs)             | Yes                | Yes                | Yes          | <a href="https://pkg-size.dev/elkjs"><img src="https://pkg-size.dev/badge/bundle/1455420" title="Bundle size for elkjs"/></a>                 |
+| 库                                                 | 动态节点尺寸 | 子流布局 | 边路由 | 包体积                                                                                                                                   |
+| -------------------------------------------------- | ------------ | -------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| [Dagre](https://github.com/dagrejs/dagre)          | 支持          | 支持¹    | 不支持 | <a href="https://pkg-size.dev/@dagrejs/dagre"><img src="https://pkg-size.dev/badge/bundle/39882" title="Bundle size for @dagrejs/dagre"/></a> |
+| [D3-Hierarchy](https://github.com/d3/d3-hierarchy) | 不支持        | 不支持   | 不支持 | <a href="https://pkg-size.dev/d3-hierarchy"><img src="https://pkg-size.dev/badge/bundle/14697" title="Bundle size for d3-hierarchy"/></a>     |
+| [D3-Force](https://github.com/d3/d3-force)         | 支持          | 不支持   | 不支持 | <a href="https://pkg-size.dev/d3-force"><img src="https://pkg-size.dev/badge/bundle/15623" title="Bundle size for d3-force"/></a>             |
+| [ELK](https://github.com/kieler/elkjs)             | 支持          | 支持     | 支持   | <a href="https://pkg-size.dev/elkjs"><img src="https://pkg-size.dev/badge/bundle/1455420" title="Bundle size for elkjs"/></a>                 |
 
-¹ Dagre currently has an [open issue](https://github.com/dagrejs/dagre/issues/238) that
-prevents it from laying out sub-flows correctly if any nodes in the sub-flow are connected
-to nodes outside the sub-flow.
+¹ Dagre 目前存在一个[未解决的问题](https://github.com/dagrejs/dagre/issues/238)，当子流程中的任何节点与外部节点相连时，会导致子流程布局异常。
 
-We've loosely ordered these options from simplest to most complex, where dagre is largely
-a drop-in solution and elkjs is a full-blown highly configurable layouting engine. Below,
-we'll take a look at a brief example of how each of these libraries can be used with React
-Flow. For dagre and elkjs specifically, we have some separate examples you can refer back
-to [here](/examples/layout/dagre) and [here](/examples/layout/elkjs).
+我们大致将这些选项按从简到繁的顺序排列，其中 dagre 基本属于开箱即用的解决方案，而 elkjs 则是功能全面且高度可配置的布局引擎。下文将通过简要示例展示如何将这些库与 React Flow 结合使用。针对 dagre 和 elkjs，我们还提供了单独的参考示例，详见[此处](/examples/layout/dagre)和[此处](/examples/layout/elkjs)。
 
 ### Dagre
 
-- Repo: https://github.com/dagrejs/dagre
-- Docs: https://github.com/dagrejs/dagre/wiki#configuring-the-layout
+- 代码库：https://github.com/dagrejs/dagre
+- 文档：https://github.com/dagrejs/dagre/wiki#configuring-the-layout
 
-Dagre is a simple library for layouting directed graphs. It has minimal configuration
-options and a focus on speed over choosing the most optimal layout. If you need to
-organize your flows into a tree, _we highly recommend dagre_.
+Dagre 是一个用于有向图布局的轻量级库，配置选项极少，其设计理念是优先考虑速度而非最优布局。若需将流程图组织成树状结构，_我们强烈推荐使用 dagre_。
 
 <RemoteCodeViewer route="learn/layouting-flow-2-dagre" framework="react" />
 
-With no effort at all we get a well-organized tree layout! Whenever `getLayoutedElements`
-is called, we'll reset the dagre graph and set the graph's direction (either left-to-right
-or top-to-bottom) based on the `direction` prop. Dagre needs to know the dimensions of
-each node in order to lay them out, so we iterate over our list of nodes and add them to
-dagre's internal graph.
+无需额外操作即可获得整齐的树状布局！每次调用 `getLayoutedElements` 时，我们会重置 dagre 图并根据 `direction` 属性设置图的走向（从左到右或从上到下）。Dagre 需要知晓每个节点的尺寸才能进行布局，因此我们会遍历节点列表并将其添加到 dagre 的内部图中。
 
-After laying out the graph, we'll return an object with the layouted nodes and edges. We
-do this by mapping over the original list of nodes and updating each node's position
-according to node stored in the dagre graph.
+在完成图形布局后，我们将返回一个包含已布局节点和边的对象。具体实现是通过遍历原始节点列表，并根据存储在 dagre 图中的节点信息更新每个节点的位置。
 
-Documentation for dagre's configuration options can be found
-[here](https://github.com/dagrejs/dagre/wiki#configuring-the-layout), including properties
-to set for spacing and alignment.
+dagre 的配置选项文档可在此处查阅[here](https://github.com/dagrejs/dagre/wiki#configuring-the-layout)，其中包括用于设置间距和对齐的属性。
 
 ### D3-Hierarchy
 
-- Repo: https://github.com/d3/d3-hierarchy
-- Docs: https://d3js.org/d3-hierarchy
+- 代码库: https://github.com/d3/d3-hierarchy
+- 文档: https://d3js.org/d3-hierarchy
 
-When you know your graph is a tree with a single root node, d3-hierarchy can provide a
-handful of interesting layouting options. While the library can layout a simple tree just
-fine, it also has layouting algorithms for tree maps, partition layouts, and enclosure
-diagrams.
+当确定图形是具有单一根节点的树结构时，d3-hierarchy 可提供多种有趣的布局选项。该库不仅能处理普通树形布局，还包含树状图、分区布局和包围图等布局算法。
 
 <RemoteCodeViewer route="learn/layouting-flow-3-d3-hierarchy" framework="react" />
 
 <Callout>
-  D3-hierarchy expects your graphs to have a single root node, so it won't work in all
-  cases. It's also important to note that d3-hierarchy assigns the same width and height
-  to _all_ nodes when calculating the layout, so it's not the best choice if you're
-  displaying lots of different node types.
+  D3-hierarchy 要求图形必须具有单一根节点，因此并非适用于所有场景。需特别注意：在计算布局时，d3-hierarchy 会为_所有_节点分配相同的宽度和高度，若需展示多种节点类型则不是最佳选择。
 </Callout>
 
 ### D3-Force
 
-- Repo: https://github.com/d3/d3-force
-- Docs: https://d3js.org/d3-force
+- 代码库: https://github.com/d3/d3-force
+- 文档: https://d3js.org/d3-force
 
-For something more interesting than a tree, a force-directed layout might be the way to
-go. D3-Force is a physics-based layouting library that can be used to position nodes by
-applying different forces to them.
+对于比树形结构更复杂的图形，力导向布局可能是更好的选择。D3-Force 是基于物理模拟的布局库，可通过施加不同作用力来定位节点。
 
-As a consequence, it's a little more complicated to configure and use compared to dagre
-and d3-hierarchy. Importantly, d3-force's layouting algorithm is iterative, so we need a
-way to keep computing the layout across multiple renders.
+因此，与 dagre 和 d3-hierarchy 相比，它的配置和使用稍微复杂一些。值得注意的是，d3-force 的布局算法是迭代式的，所以我们需要一种方式在多次渲染中持续计算布局。
 
-First, let's see what it does:
+首先，让我们看看它的功能：
 
 <RemoteCodeViewer route="learn/layouting-flow-4-d3-force" framework="react" />
 
-We've changed our `getLayoutedElements` to a hook called `useLayoutedElements` instead.
-Additionally, instead of passing in the nodes and edges explicitly, we'll use get
-`getNodes` and `getEdges` functions from the `useReactFlow` hook. This is important when
-combined with the store selector in `initialized` because it will prevent us from
-reconfiguring the simulation any time the nodes update.
+我们将 `getLayoutedElements` 改为了名为 `useLayoutedElements` 的钩子。此外，不再显式传入节点和边，而是通过 `useReactFlow` 钩子的 `getNodes` 和 `getEdges` 函数获取。这与 `initialized` 中的存储选择器结合使用时尤为重要，因为它能防止我们在节点更新时重新配置模拟。
 
-The simulation is configured with a number of different forces applied so you can see how
-they interact: play around in your own code to see how you want to configure those forces.
-You can find the documentation and some different examples of d3-force
-[here](https://d3js.org/d3-force).
+模拟配置了多种不同的作用力，你可以观察它们如何相互作用：在自己的代码中尝试调整这些作用力的配置。你可以在[这里](https://d3js.org/d3-force)找到 d3-force 的文档和一些不同示例。
 
 <Callout>
-  <strong>Rectangular collisions</strong>
-  D3-Force has a built-in collision force, but it assumes nodes are circles. We've thrown
-  together a custom force in `collision.js` that uses a similar algorithm but accounts for
-  our rectangular nodes instead. Feel free to steal it or let us know if you have any
-  suggestions for improvements!
+  <strong>矩形碰撞检测</strong>
+  D3-Force 内置了碰撞作用力，但假设节点是圆形。我们在 `collision.js` 中实现了一个自定义作用力，采用类似算法但适配了矩形节点。欢迎直接使用或提出改进建议！
 </Callout>
 
-The tick function progresses the simulation by one step and then updates React Flow with
-the new node positions. We've also included a demonstration on how to handle node dragging
-while the simulation is running: if your flow isn't interactive you can ignore that part!
+`tick` 函数通过单步推进模拟过程，随后使用新的节点位置更新 React Flow。我们还演示了如何在模拟运行时处理节点拖拽——如果您的流程图不需要交互功能，可以忽略这部分内容！
 
 <Callout>
-  For larger graphs, computing the force layout every render forever is going to incur a
-  big performance hit. In this example we have a simple toggle to turn the layouting on
-  and off, but you might want to come up with some other approach to only compute the
-  layout when necessary.
+  对于大型图结构，持续在每次渲染时计算力导向布局会产生严重的性能损耗。本示例通过简单开关控制布局计算，但您可能需要设计其他方案来实现按需计算布局。
 </Callout>
 
 ### Elkjs
 
-- Repo: https://github.com/kieler/elkjs
-- Docs: https://eclipse.dev/elk/reference.html (good luck!)
+- 代码库: https://github.com/kieler/elkjs
+- 文档: https://eclipse.dev/elk/reference.html (祝您好运!)
 
-Elkjs is certainly the most configurable option available, but it's also the most
-complicated. Elkjs is a Java library that's been ported to JavaScript, and it provides a
-huge number of options for configuring the layout of your graph.
+Elkjs 无疑是当前可配置性最强的方案，但同时也是最复杂的。这个由 Java 移植到 JavaScript 的库提供了海量参数用于配置图形布局。
 
 <RemoteCodeViewer route="learn/layouting-flow-6-elkjs" framework="react" />
 
-At it's most basic we can compute layouts similar to dagre, but because the layouting
-algorithm runs asynchronously we need to create a `useLayoutedElements` hook similar to
-the one we created for d3-force.
+其基础功能可生成与 dagre 相似的布局，但由于布局算法异步执行的特性，我们需要创建类似 d3-force 场景中的 `useLayoutedElements` 钩子。
 
 <Callout>
-  <strong>The ELK reference is your new best friend</strong>
-  We don't often recommend elkjs because it's complexity makes it difficult for us to
-  support folks when they need it. If you do decide to use it, you'll want to keep the
-  original [Java API reference](https://eclipse.dev/elk/reference.html) handy.
+  <strong>ELK 参考文档将成为您的新挚友</strong>
+  我们通常不推荐 elkjs，因为其复杂性使得在用户需要支持时难以提供有效帮助。如果您决定使用它，请务必随时查阅原始的 [Java API 参考文档](https://eclipse.dev/elk/reference.html)。
 </Callout>
 
-We've also included a few examples of some of the other layouting algorithms available,
-including a non-interactive force layout.
+我们还提供了其他几种布局算法的示例，包括一个非交互式的力导向布局。
 
-### Honourable Mentions
+### 值得关注的方案
 
-Of course, we can't go through every layouting library out there: we'd never work on
-anything else! Here are some other libraries we've come across that might be worth taking
-a look at:
+当然，我们无法逐一介绍所有布局库——否则我们将无暇处理其他工作！以下是我们发现的一些可能值得关注的库：
 
-- If you want to use dagre or d3-hierarchy but need to support nodes with different
-  dimensions, both [d3-flextree](https://github.com/klortho/d3-flextree) and
-  [entitree-flex](https://github.com/codeledge/entitree-flex) look promising.
+- 若您需要使用 dagre 或 d3-hierarchy 但需支持不同尺寸的节点，[d3-flextree](https://github.com/klortho/d3-flextree) 和 [entitree-flex](https://github.com/codeledge/entitree-flex) 看起来都很有前景。
 
-  You can find an example of how to use entitree-flex with React Flow
-  [here](/examples/layout/entitree-flex).
+  您可以在此处查看如何将 entitree-flex 与 React Flow 配合使用的[示例](/examples/layout/entitree-flex)。
 
-- [Cola.js](https://github.com/tgdwyer/WebCola) looks like a promising option for
-  so-called "constraint-based" layouts. We haven't had time to properly investigate it
-  yet, but it looks like you can achieve results similar to d3-force but with a lot more
-  control.
+- [Cola.js](https://github.com/tgdwyer/WebCola) 似乎是实现"基于约束"布局的理想选择。我们尚未有时间深入研究，但它看起来能实现类似 d3-force 的效果，同时提供更强的控制力。
 
-## Routing Edges
+## 边路由
 
-If you don't have any requirements for edge routing, you can use one of the layouting
-libraries above to position nodes and let the edges fall wherever they may. Otherwise,
-you'll want to look into some libraries and techniques for edge routing.
+若您对边路由没有特殊需求，可以直接使用上述布局库来定位节点，让边自动生成路径。反之，则需要研究专门的边路由库和技术方案。
 
-Your options here are more limited than for node layouting, but here are some resources we
-thought looked promising:
+相比节点布局，边路由的可用方案较为有限，但我们认为以下资源值得关注：
 
 - [react-flow-smart-edge](https://github.com/tisoap/react-flow-smart-edge)
 - [Routing Orthogonal Diagram Connectors in JavaScript](https://medium.com/swlh/routing-orthogonal-diagram-connectors-in-javascript-191dc2c5ff70)
 
-If you do explore some custom edge routing options, consider contributing back to the
-community by writing a blog post or creating a library!
+如果您探索了自定义边路由方案，欢迎通过撰写技术博客或开源库的方式回馈社区！
 
-Our [editable edge Pro Example](/examples/edges/editable-edge) could also be used as a
-starting point for implementing a custom edge that can be routed along a specific path.
+我们的[可编辑边专业示例](/examples/edges/editable-edge)也可作为实现自定义路径路由边的开发起点。

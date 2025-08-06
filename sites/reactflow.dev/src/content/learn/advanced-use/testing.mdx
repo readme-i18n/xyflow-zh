@@ -1,18 +1,19 @@
 ---
-description: How to test React Flow applications with Cypress, Playwright or Jest.
+
+description: 如何使用 Cypress、Playwright 或 Jest 测试 React Flow 应用
 ---
 
-# Testing
+# 测试
 
-There are plenty of options to test a React application. If you want to test a React Flow application, we recommend to use [Cypress](https://www.cypress.io/) or [Playwright](https://playwright.dev/). React Flow needs to measure nodes in order to render edges and for that relies on rendering DOM elements.
+测试 React 应用有多种选择。若需测试 React Flow 应用，我们推荐使用 [Cypress](https://www.cypress.io/) 或 [Playwright](https://playwright.dev/)。React Flow 需要测量节点才能渲染边，这依赖于 DOM 元素的渲染。
 
-## Using Cypress or Playwright
+## 使用 Cypress 或 Playwright
 
-If you are using Cypress or Playwright no additional setup is needed. You can refer to the getting started guide for [Cypress here](https://docs.cypress.io/guides/getting-started/installing-cypress) and for [Playwright here](https://playwright.dev/docs/intro).
+若使用 Cypress 或 Playwright 则无需额外配置。可参考 [Cypress 入门指南](https://docs.cypress.io/guides/getting-started/installing-cypress) 和 [Playwright 文档](https://playwright.dev/docs/intro)。
 
-## Using Jest
+## 使用 Jest
 
-If you are using [Jest](https://jestjs.io/), you need to mock some features in order to be able to run your tests. You can do that by adding this file to your project. Calling `mockReactFlow()` in a `setupTests` file (or inside a `beforeEach`) will trigger the necessary overrides.
+若使用 [Jest](https://jestjs.io/)，需模拟部分功能才能运行测试。可通过将此文件添加到项目中实现。在 `setupTests` 文件（或 `beforeEach` 内）调用 `mockReactFlow()` 将触发必要的覆盖。
 
 ```ts
 // To make sure that the tests are working, it's important that you are using
@@ -75,7 +76,7 @@ export const mockReactFlow = () => {
 };
 ```
 
-If you want to test mouse events with jest (for example inside your custom nodes), you need to disable `d3-drag` as it does not work outside of the browser:
+如需用 Jest 测试鼠标事件（例如在自定义节点内），需禁用 `d3-drag`，因其在浏览器外无法工作：
 
 ```js
 <ReactFlow nodesDraggable={false} panOnDrag={false} {...rest} />

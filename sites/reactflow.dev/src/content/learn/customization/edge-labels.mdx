@@ -1,26 +1,20 @@
 ---
-description: This guide shows you how to render custom edge labels onto custom edges in React Flow.
----
+
+description: 本指南展示如何在 React Flow 中为自定义边渲染标签。
 
 import { RemoteCodeViewer } from 'xy-shared/server';
 import { Callout } from 'nextra/components';
 import { Image } from 'xy-shared';
 
-# Edge Labels
+# 边标签
 
-One of the more common uses for [custom edges](/learn/customization/custom-edges) is rendering some controls or info
-along an edge's path. In React Flow we call that an _custom edge label_ and unlike the
-edge path, edge labels can be any React component!
+[自定义边](/learn/customization/custom-edges)最常见的用途之一是在边的路径上渲染控件或信息。在 React Flow 中，我们称之为_自定义边标签_，与边路径不同，边标签可以是任何 React 组件！
 
-## Adding an edge label
+## 添加边标签
 
-To render a custom edge label we must wrap it in the
-[`<EdgeLabelRenderer />`](/api-reference/components/edge-label-renderer) component.
-This allows us to render the labels outside of the SVG world where the edges life.
-The edge label renderer is a portal to a single container that _all_ edge labels are rendered into.
+要渲染自定义边标签，必须将其包裹在 [`<EdgeLabelRenderer />`](/api-reference/components/edge-label-renderer) 组件中。这允许我们在边所在的 SVG 世界之外渲染标签。边标签渲染器是一个门户，所有边标签都会被渲染到同一个容器中。
 
-Let's add a button to our custom edge that can be used to delete the edge it's
-attached to:
+让我们在自定义边上添加一个按钮，用于删除它所连接的边：
 
 ```jsx
 import {
@@ -50,9 +44,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
 }
 ```
 
-If we try to use this edge now, we'll see that the button is rendered in the
-centre of the flow (it might be hidden behind "Node A"). Because of the edge
-label portal, we'll need to do some extra work to position the button ourselves.
+如果现在尝试使用这个边，会发现按钮被渲染在流程图的中心（可能被"Node A"遮挡）。由于边标签门户的存在，我们需要额外做一些工作来自行定位按钮。
 
 <Image
   src="/img/learn/edge-label-renderer-position.png"
@@ -60,10 +52,7 @@ label portal, we'll need to do some extra work to position the button ourselves.
   the DOM inspector and the button is rendered in the centre of the flow."
 />
 
-Fortunately, the path utils we've already seen can help us with this! Along with
-the SVG path to render, these functions also return the `x` and `y` coordinates
-of the path's midpoint. We can then use these coordinates to translate our custom
-edge label's into the right position!
+幸运的是，之前介绍的路径工具函数可以帮我们解决这个问题！除了返回用于渲染的 SVG 路径外，这些函数还会返回路径中点的 `x` 和 `y` 坐标。我们可以利用这些坐标将自定义边标签转换到正确位置！
 
 ```jsx
 export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
@@ -87,18 +76,12 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
 ```
 
 <Callout type="info">
-  To make sure our edge labels are interactive and not just for presentation, it
-  is important to add `pointer-events: all` to the label's style. This will ensure
-  that the label is clickable.
+  为确保边缘标签具有交互性而不仅仅是展示用途，必须为标签样式添加 `pointer-events: all` 属性。这将保证标签可被点击。
 
-And just like with interactive controls in custom nodes, we need to remember
-to add the `nodrag` and `nopan` classes to the label to stop mouse events from
-controlling the canvas.
+与自定义节点中的交互控件类似，我们需要记得为标签添加 `nodrag` 和 `nopan` 类，以防止鼠标事件控制画布。
 
 </Callout>
 
-Here's an interactive example with our updated custom edge. Clicking the delete
-button will remove that edge from the flow. Creating a new edge will use the
-custom node.
+这是一个使用更新后自定义边缘的交互示例。点击删除按钮会将该边缘从流程中移除。创建新边缘时将使用自定义节点。
 
 <RemoteCodeViewer route="learn/custom-edge-2" framework="react" />

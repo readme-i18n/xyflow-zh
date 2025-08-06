@@ -1,10 +1,9 @@
 ---
+
 sidebarTitle: Slideshow App
-title: Create a slide show presentation with React Flow
-intro:
-  We recently published the results of our 2023 end of year survey using React Flow. This
-  tutorial is an opportunity to share what we learned and show you how to build something
-  similar!
+title: 使用 React Flow 创建幻灯片演示
+intro: 
+  我们近期利用 React Flow 发布了 2023 年度调查结果。本教程将分享我们的经验，并展示如何构建类似效果！
 date: 2024/01/07
 authors: ['hayleigh']
 tags: ['react-flow', 'presentation', 'slide-show']
@@ -16,10 +15,7 @@ import { Callout, Cards } from 'nextra/components';
 import { Image } from 'xy-shared';
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-We recently published the findings from our React Flow 2023 end-of-year survey with an
-[interactive presentation](/developer-survey-2023) of the key findings, using React Flow
-itself. There were lots of useful bits built into this slideshow app, so we wanted to
-share how we built it!
+我们最近通过 [交互式演示](/developer-survey-2023) 发布了 React Flow 2023 年度调查的关键发现，该演示正是使用 React Flow 构建的。这个幻灯片应用包含许多实用功能，因此我们希望分享其实现方法！
 
 <Image
   src="/img/tutorials/presentation/survey.png"
@@ -27,42 +23,34 @@ share how we built it!
   alt="Screenshot of slides laid out on an infinite canvas, each with information pulled from a survey of React Flow users"
 />
 
-By the end of this tutorial, you will have built a presentation app with
+完成本教程后，您将构建一个具备以下功能的演示应用：
 
-- Support for markdown slides
-- Keyboard navigation around the viewport
-- Automatic layouting
-- Click-drag panning navigation (à la Prezi)
+- 支持 Markdown 幻灯片
+- 视口键盘导航
+- 自动布局
+- 点击拖拽平移导航（类似 Prezi）
 
-Along the way, you'll learn a bit about the basics of layouting algorithms, creating
-static flows, and custom nodes.
+过程中您将学习布局算法基础、创建静态流程图以及自定义节点。
 
-Once you're done, the app will look like this!
+最终效果如下图所示！
 
 <RemoteCodeViewer route="tutorials/presentation/app" framework="react" />
 
-To follow along with this tutorial we'll assume you have a basic understanding of
-[React](https://reactjs.org/docs/getting-started.html) and
-[React Flow](/learn/concepts/terms-and-definitions), but if you get stuck on the way feel
-free to reach out to us on [Discord](https://discord.com/invite/RVmnytFmGW)!
+学习本教程需要具备 [React](https://reactjs.org/docs/getting-started.html) 和 [React Flow](/learn/concepts/terms-and-definitions) 的基础知识。如遇问题，欢迎通过 [Discord](https://discord.com/invite/RVmnytFmGW) 联系我们！
 
-Here's the [repo with the final code](https://github.com/xyflow/react-flow-slide-show) if
-you'd like to skip ahead or refer to it as we go.
+这里是[最终代码的仓库](https://github.com/xyflow/react-flow-slide-show)，如果你想跳过步骤或随时参考。
 
-Let's get started!
+让我们开始吧！
 
-## Setting up the project
+## 项目初始化
 
-We like to recommend using [Vite](https://vitejs.dev) when starting new React Flow
-projects, and this time we'll use TypeScript too. You can scaffold a new project with the
-following command:
+我们推荐在新 React Flow 项目中使用 [Vite](https://vitejs.dev)，这次我们还会加入 TypeScript。可以通过以下命令创建新项目：
 
 ```bash npm2yarn
 npm create vite@latest -- --template react-ts
 ```
 
-If you'd prefer to follow along with JavaScript feel free to use the `react` template
-instead. You can also follow along in your browser by using our Codesandbox templates:
+如果更倾向使用 JavaScript，可以改用 `react` 模板。你也可以直接在浏览器中通过我们的 Codesandbox 模板跟随教程：
 
 <Cards num={2}>
   <Cards.Card
@@ -85,17 +73,13 @@ instead. You can also follow along in your browser by using our Codesandbox temp
   />
 </Cards>
 
-Besides React Flow we only need to pull in one dependency,
-[`react-remark`](https://www.npmjs.com/package/react-remark), to help us render markdown
-in our slides.
+除了 React Flow，我们只需要引入一个依赖项 [`react-remark`](https://www.npmjs.com/package/react-remark) 来帮助我们在幻灯片中渲染 markdown。
 
 ```bash npm2yarn
 npm install @xyflow/react react-remark
 ```
 
-We'll modify the generated `main.tsx` to include React Flow's styles, as well as wrap the
-app in a `<ReactFlowProvider />` to make sure we can access the React Flow instance inside
-our components;
+我们将修改生成的 `main.tsx` 文件，包含 React Flow 的样式，并用 `<ReactFlowProvider />` 包裹应用，确保能在组件内部访问 React Flow 实例；
 
 ```tsx filename="main.tsx" {3,7,12,20}
 import React from 'react';
@@ -122,19 +106,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 );
 ```
 
-This tutorial is going to gloss over the styling of the app, so feel free to use any CSS
-framework or styling solution you're familiar with. If you're going to style your app
-differently from just writing CSS, [Tailwind CSS](/examples/styling/tailwind), you can
-skip the import to `index.css`.
+本教程将略过应用程序的样式设计部分，您可以使用任何熟悉的 CSS 框架或样式解决方案。如果您打算采用不同于直接编写 CSS 的方式（如 [Tailwind CSS](/examples/styling/tailwind)）来设计应用样式，可以跳过对 `index.css` 的导入。
 
 <Callout>
-  How you style your app is up to you, but you must **always** include React Flow's
-  styles! If you don't need the default styles, at a minimum you should include the base
-  styles from `@xyflow/react/dist/base.css`.
+  应用样式由您自行决定，但**必须始终**包含 React Flow 的样式文件！如果不需要默认样式，至少应引入 `@xyflow/react/dist/base.css` 中的基础样式。
 </Callout>
 
-Each slide of our presentation will be a node on the canvas, so let's create a new file
-`Slide.tsx` that will be our custom node used to render each slide.
+我们将把演示文稿的每一页作为画布上的节点，因此需要创建一个新文件 `Slide.tsx` 作为渲染每张幻灯片的自定义节点组件。
 
 ```tsx filename="Slide.tsx"
 import { type Node, type NodeProps } from '@xyflow/react';
@@ -160,11 +138,9 @@ export function Slide({ data }: NodeProps<SlideNode>) {
 }
 ```
 
-We're setting the slide width and height as constants here (rather than styling the node
-in CSS) because we'll want access to those dimensions later on. We've also stubbed out the
-`SlideData` type so we can properly type the component's props.
+这里我们将幻灯片宽度和高度设为常量（而非通过 CSS 设置节点样式），因为后续需要访问这些尺寸参数。同时我们还定义了 `SlideData` 类型存根，以便正确标注组件属性类型。
 
-The last thing to do is to register our new custom node and show something on the screen.
+最后需要注册新的自定义节点并在屏幕上显示内容。
 
 ```tsx filename="App.tsx"
 import { ReactFlow } from '@xyflow/react';
@@ -182,28 +158,20 @@ export default function App() {
 ```
 
 <Callout>
-  It's important to remember to define your `nodeTypes` object _outside_ of the component
-  (or to use React's `useMemo` hook)! When the `nodeTypes` object changes, the entire flow
-  is re-rendered.
+  关键提示：必须在组件**外部**定义 `nodeTypes` 对象（或使用 React 的 `useMemo` 钩子）！当 `nodeTypes` 对象变化时，整个流程图会重新渲染。
 </Callout>
 
-With the basics put together, you can start the development server by running
-`npm run dev` and see the following:
+完成基础搭建后，可通过运行 `npm run dev` 启动开发服务器，您将看到如下效果：
 
 <RemoteCodeViewer route="tutorials/presentation/scaffold" framework="react" />
 
-Not super exciting yet, but let's add markdown rendering and create a few slides side by
-side!
+目前还不太令人兴奋，但让我们先添加 Markdown 渲染功能并创建几个并排的幻灯片吧！
 
-## Rendering markdown
+## 渲染 Markdown
 
-We want to make it easy to add content to our slides, so we'd like the ability to write
-[Markdown](https://www.markdownguide.org/basic-syntax/) in our slides. If you're not
-familiar, Markdown is a simple markup language for creating formatted text documents. If
-you've ever written a README on GitHub, you've used Markdown!
+我们希望简化幻灯片内容的添加过程，因此需要支持在幻灯片中使用 [Markdown](https://www.markdownguide.org/basic-syntax/) 编写内容。如果你还不熟悉，Markdown 是一种用于创建格式化文本文档的简单标记语言。如果你曾在 GitHub 上编写过 README 文件，那么你已经使用过 Markdown 了！
 
-Thanks to the `react-remark` package we installed earlier, this step is a simple one. We
-can use the `<Remark />` component to render a string of markdown content into our slides.
+得益于之前安装的 `react-remark` 包，这一步变得非常简单。我们可以使用 `<Remark />` 组件将 Markdown 字符串内容渲染到幻灯片中。
 
 ```tsx filename="Slide.tsx" {2,9-11,21}
 import { type Node, type NodeProps } from '@xyflow/react';
@@ -232,10 +200,7 @@ export function Slide({ data }: NodeProps<SlideNode>) {
 }
 ```
 
-In React Flow, nodes can have data stored on them that can be used during rendering. In
-this case we're storing the markdown content to display by adding a `source` property to
-the `SlideData` type and passing that to the `<Remark />` component. We can update our
-hardcoded nodes with some markdown content to see it in action:
+在 React Flow 中，节点可以存储渲染时使用的数据。这里我们通过给 `SlideData` 类型添加 `source` 属性来存储要显示的 Markdown 内容，并将其传递给 `<Remark />` 组件。我们可以用一些 Markdown 内容更新硬编码的节点来查看效果：
 
 ```tsx filename="App.tsx" {2, 10-27, 34}
 import { ReactFlow } from '@xyflow/react';
@@ -271,29 +236,19 @@ export default function App() {
 }
 ```
 
-Note that we've added the `minZoom` prop to the `<ReactFlow />` component. Our slides are
-quite large, and the default minimum zoom level is not enough to zoom out and see multiple
-slides at once.
+注意我们为 `<ReactFlow />` 组件添加了 `minZoom` 属性。由于我们的幻灯片尺寸较大，默认的最小缩放级别不足以缩小视图同时显示多张幻灯片。
 
 <RemoteCodeViewer route="tutorials/presentation/rendering-markdown" framework="react" />
 
-In the nodes array above, we've made sure to space the slides out by doing some manual
-math with the `SLIDE_WIDTH` constant. In the next section we'll come up with an algorithm
-to automatically lay out the slides in a grid.
+在上面的节点数组中，我们通过手动计算 `SLIDE_WIDTH` 常量值来确保幻灯片之间有足够的间距。下一节我们将设计一个算法来自动将节点排列成网格布局。
 
-## Laying out the nodes
+## 节点布局
 
-We often get asked how to automatically lay out nodes in a flow, and we have some
-documentation on how to use common layouting libraries like dagre and d3-hierarchy in our
-[layouting guide](/learn/layouting/layouting). Here you'll be writing your own
-super-simple layouting algorithm, which gets a bit nerdy, but stick with us!
+我们经常被问及如何自动布局流程中的节点，在[布局指南](/learn/layouting/layouting)中，我们提供了关于如何使用dagre和d3-hierarchy等常见布局库的文档。这里你将编写自己的超简单布局算法，虽然会有点技术含量，但请跟紧我们！
 
-For our presentation app we'll construct a simple grid layout by starting from 0,0 and
-updating the x or y coordinates any time we have a new slide to the left, right, up, or
-down.
+对于演示应用，我们将构建一个简单的网格布局：从坐标0,0开始，每当有新的幻灯片添加到左侧、右侧、上方或下方时，就更新x或y坐标。
 
-First, we need to update our `SlideData` type to include optional ids for the slides to
-the left, right, up, and down of the current slide.
+首先，需要更新`SlideData`类型，使其包含当前幻灯片左、右、上、下方幻灯片的可选ID。
 
 ```tsx filename="Slide.tsx" {3-6}
 export type SlideData = {
@@ -305,45 +260,36 @@ export type SlideData = {
 };
 ```
 
-Storing this information on the node data directly gives us some useful benefits:
+直接在节点数据中存储这些信息能带来以下优势：
 
-- We can write fully declarative slides without worrying about the concept of nodes and
-  edges
+- 可以完全声明式地编写幻灯片，无需考虑节点和边的概念
+- 通过遍历连接的幻灯片来计算演示文稿的布局
+- 可为每张幻灯片添加导航按钮实现自动跳转（后续步骤会处理这点）
 
-- We can compute the layout of the presentation by visiting connecting slides
+关键是一个名为`slidesToElements`的函数：它接收以ID索引的所有幻灯片对象和一个起始幻灯片ID，然后遍历每个连接的幻灯片，构建可传递给`<ReactFlow />`组件的节点和边数组。
 
-- We can add navigation buttons to each slide to navigate between them automatically.
-  We'll handle that in a later step.
+算法流程大致如下：
 
-The magic happens in a function we're going to define called `slidesToElements`. This
-function will take an object containing all our slides addressed by their id, and an id
-for the slide to start at. Then it will work through each connecting slide to build an
-array of nodes and edges that we can pass to the `<ReactFlow />` component.
+- 将初始幻灯片的 ID 和位置 `{ x: 0, y: 0 }` 压入栈中
+- 当栈不为空时循环执行以下操作：
+  - 从栈中弹出当前位置和幻灯片 ID
 
-The algorithm will go something like this:
+  - 根据 ID 查找幻灯片数据
+  - 将新节点推入节点数组，包含当前 ID、位置和幻灯片数据
+  - 将该幻灯片 ID 加入已访问集合
+  - 对于每个方向（左、右、上、下）...
+    - 确保目标幻灯片未被访问过
+    - 根据方向调整当前坐标：通过加减 `SLIDE_WIDTH` 或 `SLIDE_HEIGHT` 来更新 x 或 y 坐标
+    - 将新位置和目标幻灯片 ID 压入栈中
+    - 将连接当前幻灯片与目标幻灯片的新边推入边数组
 
-- Push the initial slide's id and the position `{ x: 0, y: 0 }` onto a stack.
-- While that stack is not empty...
-  - Pop the current position and slide id off the stack.
+    - 对其余方向重复上述操作...
 
-  - Look up the slide data by id.
-  - Push a new node onto the nodes array with the current id, position, and slide data.
-  - Add the slide's id to a set of visited slides.
-  - For every direction (left, right, up, down)...
-    - Make sure the slide has not already been visited.
-    - Take the current position and update the x or y coordinate by adding or subtracting
-      `SLIDE_WIDTH` or `SLIDE_HEIGHT` depending on the direction.
-    - Push the new position and the new slide's id onto a stack.
-    - Push a new edge onto the edges array connecting the current slide to the new slide.
-
-    - Repeat for the remaining directions...
-
-If all goes to plan, we should be able to take a stack of slides shown below and turn them
-into a neatly laid out grid!
+如果一切顺利，我们就能将下方所示的幻灯片栈转换为排列整齐的网格！
 
 <Image src="/img/tutorials/presentation/ideal-layout.png" wide />
 
-Let's see the code. In a file called `slides.ts` add the following:
+来看具体实现。在名为 `slides.ts` 的文件中添加以下代码：
 
 ```tsx filename="slides.ts"
 import { SlideData, SLIDE_WIDTH, SLIDE_HEIGHT } from './Slide';
@@ -393,29 +339,21 @@ export const slidesToElements = (initial: string, slides: Record<string, SlideDa
 };
 ```
 
-We've left out the code for the right, up, and down directions for brevity, but the logic
-is the same for each direction. We've also included the same breakdown of the algorithm as
-comments, to help you navigate the code.
+为简洁起见，我们省略了右、上、下方向的代码，但每个方向的逻辑都是相同的。我们在注释中保留了相同的算法分解说明，以帮助理解代码结构。
 
-Below is a demo app of the layouting algorithm, you can edit the `slides` object to see
-how adding slides to different directions affects the layout. For example, try extending
-4's data to include `down: '5'` and see how the layout updates.
+下方是布局算法的演示应用，你可以编辑 `slides` 对象来观察不同方向的幻灯片添加如何影响布局。例如，尝试在 4 号幻灯片数据中添加 `down: '5'`，观察布局如何更新。
 
 <RemoteCodeViewer route="tutorials/presentation/layout-demo" framework="react" />
 
-If you spend a little time playing with this demo, you'll likely run across two
-limitations of this algorithm:
+如果您花些时间试用这个演示，可能会发现该算法的两个局限性：
 
-1. It is possible to construct a layout that overlaps two slides in the same position.
+1. 有可能构造出两个幻灯片重叠在同一位置的布局
 
-2. The algorithm will ignore nodes that cannot be reached from the initial slide.
+2. 算法会忽略无法从初始幻灯片到达的节点
 
-Addressing these shortcomings is totally possible, but a bit beyond the scope of this
-tutorial. If you give a shot, be sure to share your solution with us on the
-[discord server](https://discord.com/invite/RVmnytFmGW)!
+解决这些缺陷完全可行，但略微超出了本教程的范围。如果您尝试改进，请务必在 [discord 服务器](https://discord.com/invite/RVmnytFmGW) 上与我们分享您的解决方案！
 
-With our layouting algorithm written, we can hop back to `App.tsx` and remove the
-hardcoded nodes array in favor of the new `slidesToElements` function.
+编写完布局算法后，我们可以回到 `App.tsx`，移除硬编码的 nodes 数组，改用新的 `slidesToElements` 函数。
 
 ```tsx filename="App.tsx" {2,3,5-9,15-16,24}
 import { ReactFlow } from '@xyflow/react';
@@ -448,39 +386,25 @@ export default function App() {
 }
 ```
 
-The slides in our flow are static, so we can move the `slidesToElements` call _outside_
-the component to make sure we're not recalculating the layout if the component re-renders.
-Alternatively, you could use React's `useMemo` hook to define things inside the component
-but only calculate them once.
+由于流程图中的幻灯片是静态的，我们可以将 `slidesToElements` 调用移到组件 _外部_，确保组件重新渲染时不会重复计算布局。或者，您也可以使用 React 的 `useMemo` 钩子在组件内部定义，但仅计算一次。
 
-Because we have the idea of an "initial" slide now, we're also using the `fitViewOptions`
-to ensure the initial slide is the one that is focused when the canvas is first loaded.
+由于我们现在有了"初始"幻灯片的概念，我们还使用了 `fitViewOptions` 来确保画布首次加载时聚焦于初始幻灯片。
 
-## Navigating between slides
+## 幻灯片导航
 
-So far we have our presentation laid out in a grid but we have to manually pan the canvas
-to see each slide, which isn't very practical for a presentation! We're going to add three
-different ways to navigate between slides:
+目前我们的演示文稿已以网格形式布局，但需要手动平移画布才能查看每张幻灯片，这对演示来说并不实用！我们将添加三种不同的幻灯片导航方式：
 
-- Click-to-focus on nodes for jumping to different slides by clicking on them.
+- 点击节点聚焦功能，可通过点击节点跳转到不同幻灯片。
 
-- Navigation buttons on each slide for moving sequentially between slides in any valid
-  direction.
+- 每张幻灯片上的导航按钮，支持按任意有效方向顺序切换幻灯片。
 
-- Keyboard navigation using the arrow keys for moving around the presentation without
-  using the mouse or interacting with a slide directly.
+- 使用方向键进行键盘导航，无需鼠标操作或直接与幻灯片交互即可浏览演示内容。
 
-### Focus on click
+### 点击聚焦
 
-The `<ReactFlow />` element can receive an
-[`onNodeClick`](/api-reference/react-flow#on-node-click) callback that fires when _any_
-node is clicked. Along with the mouse event itself, we also receive a reference to the
-node that was clicked on, and we can use that to pan the canvas thanks to the `fitView`
-method.
+`<ReactFlow />` 元素可接收 [`onNodeClick`](/api-reference/react-flow#on-node-click) 回调函数，当点击任意节点时触发。除了鼠标事件本身，我们还能获取被点击节点的引用，结合 `fitView` 方法可实现画布平移定位。
 
-[`fitView`](/api-reference/types/react-flow-instance#fit-view) is a method on the React
-Flow instance, and we can get access to it by using the
-[`useReactFlow`](/api-reference/types/react-flow-instance#use-react-flow) hook.
+[`fitView`](/api-reference/types/react-flow-instance#fit-view) 是 ReactFlow 实例的方法，通过 [`useReactFlow`](/api-reference/types/react-flow-instance#use-react-flow) 钩子可获取其访问权限。
 
 ```tsx filename="App.tsx" {1-2,17-23,29}
 import { useCallback } from 'react';
@@ -518,32 +442,18 @@ export default function App() {
 ```
 
 <Callout>
-  It's important to remember to include `fitView` as in the dependency array of our
-  `handleNodeClick` callback. That's because the `fitView` function is replaced once React
-  Flow has initialized the viewport. If you forget this step you'll likely find out that
-  `handleNodeClick` does nothing at all (and yes, we also forget this ourselves sometimes
-  too <Emoji content="🫠" />
-  ).
+  务必记得将 `fitView` 包含在 `handleNodeClick` 回调的依赖数组中。这是因为 `fitView` 函数会在 ReactFlow 初始化视口后被替换。若遗漏此步骤，你会发现 `handleNodeClick` 完全失效（是的，我们自己有时也会忘记这步 <Emoji content="🫠" />）。
 </Callout>
 
-Calling `fitView` with no arguments would attempt to fit every node in the graph into
-view, but we only want to focus on the node that was clicked! The
-[`FitViewOptions`](/api-reference/types/fit-view-options) object lets us provide an array
-of just the nodes we want to focus on: in this case, that's just the node that was
-clicked.
+不带参数调用 `fitView` 会尝试将所有节点适配到视图中，但我们只想聚焦被点击的节点！[`FitViewOptions`](/api-reference/types/fit-view-options) 对象允许我们指定需要聚焦的节点数组：本例中就是被点击的那个节点。
 
 <RemoteCodeViewer route="tutorials/presentation/focus-on-click" framework="react" />
 
-### Slide controls
+### 幻灯片控制
 
-Clicking to focus a node is handy for zooming out to see the big picture before focusing
-back in on a specific slide, but it's not a very practical way for navigating around a
-presentation. In this step we'll add some controls to each slide that allow us to move to
-a connected slide in any direction.
+点击聚焦节点的方式适合先缩略查看整体，再聚焦特定幻灯片，但对于演示文稿导航并不实用。这一步我们将为每张幻灯片添加控制按钮，实现在任意方向跳转至关联幻灯片。
 
-Let's add a `<footer>` to each slide that conditionally renders a button in any direction
-with a connected slide. We'll also preemptively create a `moveToNextSlide` callback that
-we'll use in a moment.
+我们给每张幻灯片添加 `<footer>`，根据连接情况有条件地渲染各方向按钮。同时预先创建 `moveToNextSlide` 回调函数供后续使用。
 
 ```tsx filename="Slide.tsx" {3,8,13-18}
 import { type NodeProps, fitView } from '@xyflow/react';
@@ -569,15 +479,9 @@ export function Slide({ data }: NodeProps<SlideNide>) {
 }
 ```
 
-You can style the footer however you like, but it's important to add the `"nopan"` class
-to prevent prevent the canvas from panning as you interact with any of the buttons.
+页脚样式可自由设计，但务必添加 `"nopan"` 类来防止操作按钮时画布发生平移。
 
-To implement `moveToSlide`, we'll make use of `fitView` again. Previously we had a
-reference to the actual node that was clicked on to pass to `fitView`, but this time we
-only have a node's id. You might be tempted to look up the target node by its id, but
-actually that's not necessary! If we look at the type of
-[`FitViewOptions`](/api-reference/types/fit-view-options) we can see that the array of
-nodes we pass in only _needs_ to have an `id` property:
+要实现 `moveToSlide` 功能，我们将再次利用 `fitView`。之前我们通过点击节点的实际引用来传递给 `fitView`，但这次我们只有节点的 id。你可能会想通过 id 查找目标节点，但实际上这并非必要！查看 [`FitViewOptions`](/api-reference/types/fit-view-options) 的类型定义可以发现，我们传入的节点数组只需包含 `id` 属性即可：
 
 ```ts filename="https://reactflow.dev/api-reference/types/fit-view-options" {7}
 export type FitViewOptions = {
@@ -590,10 +494,7 @@ export type FitViewOptions = {
 };
 ```
 
-`Partial<Node>` means that all of the fields of the `Node` object type get marked as
-optional, and then we intersect that with `{ id: Node['id'] }` to ensure that the `id`
-field is always required. This means we can just pass in an object with an `id` property
-and nothing else, and `fitView` will know what to do with it!
+`Partial<Node>` 表示 `Node` 对象类型的所有字段都被标记为可选，然后我们通过交叉类型 `{ id: Node['id'] }` 确保 `id` 字段始终必填。这意味着只需传入包含 `id` 属性的对象，`fitView` 就能正确处理！
 
 ```tsx filename="Slide.tsx" {1,4,6-9}
 import { type NodeProps, useReactFlow } from '@xyflow/react';
@@ -616,18 +517,11 @@ export function Slide({ data }: NodeProps<SlideNide>) {
 
 <RemoteCodeViewer route="tutorials/presentation/slide-controls" framework="react" />
 
-### Keyboard navigation
+### 键盘导航
 
-The final piece of the puzzle is to add keyboard navigation to our presentation. It's not
-very convenient to have to _always_ click on a slide to move to the next one, so we'll add
-some keyboard shortcuts to make it easier. React Flow lets us listen to keyboard events on
-the `<ReactFlow />` component through handlers like
-[`onKeyDown`](/api-reference/react-flow#on-key-down).
+最后的关键是为演示文稿添加键盘导航功能。总是需要点击幻灯片来切换并不方便，因此我们将添加一些键盘快捷键来简化操作。React Flow 允许我们通过 [`onKeyDown`](/api-reference/react-flow#on-key-down) 等处理器监听 `<ReactFlow />` 组件上的键盘事件。
 
-Up until now the slide currently focused is implied by the position of the canvas, but if
-we want to handle key presses on the entire canvas we need to _explicitly_ track the
-current slide. We need to this because we need to know which slide to navigate to when an
-arrow key is pressed!
+到目前为止，当前聚焦的幻灯片是通过画布位置隐式确定的，但如果我们需要在整个画布上处理按键事件，就必须显式地追踪当前幻灯片状态。这是因为当方向键被按下时，我们需要明确知道应该导航到哪个幻灯片！
 
 ```tsx filename="App.tsx" {1,2,13-14,17,23}
 import { useState, useCallback } from 'react';
@@ -666,9 +560,7 @@ export default function App() {
 }
 ```
 
-Here we've added a bit of state, `currentSlide`, to our flow component and we're making
-sure to update it whenever a node is clicked. Next, we'll write a callback to handle
-keyboard events on the canvas:
+我们为流程组件添加了状态变量 `currentSlide`，并确保在点击节点时及时更新它。接下来，我们将编写一个回调函数来处理画布上的键盘事件：
 
 ```tsx filename="App.tsx"
 export default function App() {
@@ -708,45 +600,26 @@ export default function App() {
 }
 ```
 
-To save some typing we're extracting the direction from the key pressed - if the user
-pressed `'ArrowLeft'` we'll get `'left'` and so on. Then, if there is actually a slide
-connected in that direction we'll update the current slide and call `fitView` to navigate
-to it!
+为了减少代码量，我们从按键事件中提取方向信息——例如用户按下 `'ArrowLeft'` 时会得到 `'left'`。然后，如果该方向确实存在连接的幻灯片，我们就更新当前幻灯片并调用 `fitView` 进行导航！
 
-We're also preventing the default behavior of the arrow keys to prevent the window from
-scrolling up and down. This is necessary for this tutorial because the canvas is only one
-part of the page, but for an app where the canvas is the entire viewport you might not
-need to do this.
+我们还阻止了方向键的默认行为，避免窗口上下滚动。在本教程中这是必要的，因为画布只是页面的一部分；如果你的应用中画布占据整个视口，可能就不需要这个操作。
 
-And that's everything! To recap let's look at the final result and talk about what we've
-learned.
+大功告成！让我们通过最终效果回顾一下所学内容。
 
 <RemoteCodeViewer route="tutorials/presentation/app" framework="react" />
 
-## Final thoughts
+## 最终总结
 
-Even if you're not planning on making the next [Prezi](https://prezi.com), we've still
-looked at a few useful features of React Flow in this tutorial:
+即使你不打算开发下一个 [Prezi](https://prezi.com)，本教程仍然展示了 React Flow 的几个实用功能：
 
-- The [`useReactFlow`](/api-reference/hooks/use-react-flow) hook to access the `fitView`
-  method.
+- 使用 [`useReactFlow`](/api-reference/hooks/use-react-flow) 钩子来访问 `fitView` 方法
 
-- The [`onNodeClick`](/api-reference/react-flow#on-node-click) event handler to listen to
-  clicks on every node in a flow.
+- 通过 [`onNodeClick`](/api-reference/react-flow#on-node-click) 事件处理器监听流程图中所有节点的点击事件
 
-- The [`onKeyPress`](/api-reference/react-flow#on-key-press) event handler to listen to
-  keyboard events on the entire canvas.
+- 通过 [`onKeyPress`](/api-reference/react-flow#on-key-press) 事件处理器监听整个画布的键盘事件
 
-We've also looked at how to implement a simple layouting algorithm ourselves. Layouting is
-a _really_ common question we get asked about, but if your needs aren't that complex you
-can get quite far rolling your own solution!
+我们还探讨了如何自行实现一个简单的布局算法。布局问题是我们经常被问到的主题，但如果需求不太复杂，完全可以自己动手实现解决方案！
 
-If you're looking for ideas on how to extend this project, you could try addressing the
-issues we pointed out with the layouting algorithm, coming up with a more sophisticated
-`Slide` component with different layouts, or something else entirely.
+如果你想扩展这个项目，可以尝试解决我们提到的布局算法问题，设计一个支持多种布局的更复杂的 `Slide` 组件，或者完全不同的功能。
 
-You can use the completed [source code](https://github.com/xyflow/react-flow-slide-show)
-as a starting point, or you can just keep building on top of what we've made today. We'd
-love to see what you build so please share it with us over on our
-[Discord server](https://discord.com/invite/RVmnytFmGW) or
-[Twitter](https://twitter.com/reactflowdev).
+你可以使用完整的[源代码](https://github.com/xyflow/react-flow-slide-show)作为起点，也可以基于今天的成果继续开发。我们非常期待看到你的作品，欢迎在[Discord服务器](https://discord.com/invite/RVmnytFmGW)或[Twitter](https://twitter.com/reactflowdev)上与我们分享。

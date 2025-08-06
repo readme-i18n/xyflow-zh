@@ -1,89 +1,56 @@
 ---
+
 sidebarTitle: Devtools
-description: Copy pastable devtools for React Flow
+description: 可复用的 React Flow 开发工具
 ---
 
 import { Callout } from 'nextra/components';
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Devtools and Debugging
+# 开发工具与调试
 
 <Callout type="info">
-  This is an ongoing experiment on implementing our own React Flow devtools. While we are
-  working on the actual package, we'd love to hear about your feedback and ideas on
-  [Discord](https://discord.gg/Bqt6xrs) or via mail at info@xyflow.com.
+  这是我们正在实验的 React Flow 专属开发工具。在正式封装成包之前，欢迎通过
+  [Discord](https://discord.gg/Bqt6xrs) 或邮件 info@xyflow.com 分享您的反馈与建议。
 </Callout>
 
-React Flow can often seem like a magic black box, but in reality you can reveal quite a
-lot about its internal state if you know where to look. In this guide we will show you
-three different ways to reveal the internal state of your flow:
+React Flow 看似一个神秘的黑盒，但实际上只要掌握方法，就能揭示其内部状态。本指南将展示三种调试方案：
 
-- A `<ViewportLogger />` component that shows the current position and zoom level of the
-  viewport.
-- A `<NodeInspector />` component that reveals the state of each node.
-- A `<ChangeLogger />` that wraps your flow's `onNodesChange` handler and logs each change
-  as it is dispatched.
+- `<ViewportLogger />` 组件：显示视口的当前位置与缩放级别
+- `<NodeInspector />` 组件：揭示每个节点的状态
+- `<ChangeLogger />` 组件：包裹 flow 的 `onNodesChange` 处理器，实时记录每次变更
 
-While we find these tools useful for making sure React Flow is working properly, you might
-also find them useful for debugging your applications as your flows and their interactions
-become more complex.
+这些工具不仅能验证 React Flow 运行状态，当您的流程图交互日趋复杂时，它们也是调试应用的利器。
 
 <div className="nestedSandpack">
   <RemoteCodeViewer route="learn/devtools" framework="react" />
 </div>
 
-We encourage you to copy any or all of the components from this example into your own
-projects and modify them to suit your needs: each component works independently!
+您可以直接复制本示例中的任意组件到项目中，按需修改即可独立使用！
 
-## Node Inspector
+## 节点检查器
 
-The `<NodeInspector />` component makes use of our
-[`useNodes`](/api-reference/hooks/use-nodes) hook to access all the nodes in the flow.
-Typically we discourage using this hook because it will trigger a re-render any time _any_
-of your nodes change, but that's exactly what makes it so useful for debugging!
+`<NodeInspector />` 组件利用我们的 [`useNodes`](/api-reference/hooks/use-nodes) 钩子来访问流程中的所有节点。通常我们不推荐使用此钩子，因为它会在_任何_节点发生变化时触发重新渲染，但这恰恰使其成为调试的利器！
 
-The `width` and `height` properties are added to each node by React Flow after it has
-measured the node's dimensions. We pass those dimensions, as well as other information
-like the node's id and type, to a custom `<NodeInfo />` component.
+`width` 和 `height` 属性由 React Flow 在测量节点尺寸后自动添加到每个节点上。我们将这些尺寸信息连同节点 ID 和类型等其他数据传递给自定义的 `<NodeInfo />` 组件。
 
-We make use of the [`<ViewportPortal />`](/api-reference/components/viewport-portal)
-component to let us render the inspector into React Flow's viewport. That means it's
-content will be positioned and transformed along with the rest of the flow as the user
-pans and zooms.
+我们使用 [`<ViewportPortal />`](/api-reference/components/viewport-portal) 组件将检查器渲染到 React Flow 的视口中。这意味着其内容会随用户平移和缩放操作，与流程图的其余部分同步进行位置变换。
 
-## Change Logger
+## 变更记录器
 
-Any change to your nodes and edges that originates from React Flow itself is communicated
-to you through the `onNodesChange` and `onEdgesChange` callbacks. If you are working with
-a controlled flow (that means you're managing the nodes and edges yourself), you need to
-apply those changes to your state in order to keep everything in sync.
+React Flow 本身触发的所有节点和边变更都会通过 `onNodesChange` 和 `onEdgesChange` 回调通知您。如果您正在处理受控流程图（即自行管理节点和边），则需将这些变更应用到状态中以保持同步。
 
-The `<ChangeLogger />` component wraps your user-provided `onNodesChange` handler with a
-custom function that intercepts and logs each change as it is dispatched. We can do this
-by using the [`useStore`](/api-reference/hooks/use-store) and
-[`useStoreApi`](/api-reference/hooks/use-store-api) hooks to access the store and and then
-update React Flow's internal state accordingly. These two hooks give you powerful access
-to React Flow's internal state and methods.
+`<ChangeLogger />` 组件通过自定义函数封装用户提供的 `onNodesChange` 处理程序，在每次变更派发时拦截并记录日志。我们可以利用 [`useStore`](/api-reference/hooks/use-store) 和 [`useStoreApi`](/api-reference/hooks/use-store-api) 钩子访问存储，并相应地更新 React Flow 的内部状态。这两个钩子为您提供了强大的能力来访问 React Flow 的内部状态和方法。
 
-Beyond debugging, using the `<ChangeLogger />` can be a great way to learn more about how
-React Flow works and get you thinking about the different functionality you can build on
-top of each change.
+除调试用途外，使用 `<ChangeLogger />` 也是深入了解 React Flow 运行机制的绝佳方式，它能启发您思考如何基于每次变更构建不同的功能。
 
-You can find documentation on the [`NodeChange`](/api-reference/types/node-change) and
-[`EdgeChange`](/api-reference/types/edge-change) types in the API reference.
+您可以在 API 参考文档中查阅 [`NodeChange`](/api-reference/types/node-change) 和 [`EdgeChange`](/api-reference/types/edge-change) 类型的详细说明。
 
-## Viewport Logger
+## 视口记录器
 
-The `<ViewportLogger />` is the simplest example of what state you can pull out of React
-Flow's store if you know what to look for. The state of the viewport is stored internally
-under the `transform` key (a name we inherited from
-[d3-zoom](https://d3js.org/d3-zoom#zoomTransform)). This component extracts the `x`, `y`,
-and `zoom` components of the transform and renders them into a
-[`<Panel />`](/api-reference/components/panel) component.
+`<ViewportLogger />` 是展示如何从 React Flow 存储中提取状态的最简单示例。视口状态在内部存储在 `transform` 键下（此命名继承自 [d3-zoom](https://d3js.org/d3-zoom#zoomTransform)）。该组件提取变换的 `x`、`y` 和 `zoom` 分量，并将其渲染到 [`<Panel />`](/api-reference/components/panel) 组件中。
 
-## Let us know what you think
+## 反馈建议
 
-As mentioned above, if you have any feedback or ideas on how to improve the devtools,
-please let us know on [Discord](https://discord.gg/Bqt6xrs) or via mail at
-info@xyflow.com. If you build your own devtools using these ideas, we'd love to hear about
-it!
+如之前所述，如果您对改进开发者工具有任何反馈或想法，
+欢迎通过 [Discord](https://discord.gg/Bqt6xrs) 或邮件 info@xyflow.com 联系我们。如果您基于这些思路构建了自己的开发者工具，我们非常期待了解您的成果！

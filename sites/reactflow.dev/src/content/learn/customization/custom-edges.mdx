@@ -1,46 +1,33 @@
 ---
+
 sidebarTitle: Edges
-description:
-  Like custom nodes, parts of a custom edge in React Flow are just React components.
-  This guide shows you how to implement a custom edge with some additional controls.
+description: 与自定义节点类似，React Flow 中的自定义边部分本质上也是 React 组件。本指南将展示如何实现带有附加控件的自定义边。
 ---
 
 import { Callout, Steps } from 'nextra/components';
 import { Image } from 'xy-shared';
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Custom Edges
+# 自定义边
 
-Like [custom nodes](/learn/customization/custom-nodes), parts of a custom edge
-in React Flow are just React components. That means you can render anything you
-want along an edge! This guide shows you how to implement a custom edge with
-some additional controls. For a comprehensive reference of props available for
-custom edges, see the [Edge](/api-reference/types/edge-props) reference.
+与[自定义节点](/learn/customization/custom-nodes)类似，React Flow 中的自定义边本质上也是 React 组件。这意味着您可以沿边渲染任意内容！本指南将展示如何实现带有附加控件的自定义边。关于自定义边可用属性的完整参考，请查阅[边类型](/api-reference/types/edge-props)文档。
 
-## A basic custom edge
+## 基础自定义边
 
-An edge isn't much use to us if it doesn't render a path between two connected
-nodes. These paths are always SVG-based and are typically rendered using the
-[`<BaseEdge />`](/api-reference/components/base-edge) component. To calculate
-the actual SVG path to render, React Flow comes with some handy utility functions:
+如果边无法在两个连接节点之间渲染路径，那么它对我们就毫无用处。这些路径始终基于 SVG，通常使用 [`<BaseEdge />`](/api-reference/components/base-edge) 组件进行渲染。为了计算实际要渲染的 SVG 路径，React Flow 提供了一些实用函数：
 
 - [`getBezierPath`](/api-reference/utils/get-bezier-path)
 - [`getSimpleBezierPath`](/api-reference/utils/get-simple-bezier-path)
 - [`getSmoothStepPath`](/api-reference/utils/get-smooth-step-path)
 - [`getStraightPath`](/api-reference/utils/get-straight-path)
 
-To kickstart our custom edge, we'll just render a straight path between the
-source and target.
+我们将通过渲染源节点和目标节点之间的直线路径来开始构建自定义边。
 
 <Steps>
 
-### Create the component
+### 创建组件
 
-We start by creating a new React component called `CustomEdge`. Then we render
-the [`<BaseEdge />`](/api-reference/components/base-edge) component with the
-calculated path. This gives us a straight edge that behaves the same as the
-built-in default [edge version](/api-reference/types/edge#default-edge-types)
-`"straight"`.
+我们首先创建一个名为 `CustomEdge` 的新 React 组件。然后使用计算得到的路径渲染 [`<BaseEdge />`](/api-reference/components/base-edge) 组件。这样我们就获得了一个与内置默认[边类型](/api-reference/types/edge#default-edge-types) `"straight"` 行为相同的直线边。
 
 ```jsx
 import { BaseEdge, getStraightPath } from '@xyflow/react';
@@ -61,11 +48,9 @@ export function CustomEdge({ id, sourceX, sourceY, targetX, targetY }) {
 }
 ```
 
-### Create `edgeTypes`
+### 创建 `edgeTypes`
 
-Outside of our component, we define an `edgeTypes` object.
-We name our new edge type `"custom-edge"` and assign the `CustomEdge` component
-we just created to it.
+在组件外部，我们定义一个 `edgeTypes` 对象。将新边类型命名为 `"custom-edge"`，并将刚创建的 `CustomEdge` 组件分配给它。
 
 ```jsx
 const edgeTypes = {
@@ -73,11 +58,9 @@ const edgeTypes = {
 };
 ```
 
-### Pass the `edgeTypes` prop
+### 传递 `edgeTypes` 属性
 
-To use it, we also need to update the
-[`edgeTypes`](/api-reference/react-flow#edge-types) prop on the
-`<ReactFlow />` component.
+要使用它，我们还需要更新 `<ReactFlow />` 组件上的 [`edgeTypes`](/api-reference/react-flow#edge-types) 属性。
 
 ```jsx "edgeTypes={edgeTypes}"
 export function Flow() {
@@ -85,10 +68,9 @@ export function Flow() {
 }
 ```
 
-### Use the new edge type
+### 使用新边类型
 
-After defining the `edgeTypes` object, we can use our new custom edge by setting
-the `type` field of an edge to `"custom-edge"`.
+定义完 `edgeTypes` 对象后，我们可以通过将边的 `type` 字段设置为 `"custom-edge"` 来使用自定义边。
 
 ```jsx {6}
 const initialEdges = [
@@ -101,57 +83,32 @@ const initialEdges = [
 ];
 ```
 
-### Flow with a custom edge
+### 包含自定义边的流程图
 
 <RemoteCodeViewer route="learn/custom-edge" framework="react" />
 
 </Steps>
 
-## Custom SVG edge paths
+## 自定义 SVG 边路径
 
-As discussed previously, if you want to make a custom edge in React Flow, you
-have to use either of the four path creation functions discussed above
-(e.g [`getBezierPath`](/api-reference/utils/get-bezier-path)). However if you
-want to make some other path shape like a Sinusoidal edge or some other edge
-type then you will have to make the edge path yourself.
+如前所述，若要在 React Flow 中创建自定义边，必须使用上文讨论的四种路径生成函数之一（例如 [`getBezierPath`](/api-reference/utils/get-bezier-path)）。但如果需要实现正弦曲线边或其他特殊边类型，则需自行构建边路径。
 
-The edge path we get from functions like
-[`getBezierPath`](/api-reference/utils/get-bezier-path) is just a path string
-which we pass into the `path` prop of the `<BaseEdge />` component. It contains
-the necessary information needed in order to draw that path, like where it
-should start from, where it should curve, where it should end, etc. A simple
-straight path string between two points `(x1, y1)` to `(x2, y2)` would look like:
+从 [`getBezierPath`](/api-reference/utils/get-bezier-path) 等函数获取的边路径本质上是一个路径字符串，该字符串会传递给 `<BaseEdge />` 组件的 `path` 属性。它包含绘制路径所需的所有信息，包括起点位置、曲线转折点、终点位置等。例如两点 `(x1, y1)` 到 `(x2, y2)` 之间的简单直线路径字符串如下所示：
 
 ```jsx
 M x1 y1 L x2 y2
 ```
 
-An SVG path is a concatenated list of commands like `M`, `L`, `Q`, etc, along
-with their values. Some of these commands are listed below, along with their
-supported values.
+SVG 路径是由 `M`、`L`、`Q` 等命令及其参数值组成的串联指令集。以下是部分常用命令及其参数说明：
 
-- `M x1 y1` is the Move To command which moves the current point to the x1, y1
-  coordinate.
-- `L x1 y1` is the Line To command which draws a line from the current point to
-  x1, y1 coordinate.
-- `Q x1 y1 x2 y2` is the Quadratic Bezier Curve command which draws a bezier
-  curve from the current point to the x2, y2 coordinate. x1, y1 is the control
-  point of the curve which determines the curviness of the curve.
+- `M x1 y1` 为移动命令，将当前点移动到坐标 (x1, y1) 处
+- `L x1 y1` 为画线命令，从当前点绘制直线至坐标 (x1, y1)
+- `Q x1 y1 x2 y2` 为二次贝塞尔曲线命令，从当前点绘制曲线至坐标 (x2, y2)。其中 (x1, y1) 是控制点，决定曲线的弯曲程度
 
-Whenever we want to start a path for our custom edge, we use the `M` command to
-move our current point to `sourceX, sourceY` which we get as props in the custom
-edge component. Then based on the shape we want, we will use other commands like
-`L`(to make lines), `Q`(to make curves) and then finally end our path at
-`targetX, targetY` which we get as props in the custom edge component.
+当我们需要为自定义边创建路径时，首先使用 `M` 命令将当前点移动到 `sourceX, sourceY`（这些坐标值通过自定义边组件的 props 获取）。然后根据所需的形状，我们会使用其他命令如 `L`（绘制直线）、`Q`（绘制曲线），最终在 `targetX, targetY`（同样通过组件 props 获取）处结束路径。
 
-If you want to learn more about SVG paths, you can check out
-[SVG-Path-Editor](https://yqnn.github.io/svg-path-editor/). You can paste any
-SVG path there and analyze individual path commands via an intuitive UI.
+如需深入了解 SVG 路径，可访问 [SVG-Path-Editor](https://yqnn.github.io/svg-path-editor/)。该工具允许粘贴任意 SVG 路径，并通过直观的界面分析各个路径命令。
 
-Here is an example with two types of custom edge paths, a Step edge and a
-Sinusoidal edge. You should look at the Step edge first to get your hands dirty
-with custom SVG paths since it's simple, and then look at how the Sinusoidal
-edge is made. After going through this example, you will have the necessary
-knowledge to make custom SVG paths for your custom edges.
+以下示例展示了两种自定义边路径：阶梯边和正弦曲线边。建议先研究较为简单的阶梯边来熟悉自定义 SVG 路径的创建，再学习正弦曲线边的实现方式。通过此示例，您将掌握为自定义边创建 SVG 路径的核心技能。
 
 <RemoteCodeViewer route="learn/custom-edge-path" framework="react" />

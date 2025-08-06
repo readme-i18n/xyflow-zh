@@ -1,73 +1,74 @@
 ---
-sidebarTitle: Migrate to v11
-description: Use this guide to migrate from React Flow v10 to v11.
+
+sidebarTitle: 迁移至 v11
+description: 使用本指南从 React Flow v10 迁移至 v11。
 ---
 
-# Migrate to React Flow v11
+# 迁移至 React Flow v11
 
 import { Callout } from 'nextra/components';
 
 <Callout type="info">
-  You can find the docs for old versions of React Flow here:
+  您可以在此处找到旧版 React Flow 的文档：
   [v11](https://v11.reactflow.dev), [v10](https://v10.reactflow.dev),
   [v9](https://v9.reactflow.dev)
 </Callout>
 
-A lot changed in v11 but this time we've tried to keep the breaking changes small. The biggest change is the new package name `reactflow` and the new repo structure. React Flow is now managed as a monorepo and separated into multiple packages that can be installed separately. In addition to that, there are some API changes and new APIs introduced in v11. This guide explains the changes in detail and helps you to migrate from v10 to v11.
+v11 版本有许多变化，但这次我们尽量减少了破坏性变更。最大的变化是新的包名 `reactflow` 和新的仓库结构。React Flow 现在采用 monorepo 管理，并拆分为多个可单独安装的包。除此之外，v11 还引入了一些 API 变更和新 API。本指南详细解释了这些变化，帮助您从 v10 迁移至 v11。
 
-<Callout>React Flow 11 only works with **React 17** or greater</Callout>
+<Callout>React Flow 11 仅支持 **React 17** 或更高版本</Callout>
 
-## New Features
+## 新特性
 
-- **Better [Accessibility](/learn/advanced-use/accessibility)**
-  - Nodes and edges are focusable, selectable, moveable and deletable with the keyboard.
-  - `aria-` default attributes for all elements and controllable via `ariaLabel` options
-  - Keyboard controls can be disabled with the new `disableKeyboardA11y` prop
-- **Better selectable edges** via new edge option: `interactionWidth` - renders invisible edge that makes it easier to interact
-- **Better routing for smoothstep and step edges**: https://twitter.com/reactflowdev/status/1567535405284614145
-- **Nicer edge updating behavior**: https://twitter.com/reactflowdev/status/1564966917517021184
-- **Node origin**: The new `nodeOrigin` prop lets you control the origin of a node. Useful for layouting.
-- **New background pattern**: `BackgroundVariant.Cross` variant
-- **[`useOnViewportChange`](/api-reference/hooks/use-on-viewport-change) hook** - handle viewport changes within a component
-- **[`use-on-selection-change`](/api-reference/hooks/use-on-selection-change) hook** - handle selection changes within a component
-- **[`useNodesInitialized`](/api-reference/hooks/use-nodes-initialized) hook** - returns true if all nodes are initialized and if there is more than one node
-- **Deletable option** for Nodes and edges
-- **New Event handlers**: `onPaneMouseEnter`, `onPaneMouseMove` and `onPaneMouseLeave`
-- **Edge `pathOptions`** for `smoothstep` and `default` edges
-- **Nicer cursor defaults**: Cursor is grabbing, while dragging a node or panning
-- **Pane moveable** with middle mouse button
-- **Pan over nodes** when they are not draggable (`draggable=false` or `nodesDraggable` false)
-  - you can disable this behavior by adding the class name `nopan` to a wrapper of a custom node
-- **[`<BaseEdge />`](/api-reference/components/base-edge) component** that makes it easier to build custom edges
-- **[Separately installable packages](/learn/concepts/built-in-components)**
+- **更完善的[无障碍访问支持](/learn/advanced-use/accessibility)**
+  - 节点和边可通过键盘进行聚焦、选择、移动和删除操作
+  - 所有元素默认带有 `aria-` 属性，并可通过 `ariaLabel` 选项控制
+  - 新增 `disableKeyboardA11y` 属性可禁用键盘控制功能
+- **更优化的边选择体验**：新增 `interactionWidth` 边选项 - 渲染不可见边以提升交互便利性
+- **smoothstep 和 step 边的路径优化**：https://twitter.com/reactflowdev/status/1567535405284614145
+- **更流畅的边更新行为**：https://twitter.com/reactflowdev/status/1564966917517021184
+- **节点原点控制**：新增 `nodeOrigin` 属性可控制节点原点，对布局非常有用
+- **新背景图案**：`BackgroundVariant.Cross` 变体
+- **[`useOnViewportChange`](/api-reference/hooks/use-on-viewport-change) 钩子** - 在组件内处理视口变化
+- **[`use-on-selection-change`](/api-reference/hooks/use-on-selection-change) 钩子** - 在组件内处理选择变化
+- **[`useNodesInitialized`](/api-reference/hooks/use-nodes-initialized) 钩子** - 当所有节点初始化完成且存在多个节点时返回 true
+- **节点和边的可删除选项**
+- **新事件处理器**：`onPaneMouseEnter`、`onPaneMouseMove` 和 `onPaneMouseLeave`
+- **边路径选项**：适用于 `smoothstep` 和 `default` 边的 `pathOptions`
+- **更合理的默认光标**：拖动节点或平移时显示抓取光标
+- **中键平移**：支持使用鼠标中键移动画布
+- **不可拖动节点上的平移**（当 `draggable=false` 或 `nodesDraggable` 为 false 时）
+  - 可通过在自定义节点包装器添加 `nopan` 类名禁用此行为
+- **[`<BaseEdge />`](/api-reference/components/base-edge) 组件** - 简化自定义边的构建过程
+- **[可独立安装的包](/learn/concepts/built-in-components)**
   - @reactflow/core
   - @reactflow/background
   - @reactflow/controls
   - @reactflow/minimap
 
-## Breaking Changes
+## 重大变更
 
-### 1. New npm package name
+### 1. 新的 npm 包名称
 
-The package `react-flow-renderer` has been renamed to `reactflow`.
+原包名 `react-flow-renderer` 已更名为 `reactflow`。
 
-#### Old API
+#### 旧版 API
 
 ```js
 // npm install react-flow-renderer
 import ReactFlow from 'react-flow-renderer';
 ```
 
-#### New API
+#### 新版 API
 
 ```js
 // npm install reactflow
 import { ReactFlow } from '@xyflow/react';
 ```
 
-### 2. Importing CSS is mandatory
+### 2. 必须导入 CSS
 
-We are not injecting CSS anymore. **React Flow won't work if you are not loading the styles!**
+我们不再自动注入 CSS 样式。**若不加载样式表，React Flow 将无法正常工作！**
 
 ```js
 // default styling
@@ -77,13 +78,13 @@ import '@xyflow/react/dist/style.css';
 import '@xyflow/react/dist/base.css';
 ```
 
-#### 2.1. Removal of the nocss entrypoint
+#### 2.1. 移除 nocss 入口点
 
-This change also means that there is no `react-flow-renderer/nocss` entry point anymore. If you used that, you need to adjust the CSS entry points as mentioned above.
+此项变更意味着 `react-flow-renderer/nocss` 入口点已被移除。若您曾使用该入口点，请按上述方式调整 CSS 引入方式。
 
-### 3. `defaultPosition` and `defaultZoom` have been merged to `defaultViewport`
+### 3. `defaultPosition` 和 `defaultZoom` 合并为 `defaultViewport`
 
-#### Old API
+#### 旧版 API
 
 ```jsx
 import ReactFlow from 'react-flow-renderer';
@@ -95,7 +96,7 @@ const Flow = () => {
 export default Flow;
 ```
 
-#### New API
+#### 新版 API
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -109,14 +110,14 @@ const Flow = () => {
 export default Flow;
 ```
 
-### 4. Removal of `getBezierEdgeCenter`, `getSimpleBezierEdgeCenter` and `getEdgeCenter`
+### 4. 移除 `getBezierEdgeCenter`、`getSimpleBezierEdgeCenter` 和 `getEdgeCenter`
 
-In v10 we had `getBezierEdgeCenter`, `getSimpleBezierEdgeCenter` and `getEdgeCenter` for getting the center of a certain edge type.
-In v11 we changed the helper function for creating the path, so that it also returns the center / label position of an edge.
+在 v10 版本中，我们提供 `getBezierEdgeCenter`、`getSimpleBezierEdgeCenter` 和 `getEdgeCenter` 来获取特定边的中心点。
+v11 版本中我们修改了路径生成辅助函数，使其同时返回边的中心点/标签位置。
 
-Let's say you want to get the path and the center / label position of a bezier edge:
+假设您需要获取贝塞尔边的路径及其中心点/标签位置：
 
-#### Old API
+#### 旧版 API
 
 ```jsx
 import { getBezierEdgeCenter, getBezierPath } from 'react-flow-renderer';
@@ -125,7 +126,7 @@ const path = getBezierPath(edgeParams);
 const [centerX, centerY] = getBezierEdgeCenter(params);
 ```
 
-#### New API
+#### 新版 API
 
 ```jsx
 import { getBezierPath } from '@xyflow/react';
@@ -133,11 +134,11 @@ import { getBezierPath } from '@xyflow/react';
 const [path, labelX, labelY] = getBezierPath(edgeParams);
 ```
 
-We avoid to call it `centerX` and `centerY` anymore, because it's actually the label position and not always the center for every edge type.
+我们不再使用 `centerX` 和 `centerY` 命名，因为该位置实际是标签位置，并非所有边类型的几何中心。
 
-### 5. Removal of `onClickConnectStop` and `onConnectStop`
+### 5. 移除 `onClickConnectStop` 和 `onConnectStop`
 
-#### Old API
+#### 旧版 API
 
 ```jsx
 import ReactFlow from 'react-flow-renderer';
@@ -158,7 +159,7 @@ const Flow = () => {
 export default Flow;
 ```
 
-#### New API
+#### 新版 API
 
 ```jsx
 import { ReactFlow } from '@xyflow/react';
@@ -179,6 +180,6 @@ const Flow = () => {
 export default Flow;
 ```
 
-### 6. Pan over nodes
+### 6. 节点平移行为
 
-In the previous versions you couldn't pan over nodes even if they were not draggable. In v11, you can pan over nodes when `nodesDraggable=false` or node option `draggable=false`. If you want the old behavior back, you can add the class name `nopan` to the wrappers of your custom nodes.
+在之前的版本中，即使节点不可拖动，也无法平移视图。在 v11 版本中，当 `nodesDraggable=false` 或节点选项 `draggable=false` 时，允许平移视图覆盖节点区域。如需恢复旧版行为，可为自定义节点的包装器添加 `nopan` 类名。

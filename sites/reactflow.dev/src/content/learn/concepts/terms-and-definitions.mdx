@@ -1,57 +1,54 @@
 ---
-description: Learn about the basic terms and definitions of React Flow
+
+description: 了解 React Flow 的基本术语与定义
 ---
 
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Overview
+# 概述
 
-At its core, React Flow is about creating interactive flowgraphs -- a collection of nodes connected by edges. 
-To help you understand the terminology we use throughout the documentation, let's take a look at the example flow below.
+React Flow 的核心功能是创建交互式流程图——由边线连接的节点集合。
+为帮助您理解文档中使用的术语，我们先来看下面的示例流程图。
 
 <RemoteCodeViewer route="learn/basic-terms" framework="react" />
 
-### Nodes
+### 节点
 
-React Flow has a few default node types out of the box, but customization is where the magic of React Flow truly happens. 
-You can design your nodes to work exactly the way you need them to—whether that’s embedding interactive form elements, 
-displaying dynamic data visualizations, or even incorporating multiple connection handles. React Flow lays the foundation, 
-and your imagination does the rest.
+React Flow 默认提供几种节点类型，但真正的魔力在于自定义功能。
+您可以完全按照需求设计节点——无论是嵌入交互式表单元素、
+展示动态数据可视化，还是配置多个连接手柄。React Flow 提供基础框架，
+剩下的就交给您的想象力发挥。
 
-We have a guide on creating your own [Custom Nodes](/learn/customization/custom-nodes) 
-and you can find all the options for customizing your nodes in the [Node](/api-reference/types/node) reference.
+我们提供了创建[自定义节点](/learn/customization/custom-nodes)的指南，
+您也可以在[节点](/api-reference/types/node)参考文档中找到所有自定义选项。
 
-### Handles
+### 连接手柄
 
-A handle (also known as a “port” in other libraries) is the attachment point where an edge connects to a node. 
-By default, they appear as grey circles on the top, bottom, left, or right sides of a node. 
-But they are just `div` elements, and can be positioned and styled any way you’d like. 
-When creating a custom node, you can include as many handles as needed. 
-For more information, refer to the [Handle](/learn/customization/handles) page.
+连接手柄（其他库中常称为"端口"）是边线与节点的连接锚点。
+默认情况下，它们显示为节点顶部、底部、左侧或右侧的灰色圆形。
+但它们本质上是 `div` 元素，可以任意定位和样式化。
+创建自定义节点时，您可以根据需要添加任意数量的手柄。
+更多信息请参阅[手柄](/learn/customization/handles)页面。
 
-### Edges
+### 边线
 
-Edges connect nodes. Every edge needs a target and a source node. 
-React Flow comes with four built-in [edge types](/examples/edges/edge-types): 
-`default` (bezier), `smoothstep`, `step`, and `straight`. 
-An edge is a SVG path that can be styled with CSS and is completely customizable. 
-If you are using multiple handles, you can reference them individually to create multiple connections for a node.
+边线用于连接节点。每条边线都需要有目标节点和源节点。
+React Flow 内置了四种[边线类型](/examples/edges/edge-types)：
+`default`（贝塞尔曲线）、`smoothstep`、`step` 和 `straight`。
+边线本质上是可通过 CSS 样式化且完全可定制的 SVG 路径。若使用多个连接点，可分别引用它们来为节点创建多重连接。
 
-Like custom nodes, you can also customize edges. Things that people do with custom edges include:
+与自定义节点类似，边线同样支持定制。常见的自定义边线应用场景包括：
 
-- Adding buttons to remove edges
-- Custom routing behavior
-- Complex styling or interactions that cannot be solved with just one SVG path
+- 添加删除边线的按钮
+- 自定义路由行为
+- 无法通过单一 SVG 路径实现的复杂样式或交互
 
-For more information, refer to the [Edges](/learn/customize/edges) page.
+更多详细信息请参阅[边线](/learn/customize/edges)页面。
 
-### Connection line
+### 连接线
 
-React Flow has built-in functionality that allows you to click and drag from one handle to another to create a new edge. 
-While dragging, the placeholder edge is referred to as a connection line. 
-The connection line comes with the same four built-in types as edges and is customizable. 
-You can find the props for configuring the connection line in the [connection props](/api-reference/react-flow#connection-line-props) reference.
+React Flow 内置了通过点击拖拽连接点来创建新边线的功能。拖拽过程中显示的临时边线称为连接线。连接线同样具备与边线相同的四种内置类型，且支持自定义配置。相关属性配置请查阅[连接属性](/api-reference/react-flow#connection-line-props)文档。
 
-### Viewport
+### 视口
 
-All of React Flow is contained within the viewport. Each node has an x- and y-coordinate, which indicates its position within the viewport. The viewport has x, y, and zoom values. When you drag the pane, you change the x and y coordinates. When you zoom in or out, you alter the zoom level.
+React Flow 的所有内容都包含在视口(viewport)内。每个节点都具有 x 和 y 坐标，用于表示其在视口中的位置。视口本身包含 x、y 和缩放(zoom)三个参数值。当您拖动面板时，实际上是在改变 x 和 y 坐标；而进行缩放操作时，则是在调整缩放级别。

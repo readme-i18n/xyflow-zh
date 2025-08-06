@@ -1,7 +1,8 @@
 ---
+
 sidebarTitle: Web Audio API
-title: Integrating React Flow and the Web Audio API
-intro: "Today we'll be looking at how to create an interactive audio playground using React Flow and the Web Audio API. We'll start from scratch, first learning about the Web Audio API before looking at how to handle many common scenarios in React Flow: state management, implementing custom nodes, and adding interactivity."
+title: 集成 React Flow 与 Web Audio API
+intro: "今天我们将探讨如何利用 React Flow 和 Web Audio API 创建一个交互式音频实验场。我们将从零开始，先了解 Web Audio API，再研究如何处理 React Flow 中的常见场景：状态管理、实现自定义节点以及增加交互性。"
 date: 2023/04/14
 authors: ['hayleigh']
 tags: ['react-flow', 'web-audio-api', 'how-to']
@@ -13,10 +14,7 @@ import { Callout, Tabs } from 'nextra/components';
 import { Embed, Image } from 'xy-shared';
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-Today we'll be looking at how to create an interactive audio playground using React
-Flow and the Web Audio API. We'll start from scratch, first learning about the Web
-Audio API before looking at how to handle many common scenarios in React Flow:
-state management, implementing custom nodes, and adding interactivity.
+今天我们将探讨如何利用 React Flow 和 Web Audio API 创建一个交互式音频实验场。我们将从零开始，先了解 Web Audio API，再研究如何处理 React Flow 中的常见场景：状态管理、实现自定义节点以及增加交互性。
 
 <Image
   src="/img/tutorials/webaudio/bleep-cafe.png"
@@ -27,75 +25,49 @@ state management, implementing custom nodes, and adding interactivity.
   caption="This is bleep.cafe. We're going to learn everything we need to know to
     build something just like it!"
 />
-A while back I shared a project I was working on to the React Flow [discord
-server](https://discord.com/invite/RVmnytFmGW). It's called
-[bleep.cafe](https://bleep.cafe) and it's a little web app for learning digital synthesis
-all inside the browser. A lot of folks were interested to see how something like that was
-put together: most people don't even know **their browser has a whole synth engine built
-in!**
 
-This tutorial will take us step-by-step to build something similar. We may skip
-over some bits here and there, but for the most part if you're new to React Flow
-_or_ the Web Audio API you should be able to follow along and have something
-working by the end.
+早些时候，我在 React Flow 的 [discord 服务器](https://discord.com/invite/RVmnytFmGW) 分享了一个正在开发的项目。它叫 [bleep.cafe](https://bleep.cafe)，是一个完全在浏览器中学习数字合成的轻量级网页应用。许多人对这类项目的构建方式很感兴趣：大多数人甚至不知道**浏览器内置了完整的合成器引擎！**
 
-If you're already a React Flow wizard you might want to read the first section
-covering the Web Audio API and then jump to the third to see how things are tied
-together!
+本教程将带领我们逐步构建一个类似的功能。虽然可能会跳过某些细节，但如果你是 React Flow 或 Web Audio API 的新手，基本上都能跟随教程并在最后完成一个可运行的项目。
 
-But first...
+如果你已经是 React Flow 高手，可以先阅读关于 Web Audio API 的第一部分，然后直接跳到第三节了解如何将它们整合起来！
 
-## A demo!
+不过首先...
+
+## 演示示例！
 
 <Embed src="https://xyflow.github.io/react-flow-web-audio/" />
+
 <Callout type="warning">
-  This and other examples in this tutorial _make sound_. To avoid creating an avant-garde
-  masterpiece, remember to mute each example before moving on!
+  本教程中的示例会发出声音。为避免创作出前卫艺术作品，请记得在每个示例结束后将其静音！
 </Callout>
 
-## The Web Audio API
+## Web Audio API
 
-Before we get stuck in to React Flow and interactive node editor goodness, we need
-to take a crash course on the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API).
-Here are the highlights you need to know:
+在深入 React Flow 和交互式节点编辑器之前，我们需要快速了解 [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)。以下是需要掌握的重点：
 
-- The Web Audio API provides a variety of different audio nodes, including sources
-  (e.g. [OscillatorNode](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode),
-  [MediaElementAudioSourceNode](https://developer.mozilla.org/en-US/docs/Web/API/MediaElementAudioSourceNode)),
-  effects (e.g. [GainNode](https://developer.mozilla.org/en-US/docs/Web/API/GainNode),
-  [DelayNode](https://developer.mozilla.org/en-US/docs/Web/API/DelayNode),
-  [ConvolverNode](https://developer.mozilla.org/en-US/docs/Web/API/ConvolverNode)),
-  and outputs (e.g. [AudioDestinationNode](https://developer.mozilla.org/en-US/docs/Web/API/AudioDestinationNode)).
-- Audio nodes can be connected together to form a (potentially cyclic) graph.
-  We tend to call this the audio-processing graph, signal graph, or signal chain.
-- Audio processing is handled in a separate thread by native code. This means we
-  can keep generating sounds even when the main UI thread is busy or blocked.
-- An [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext)
-  acts as the brain of an audio-processing graph. We can use it to create new audio
-  nodes and suspend or resume audio processing entirely.
+- Web Audio API 提供了多种不同的音频节点，包括：
+  - 音源节点（如 [OscillatorNode](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode)、
+    [MediaElementAudioSourceNode](https://developer.mozilla.org/en-US/docs/Web/API/MediaElementAudioSourceNode)）
+  - 效果节点（如 [GainNode](https://developer.mozilla.org/en-US/docs/Web/API/GainNode)、
+    [DelayNode](https://developer.mozilla.org/en-US/docs/Web/API/DelayNode)、
+    [ConvolverNode](https://developer.mozilla.org/en-US/docs/Web/API/ConvolverNode)）
+  - 输出节点（如 [AudioDestinationNode](https://developer.mozilla.org/en-US/docs/Web/API/AudioDestinationNode)）
+- 音频节点可以相互连接形成（可能是环状的）处理图，通常称为音频处理图、信号图或信号链
+- 音频处理由原生代码在独立线程中执行，这意味着即使主UI线程繁忙或被阻塞，仍可持续生成声音
+- [AudioContext](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext) 作为音频处理图的核心控制器，可用于创建新音频节点以及全局暂停/恢复音频处理
 
-### Hello, sound!
+### 声音初探
 
-Let's see some of this stuff in action and build our first Web Audio app! We won't
-be doing anything too wild: we'll make a simple mouse
-[theremin](http://www.thereminworld.com/Article/14232/what-s-a-theremin-). We'll
-use React for these examples and everything else moving forward (we're called React
-Flow after all!) and [`vite`](https://vitejs.dev) to handle bundling and hot
-reloading.
+让我们通过实践来构建第一个 Web Audio 应用！这次不会做太复杂的功能：我们将制作一个简易的鼠标控制[特雷门琴](http://www.thereminworld.com/Article/14232/what-s-a-theremin-)。接下来的示例会使用 React（毕竟我们叫 React Flow 嘛！）以及 [`vite`](https://vitejs.dev) 来处理打包和热更新。
 
-If you prefer another bundler like parcel or Create React App that's cool too, they
-all do largely the same thing. You could also choose to use TypeScript instead
-of JavaScript. To keep things simple we won't use it today, but React Flow is
-fully typed (and written entirely in TypeScript) so it's a breeze to use!
+如果你偏好其他打包工具如 parcel 或 Create React App 也没问题，它们功能大同小异。你也可以选择 TypeScript 替代 JavaScript。为保持简洁今天暂不使用，但 React Flow 完全支持类型（且完全用 TypeScript 编写），使用起来非常顺畅！
 
 ```bash npm2yarn
 npm create vite@latest -- --template react
 ```
 
-Vite will scaffold out a simple React application for us, but can delete the assets
-and jump right into `App.jsx`. Remove the demo component generated for us and start
-by creating a new AudioContext and putting together the nodes we need. We want
-an OscillatorNode to generate some tones and a GainNode to control the volume.
+Vite 会为我们搭建基础 React 应用结构，但我们可以直接删除默认资源并进入 `App.jsx` 开发。移除自动生成的演示组件后，首先创建 AudioContext 并组装所需节点：需要一个 OscillatorNode 来生成音调，以及一个 GainNode 来控制音量。
 
 ```js filename="./src/App.jsx"
 // Create the brain of our audio-processing graph
@@ -116,15 +88,13 @@ osc.start();
 ```
 
 <Callout type="info">
-Oscillator nodes need to be started.
+振荡器节点需要手动启动。
 
-Don't forget that call to `osc.start`. The oscillator won't start generating
-tones without it!
+别忘了调用 `osc.start`，否则振荡器不会开始发声！
 
 </Callout>
 
-For our app, we'll track the mouse's position on the screen and use that to set
-the pitch of the oscillator node and the volume of the gain node.
+本应用中，我们将追踪鼠标在屏幕上的位置，并用它来设置振荡器节点的音高和增益节点的音量。
 
 ```jsx filename="./src/App.jsx" {12-27}
 import React from 'react';
@@ -154,18 +124,11 @@ export default function App() {
 <Callout type="info">
 `osc.frequency.value`, `amp.gain.value`...
 
-The Web Audio API makes a distinction between simple object properties and audio
-node _parameters_. That distinction appears in the form of an `AudioParam`. You
-can read up on them in the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/API/AudioParam)
-but for now it's enough to know that you need to use `.value` to set the value
-of an `AudioParam` rather than just assigning a value to the property directly.
+Web Audio API 对普通对象属性和音频节点_参数_进行了明确区分。这种区分通过 `AudioParam` 类型体现。你可以在 [MDN 文档](https://developer.mozilla.org/en-US/docs/Web/API/AudioParam) 中详细了解，目前只需知道：设置 `AudioParam` 的值必须使用 `.value` 属性，而不能直接赋值。
 
 </Callout>
 
-If you try this example as it is, you'll probably find that nothing happens. An
-AudioContext often starts in a suspended state in an attempt to avoid ads hijacking
-our speakers. We can fix that easily by adding a click handler on the `<div />`
-to resume the context if it's suspended.
+如果直接运行这个示例，可能会发现没有任何反应。AudioContext 通常会以暂停状态启动，这是为了防止广告劫持我们的扬声器。我们只需在 `<div />` 上添加点击事件处理器，当上下文处于暂停状态时恢复它即可轻松解决。
 
 ```jsx filename="./src/App.jsx" {1-7,12}
 const toggleAudio = () => {
@@ -185,45 +148,33 @@ export default function App() {
 };
 ```
 
-And that's everything we need to start making some sounds with the Web Audio API!
-Here's what we put together, in case you weren't following along at home:
+以上就是使用 Web Audio API 制作声音所需的全部基础！以下是完整代码示例，方便你对照查看：
 
 <RemoteCodeViewer
   route="tutorials/webaudio/mouse-theremin"
   framework="react"
   
 />
-Now let's put this knowledge to one side and take a look at how to build a React Flow
-project from scratch.
+
+现在让我们暂时搁置这些知识，来看看如何从零开始构建一个 React Flow 项目。
 
 <Callout type="info">
-  Already a React Flow pro? If you're already familiar with React Flow, you can
-  comfortably skip over the next section and head straight on over to [making some
-  sounds](#do-sound-to-it). For everyone else, let's take a look at how to build a React
-  Flow project from scratch.
+  已经是 React Flow 专家？如果你已熟悉 React Flow，可以跳过下一节直接前往 [制作声音](#do-sound-to-it)。其他用户请跟随我们了解如何从头搭建 React Flow 项目。
 </Callout>
 
-## Scaffolding a React Flow project
+## 搭建 React Flow 项目脚手架
 
-Later on we'll take what we've learned about the Web Audio API, oscillators, and
-gain nodes and use React Flow to interactively build audio-processing graphs.
-For now though, we need to put together an empty React Flow app.
+稍后我们将结合所学的 Web Audio API、振荡器和增益节点知识，使用 React Flow 交互式构建音频处理图。不过现在，我们需要先搭建一个空的 React Flow 应用框架。
 
-We already have a React app set up with Vite, so we'll keep using that. If you
-skipped over the last section, we ran `npm create vite@latest -- --template react`
-to get started. You can use whatever bundler and/or dev server you like, though.
-Nothing here is vite specific.
+我们已经通过 Vite 搭建好了 React 应用，因此继续沿用该配置。如果你跳过了上一节内容，我们是通过执行 `npm create vite@latest -- --template react` 命令初始化的。当然你也可以选择任意喜欢的打包工具或开发服务器，这里的内容并不依赖 Vite。
 
-We only need three additional dependencies for this project: `@xyflow/react` for our
-UI (obviously!), `zustand` as our simple state management library (that's what we use
-under the hood at React Flow) and `nanoid` as a lightweight id generator.
+本项目仅需添加三个额外依赖：用于 UI 的 `@xyflow/react`（核心依赖）、轻量级状态管理库 `zustand`（React Flow 底层使用）以及 ID 生成工具 `nanoid`。
 
 ```bash npm2yarn
 npm install @xyflow/react zustand nanoid
 ```
 
-We're going to remove everything from our Web Audio crash course and start from
-scratch. Start by modifying `main.jsx` to match the following:
+我们将清空之前 Web Audio 速成课的所有内容，从头开始。首先按以下方式修改 `main.jsx`：
 
 ```jsx filename="./src/main.jsx"
 import App from './App';
@@ -249,17 +200,13 @@ ReactDOM.createRoot(root).render(
 );
 ```
 
-There are three important things to pay attention to here:
+这里有三个关键注意事项：
 
-1. You need to remember to **import the React Flow CSS styles** to make sure everything
-   works correctly.
-2. The React Flow renderer needs to be inside an element with a known height and width,
-   so we've set the containing `<div />` to take up the entire screen.
-3. To use some of the hooks React Flow provides, your components need to be inside a
-   `<ReactFlowProvider />` or inside the `<ReactFlow />` component itself, so we've
-   wrapped the entire app in the provider to be sure.
+1. 必须**导入 React Flow 的 CSS 样式文件**以确保功能正常
+2. React Flow 渲染器需要置于已知宽高的容器元素内，因此我们将外层 `<div />` 设为全屏尺寸
+3. 要使用 React Flow 提供的某些钩子，组件必须包裹在 `<ReactFlowProvider />` 内或直接置于 `<ReactFlow />` 组件中，因此我们采用 Provider 包裹整个应用以确保兼容性
 
-Next, hop into `App.jsx` and create an empty flow:
+接下来，打开 `App.jsx` 创建一个空白的流程图：
 
 ```jsx filename="./src/App.jsx"
 import React from 'react';
@@ -274,33 +221,26 @@ export default function App() {
 }
 ```
 
-We'll expand and add on to this component over time. For now, we've added one of
-React Flow's built-in components - [`<Background />`](/api-reference/components/background) -
-to check if everything is setup correctly. Go ahead and run `npm run dev` (or
-whatever you need to do to spin up a dev server if you didn't choose vite) and
-check out your browser. You should see an empty flow:
+我们会逐步扩展和完善这个组件。目前，我们添加了 React Flow 的内置组件 [`<Background />`](/api-reference/components/background) 来验证配置是否正确。现在运行 `npm run dev`（如果你没有选择 vite，请使用对应的命令启动开发服务器），然后在浏览器中查看。你应该能看到一个空白的流程图：
 
 <Image
   src="/img/tutorials/webaudio/empty-flow.png"
   alt="Screenshot of an empty React Flow graph"
 />
 
-Leave the dev server running. We can keep checking back on our progress as we add
-new bits and bobs.
+保持开发服务器运行。我们可以在添加新功能时随时查看进度。
 
-### 1. State management with Zustand
+### 1. 使用 Zustand 进行状态管理
 
-A Zustand store will hold all the UI state for our application. In practical terms
-that means it'll hold the nodes and edges of our React Flow graph, a few other
-pieces of state, and a handful of _actions_ to update that state.
+Zustand 存储将管理我们应用的所有 UI 状态。具体来说，它将保存 React Flow 图的节点和边、一些其他状态，以及用于更新这些状态的若干 _操作_。
 
-To get a basic interactive React Flow graph going we need three actions:
+要实现一个基本的交互式 React Flow 图，我们需要三个操作：
 
-1. `onNodesChange` to handle nodes being moved around or deleted.
-2. `onEdgesChange` to handle _edges_ being moved around or deleted.
-3. `addEdge` to connect two nodes in the graph.
+1. `onNodesChange` 用于处理节点的移动或删除。
+2. `onEdgesChange` 用于处理 _边_ 的移动或删除。
+3. `addEdge` 用于连接图中的两个节点。
 
-Go ahead and create a new file, `store.js`, and add the following:
+现在创建一个新文件 `store.js`，并添加以下内容：
 
 ```js filename="./src/store.js"
 import { applyNodeChanges, applyEdgeChanges } from '@xyflow/react';
@@ -332,25 +272,13 @@ export const useStore = createWithEqualityFn((set, get) => ({
 }));
 ```
 
-Zustand is dead simple to use. We create a function that receives both a `set` and
-a `get` function and returns an object with our initial state along with the actions
-we can use to update that state. Updates happen immutably and we can use the `set`
-function for that. The `get` function is how we read the current state. And...
-that's it for zustand.
+Zustand 的使用极其简单。我们创建一个接收 `set` 和 `get` 函数的函数，返回包含初始状态和更新操作的对象。通过 `set` 函数进行不可变更新，`get` 函数则用于读取当前状态——这就是 zustand 的全部核心逻辑。
 
-The `changes` argument in both `onNodesChange` and `onEdgesChange` represents
-events like a node or edge being moved or deleted. Fortunately, React Flow provides
-some [helper](/api-reference/utils/apply-node-changes)
-[functions](/api-reference/utils/apply-edge-changes) to apply those changes
-for us. We just need to update the store with the new array of nodes.
+`onNodesChange` 和 `onEdgesChange` 中的 `changes` 参数表示节点或边被移动/删除等事件。React Flow 提供了[辅助函数](/api-reference/utils/apply-node-changes)[工具](/api-reference/utils/apply-edge-changes)来自动处理这些变更，我们只需用新节点数组更新存储即可。
 
-`addEdge` will be called whenever two nodes get connected. The `data` argument is
-_almost_ a valid edge, it's just missing an id. Here we're getting nanoid to
-generate a 6 character random id and then adding the edge to our graph, nothing
-exciting.
+当两个节点建立连接时，`addEdge` 将被调用。其 `data` 参数_几乎_就是有效的边数据，仅缺少 id 字段。这里我们使用 nanoid 生成 6 位随机 ID 并将边添加到图中，过程非常直观。
 
-If we hop back over to our `<App />` component we can hook React Flow up to our
-actions and get something working.
+回到 `<App />` 组件，我们可以将 React Flow 与这些操作挂钩，实现完整功能。
 
 ```jsx filename="./src/App.jsx" {3,5,7-13,16,20-24}
 import React from 'react';
@@ -384,18 +312,11 @@ export default function App() {
 }
 ```
 
-So what's this `selector` thing all about? Zustand let's us supply a selector
-function to pluck out the exact bits of state we need from the store. Combined
-with the `shallow` equality function, this means we typically don't have re-renders
-when state we don't care about changes.
+关于 `selector` 的作用：Zustand 允许通过选择器函数从存储中精确提取所需状态片段。结合 `shallow` 相等性判断函数，这意味着当不关心的状态变化时通常不会触发重新渲染。
 
-Right now, our store is small and we actually want everything from it to help
-render our React Flow graph, but as we expand on it this selector will make sure
-we're not re-rendering _everything_ all the time.
+目前，我们的存储规模较小，实际上需要从中获取所有内容来渲染 React Flow 图形。但随着规模扩大，这个选择器将确保我们不会频繁地重新渲染_所有_内容。
 
-This is everything we need to have an interactive graph: we can move nodes around,
-connect them together, and remove them. To demonstrate, _temporarily_ add some
-dummy nodes to your store:
+这就是实现交互式图形所需的全部功能：我们可以移动节点、连接节点以及删除节点。为了演示，_临时_在存储中添加一些虚拟节点：
 
 ```js filename="./store.jsx" {2-6}
 const useStore = createWithEqualityFn((set, get) => ({
@@ -409,19 +330,16 @@ const useStore = createWithEqualityFn((set, get) => ({
 ```
 
 <RemoteCodeViewer route="tutorials/webaudio/state-management" framework="react" />
-### 2. Custom nodes
 
-OK great, we have an interactive React Flow instance we can start playing with.
-We added some dummy nodes but they're just the default unstyled ones right now.
-In this step we'll add three custom nodes with interactive controls:
+### 2. 自定义节点
 
-1. An oscillator node and controls for the pitch and waveform type.
-2. A gain node and a control for the volume
-3. An output node and a button to toggle audio processing on and off.
+很好，我们现在有了一个可以开始操作的交互式 React Flow 实例。虽然添加了一些虚拟节点，但它们目前只是默认的无样式节点。在这一步中，我们将添加三个带有交互控件的自定义节点：
 
-Let's create a new folder, `nodes/`, and create a file for each custom node we
-want to create. Starting with the oscillator we need two controls and a source
-handle to connect the output of the oscillator to other nodes.
+1. 一个振荡器节点，包含音高和波形类型的控件。
+2. 一个增益节点，包含音量控制。
+3. 一个输出节点，包含一个开关音频处理的按钮。
+
+让我们创建一个新文件夹 `nodes/`，并为每个要创建的自定义节点新建一个文件。从振荡器开始，我们需要两个控件和一个源句柄，用于将振荡器的输出连接到其他节点。
 
 ```jsx filename="./src/nodes/Osc.jsx"
 import React from 'react';
@@ -463,21 +381,16 @@ export default function Osc({ id, data }) {
 ```
 
 <Callout type="info">
-"nodrag" is important.
+"nodrag" 非常重要。
 
-Pay attention to the `"nodrag"` class being added to both the `<input />` and
-`<select />` elements. It's _super important_ that you remember to add this class
-otherwise you'll find that React Flow intercepts the mouse events and you'll be
-stuck dragging the node around forever!
+请注意 `"nodrag"` 类被同时添加到 `<input />` 和 `<select />` 元素上。_极其重要_的是必须记住添加这个类，否则 React Flow 会拦截鼠标事件，导致你只能不停地拖动节点！
 
 </Callout>
 
-If we try rendering this custom node we'll find that the inputs don't do anything.
-That's because the input values are fixed by `data.frequency` and `data.type` but
-we have no event handlers listening to changes and no mechanism to update a node's
-data!
+如果我们尝试渲染这个自定义节点，会发现输入框没有任何反应。
+这是因为输入值被 `data.frequency` 和 `data.type` 固定了，而我们既没有监听变化的事件处理器，也没有更新节点数据的机制！
 
-To fix the situation we need to jump back to our store and add an `updateNode` action:
+要解决这个问题，我们需要回到 store 并添加一个 `updateNode` 动作：
 
 ```js filename="./src/store.js"
 export const useStore = createWithEqualityFn((set, get) => ({
@@ -497,10 +410,8 @@ export const useStore = createWithEqualityFn((set, get) => ({
 }));
 ```
 
-This action will handle partial data updates, such that if we only want to update a
-node's `frequency`, for example, we could just call `updateNode(id, { frequency: 220 }`.
-Now we just need to bring the action into our `<Osc />` component and call it
-whenever an input changes.
+这个动作将处理部分数据更新，例如如果我们只想更新节点的 `frequency`，只需调用 `updateNode(id, { frequency: 220 }`。
+现在只需将这个动作引入 `<Osc />` 组件，并在输入变化时调用它。
 
 ```jsx filename="./src/nodes/Osc.jsx" {3,7-10,13,28,35}
 import React from 'react';
@@ -552,13 +463,9 @@ export default function Osc({ id, data }) {
 }
 ```
 
-Hey, that `selector` is back! Notice how this time we're using it to derive
-two event handlers, `setFrequency` and `setType`, from the general `updateNode`
-action.
+看，那个 `selector` 又出现了！注意这次我们用它从通用的 `updateNode` 动作派生出两个事件处理器：`setFrequency` 和 `setType`。
 
-The last piece of the puzzle is to tell React Flow how to render our custom node.
-For that we need to create a `nodeTypes` object: the keys should correspond to a
-node's `type` and the value will be the React component to render.
+最后的关键是告诉 React Flow 如何渲染我们的自定义节点。为此需要创建一个 `nodeTypes` 对象：其键名对应节点的 `type` 属性，值则是要渲染的 React 组件。
 
 ```jsx filename="./src/App.jsx" {5,16-18,26}
 import React from 'react';
@@ -599,19 +506,14 @@ export default function App() {
 ```
 
 <Callout type="info">
-Avoid unnecessary renders.
+避免不必要的渲染。
 
-It's important to define `nodeTypes` outside of the `<App />` component (or use
-React's [`useMemo`](https://react.dev/reference/react/useMemo)) to avoid recomputing
-it every render.
+重要提示：应在 `<App />` 组件外部定义 `nodeTypes`（或使用 React 的 [`useMemo`](https://react.dev/reference/react/useMemo)），以避免每次渲染都重新计算。
 
 </Callout>
 
-If you've got the dev server running, don't panic if things haven't changed yet!
-None of our temporary nodes have been given the right type yet, so React Flow
-just falls back to rendering the default node. If we change one of those nodes to
-be an `osc` with some initial values for `frequency` and `type` we should see
-our custom node being rendered.
+如果开发服务器正在运行，看到界面尚未变化时请不要惊慌！
+因为我们尚未为临时节点指定正确的类型，React Flow 会默认回退到基础节点渲染。只要将任意节点类型改为 `osc` 并设置 `frequency` 和 `type` 的初始值，就能看到自定义节点正常渲染了。
 
 ```js title"./src/store.js"
 const useStore = createWithEqualityFn((set, get) => ({
@@ -627,29 +529,22 @@ const useStore = createWithEqualityFn((set, get) => ({
 }));
 ```
 
-  <RemoteCodeViewer
+<RemoteCodeViewer
     route="tutorials/webaudio/custom-node"
     framework="react"
     
   />
+
 <Callout type="info">
-Stuck on styling?
+遇到样式问题？
 
-If you're just implementing the code from this post as you go along, you'll
-see that your custom node doesn't look like the one in the preview above. To keep
-things easy to digest, we've left out styling in the code snippets.
+如果按照本文逐步实现代码，你会发现自定义节点与上方预览效果不同。为保持内容简洁，我们省略了代码片段中的样式部分。
 
-To learn how to style your custom nodes, check out our docs on
-[theming](/learn/customization/theming) or our example using
-[Tailwind](/examples/styling/tailwind).
+要了解如何设计自定义节点样式，请查阅[主题定制文档](/learn/customization/theming)或参考[使用Tailwind的示例](/examples/styling/tailwind)。
 
 </Callout>
 
-Implementing a gain node is pretty much the same process, so we'll leave that one
-to you. Instead, we'll turn our attention to the output node. This node will
-have no parameters control, but we do want to toggle signal processing on and off.
-That's a bit difficult right now when we haven't implemented any audio code yet,
-so in the meantime we'll add just a flag to our store and an action to toggle it.
+实现增益节点的过程几乎相同，这部分将留作练习。现在我们把注意力转向输出节点——这个节点不需要参数控件，但需要实现信号处理的开关切换。由于尚未编写音频相关代码，目前我们暂时在状态库中添加一个标志位和对应的切换动作。
 
 ```js filename="./src/store.js"
 const useStore = createWithEqualityFn((set, get) => ({
@@ -665,7 +560,7 @@ const useStore = createWithEqualityFn((set, get) => ({
 }));
 ```
 
-The custom node itself is then pretty simple:
+自定义节点本身的实现非常简单：
 
 ```jsx filename="./src/nodes/Out.jsx"
 import React from 'react';
@@ -705,39 +600,33 @@ export default function Out({ id, data }) {
 }
 ```
 
-Things are starting to shape up quite nicely!
+现在整体已经初具雏形！
 
 <RemoteCodeViewer
   route="tutorials/webaudio/custom-nodes"
   framework="react"
   
 />
-The next step, then, is to…
 
-## Do sound to it
+接下来需要...
 
-We have an interactive graph and we're able to update node data, now let's add
-in what we know about the Web Audio API. Start by creating a new file, `audio.js`,
-and create a new audio context and an empty `Map`.
+## 实现音频处理
+
+我们已经实现了一个交互式图表，并且能够更新节点数据，现在让我们加入关于 Web Audio API 的知识。首先创建一个新文件 `audio.js`，并初始化一个新的音频上下文和一个空的 `Map`。
 
 ```js filename="./src/audio.js"
 const context = new AudioContext();
 const nodes = new Map();
 ```
 
-The way we'll manage our audio graph is by hooking into the different actions in
-our store. So we might connect two audio nodes when the `addEdge` action is called,
-or update an audio node's properties when `updateNode` is called, and so on.
+我们将通过挂钩到存储中的不同操作来管理音频图。例如当调用 `addEdge` 操作时连接两个音频节点，或在调用 `updateNode` 时更新音频节点的属性，以此类推。
 
 <Callout type="warning">
-Hardcoded nodes
+硬编码节点
 
-We hardcoded a couple of nodes in our store earlier on in this post but our audio
-graph doesn't know anything about them! For the finished project we can do away
-with all these hardcoded bits, but for now it's **really important** that we also
-hardcode some audio nodes.
+本文前面部分我们在存储中硬编码了几个节点，但音频图对这些节点一无所知！在最终项目中我们可以去除所有这些硬编码部分，但目前**非常关键**的是我们也需要硬编码一些音频节点。
 
-Here's how we did it:
+具体实现如下：
 
 ```js filename="./src/audio.js" {4-7,9-10,12,14-16}
 const context = new AudioContext();
@@ -760,15 +649,11 @@ nodes.set('c', out);
 
 </Callout>
 
-### 1. Node changes
+### 1. 节点变更
 
-Right now, there are two types of node changes that can happen in our graph and
-that we need to respond to: updating a node's `data`, and removing a node from the
-graph. We already have an action for the former, so let's handle that first.
+当前图表中可能发生两类需要响应的节点变更：更新节点的 `data` 属性，以及从图表中移除节点。我们已经为前者准备了操作，让我们先处理这个场景。
 
-In `audio.js` we'll define a function, `updateAudioNode`, that we'll call with a
-node's id and a partial `data` object and use it to update an existing node in
-the `Map`:
+在 `audio.js` 文件中，我们将定义一个名为 `updateAudioNode` 的函数，该函数通过传入节点 ID 和部分 `data` 对象来更新 `Map` 中现有的节点：
 
 ```js filename="./src/audio.js"
 export function updateAudioNode(id, data) {
@@ -785,12 +670,10 @@ export function updateAudioNode(id, data) {
 ```
 
 <Callout type="info">
-  Remember that properties on an audio node may be special `AudioParams` that must be
-  updated differently to regular object properties.
+  请注意音频节点上的属性可能是特殊的 `AudioParam` 类型，必须采用与常规对象属性不同的更新方式。
 </Callout>
 
-Now we'll want to update our `updateNode` action in the store to call this function
-as part of the update:
+接下来我们需要更新 store 中的 `updateNode` 操作，使其在更新过程中调用这个函数：
 
 ```js filename="./src/store.js"
 import { updateAudioNode } from './audio';
@@ -808,14 +691,9 @@ export const useStore = createWithEqualityFn((set, get) => ({
 
 ```
 
-The next change we need to handle is removing a node from the graph. If you select
-a node in the graph and hit backspace, React Flow will remove it. This is implicitly
-handled for us by the `onNodesChange` action we hooked up, but now we want some
-additional handling we'll need to wire up a new action to React Flow's `onNodesDelete`
-event.
+我们需要处理的另一个变更是从图中移除节点。如果在图中选中节点并按退格键，React Flow 会将其移除。虽然我们已连接的 `onNodesChange` 操作会隐式处理这一行为，但现在我们需要额外处理逻辑，因此需要为 React Flow 的 `onNodesDelete` 事件配置新操作。
 
-This is actually pretty simple, so I'll save you some reading and present the next
-three snippets of code without comment.
+这个实现其实相当简单，为节省阅读时间，我将直接展示接下来的三段代码而不作说明。
 
 <Tabs items={['./src/audio.js', './src/store.js', './src/App.jsx']}>
   <Tabs.Tab>
@@ -876,20 +754,13 @@ export default function App() {
   </Tabs.Tab>
 </Tabs>
 
-The only thing to note is that `onNodesDelete` calls the provided callback with
-an _array_ of deleted nodes, because it is possible to delete more than one node
-at once!
+唯一需要注意的是：`onNodesDelete` 会以_数组_形式向回调函数传递被删除的节点，因为可能同时删除多个节点！
 
-### 2. Edge changes
+### 2. 边变更处理
 
-We're getting super close to actually making some sounds! All that's left is to
-handle changes to our graph's edges. Like with node changes, we already have an
-action to handle creating new edges and we're also implicitly handling removed
-edges in `onEdgesChange`.
+我们离实际发出声音已经非常接近了！最后只需处理图中边的变更。与节点变更类似，我们已经具备创建新边的操作，同时 `onEdgesChange` 也会隐式处理被移除的边。
 
-To handle new connections, we just need the `source` and `target` ids from the
-edge created in our `addEdge` action. Then we can just look up the two nodes in
-our `Map` and connect them up.
+要处理新连接，我们只需要从`addEdge`操作创建的边中获取`source`和`target`的id。然后就可以在`Map`中查找这两个节点并将它们连接起来。
 
 <Tabs items={["./src/audio.js", "./src/store.js"]}>
   <Tabs.Tab>
@@ -925,17 +796,11 @@ export const useStore = createWithEqualityFn((set, get) => ({
   </Tabs.Tab>
 </Tabs>
 
-We saw React Flow accepted an `onNodesDelete` handler and wouldn't you know it,
-there's an `onEdgesDelete` handler too! The approach we'd take to implement `disconnect`
-and hook it up to our store and React Flow instance is pretty much the same as
-before, so we'll leave that one down to you as well!
+我们已经看到React Flow接受`onNodesDelete`处理程序，不出所料，它也有一个`onEdgesDelete`处理程序！实现`disconnect`并将其连接到我们的存储和React Flow实例的方法与之前基本相同，所以我们也将这部分留给你来完成！
 
-### 3. Switching the speakers on
+### 3. 开启扬声器
 
-You'll remember that our `AudioContext` probably begins in a suspended state to
-prevent potentially annoying autoplay issues. We already faked the data and actions
-we need for our `<Out />` component in the store, now we just need to replace
-them with the real context's state and resume/suspend methods.
+你可能还记得，我们的`AudioContext`可能一开始处于暂停状态，以防止可能令人讨厌的自动播放问题。我们已经在存储中为`<Out />`组件模拟了所需的数据和操作，现在只需要用真实上下文的状态和恢复/暂停方法来替换它们。
 
 ```js filename="./src/audio.js"
 export function isRunning() {
@@ -947,9 +812,7 @@ export function toggleAudio() {
 }
 ```
 
-Although we haven't been returning anything from our audio functions up until now,
-we need to return from `toggleAudio` because those methods are
-asynchronous and we don't want to update the store prematurely!
+虽然到目前为止我们的音频函数还没有返回任何内容，但我们需要从`toggleAudio`返回，因为这些方法是异步的，我们不希望过早地更新存储！
 
 ```js filename="./src/store.js"
 import { ..., isRunning, toggleAudio } from './audio'
@@ -967,24 +830,19 @@ export const useStore = createWithEqualityFn((set, get) => ({
 }));
 ```
 
-Et voilà, we did it! We've now put enough together to actually _make sounds_!
-Let's see what we have in action.
+瞧，我们做到了！我们现在已经整合了足够的内容来真正_发出声音_！让我们看看实际效果如何。
 
 <RemoteCodeViewer
   route="tutorials/webaudio/hardcoded-audio"
   framework="react"
   
 />
-### 4. Creating new nodes
 
-Up until now we have been dealing with a hard-coded set of nodes in our graph.
-This has been fine for prototyping but for it to actually be useful we'll want a
-way to add new nodes to the graph dynamically. Our final task will be adding this
-functionality: we'll work backwards starting with the audio code and ending by
-creating a basic toolbar.
+### 4. 创建新节点
 
-Implementing a `createAudioNode` function will be simple enough. All we need is
-an id for the new node, the type of node to create, and its initial data:
+到目前为止，我们一直在处理图中硬编码的节点集合。这对于原型设计来说已经足够，但要让其真正实用，我们需要一种动态添加新节点的方法。最终任务就是实现这一功能：我们将从音频代码开始逆向操作，最终创建一个基础工具栏。
+
+实现`createAudioNode`函数非常简单。我们只需要新节点的ID、要创建的节点类型及其初始数据：
 
 ```js filename="./src/audio.js"
 export function createAudioNode(id, type, data) {
@@ -1010,9 +868,7 @@ export function createAudioNode(id, type, data) {
 }
 ```
 
-Next we'll need a `createNode` function in our store. The node id will be generated
-by nanoid and we'll hardcode some initial data for each of the node types, so the
-only thing we need to pass in is the type of node to create:
+接下来需要在store中创建`createNode`函数。节点ID将由nanoid生成，我们会为每种节点类型硬编码一些初始数据，因此唯一需要传入的参数就是要创建的节点类型：
 
 ```js filename="./src/store.js"
 import { ..., createAudioNode } from './audio';
@@ -1048,13 +904,9 @@ export const useStore = createWithEqualityFn((set, get) => ({
 }));
 ```
 
-We could be a bit smarter about calculating the position of the new node, but
-to keep things simple we'll just hardcode it to `{ x: 0, y: 0 }` for now.
+本可以更智能地计算新节点的位置，但为了保持简单，我们暂时将其硬编码为`{ x: 0, y: 0 }`。
 
-The final piece of the puzzle is to create a toolbar component that can trigger
-the new `createNode` action. To do that we'll jump back to `App.jsx` and make use
-of the [`<Panel />`](/docs//api-reference/components/panel/)
-built-in component.
+最后的关键是创建一个能触发`createNode`操作的工具栏组件。为此我们将回到`App.jsx`，使用内置的[`<Panel />`](/docs//api-reference/components/panel/)组件。
 
 ```jsx filename="./src/App.jsx"
 ...
@@ -1080,8 +932,7 @@ export default function App() {
 };
 ```
 
-We don't need anything fancy here, just a couple of buttons that trigger the
-`createNode` action with the appropriate type:
+这里不需要复杂功能，只需几个按钮来触发带有相应节点类型的`createNode`操作：
 
 ```jsx filename="./src/App.jsx"
 <Panel position="top-right">
@@ -1090,54 +941,33 @@ We don't need anything fancy here, just a couple of buttons that trigger the
 </Panel>
 ```
 
-And that's... everything! We've now got a fully functional audio graph editor
-that can:
+至此...大功告成！我们现在拥有一个功能完整的音频图编辑器，能够：
 
-- Create new audio nodes
-- Update node data with some UI controls
-- Connect nodes together
-- Delete nodes and connections
-- Start and stop audio processing
+- 创建新的音频节点
+- 通过UI控件更新节点数据  
+- 连接节点  
+- 删除节点和连接  
+- 启动/停止音频处理
 
-Here's the demo from the beginning, but this time you can see the source code to
-make sure you haven't missed anything.
+这是开头的演示，但这次你可以查看源代码以确保没有遗漏任何内容。
 
 <RemoteCodeViewer route="tutorials/webaudio/demo" framework="react" />
-## Final thoughts
 
-Whew that was a long one, but we made it! For our efforts we've come out the other
-side with a fun little interactive audio playground, learned a little bit about
-the Web Audio API along the way, and have a better idea of one approach to "running"
-a React Flow graph.
+## 最终思考
 
-If you've made it this far and are thinking "Hayleigh, I'm never going to write
-a Web Audio app. Did I learn _anything_ useful?" Then you're in luck, because you
-did! You could take our approach to connecting to the Web Audio API and apply it
-to some other graph-based computation engine like [behave-graph](https://github.com/bhouston/behave-graph).
-In fact, some has done just that and created [behave-flow](https://github.com/beeglebug/behave-flow)!
+呼——这篇内容很长，但我们完成了！通过努力，我们收获了一个有趣的交互式音频实验场，过程中学习了Web Audio API的相关知识，也对"运行"React Flow图表的实现方式有了更深理解。
 
-There are still plenty of ways to expand on this project. If you'd like to keep
-working on it, here are some ideas:
+如果你看到这里并在想："Hayleigh，我根本不会开发Web Audio应用，这些内容有用吗？"那么你很幸运——确实有用！你可以将我们连接Web Audio API的方法应用到其他基于图的计算引擎（如[behave-graph](https://github.com/bhouston/behave-graph)）。事实上，有人已经这么做了并创建了[behave-flow](https://github.com/beeglebug/behave-flow)！
 
-- Add more node types.
-- Allow nodes to connect to `AudioParams` on other nodes.
-- Use the [`AnalyserNode`](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode)
-  to visualize the output of a node or signal.
-- Anything else you can think of!
+这个项目还有很多扩展方向。如果你想继续完善，这里有些建议：
 
-And if you're looking for inspiration, there are quite a few projects out in the
-wild that are using node-based UIs for audio things. Some of my favorites are
-[Max/MSP](https://cycling74.com/products/max/),
-[Reaktor](https://www.native-instruments.com/en/products/komplete/synths/reaktor-6/),
-and [Pure Data](https://puredata.info/). Max and Reaktor are closed-source commercial
-software, but you can still steal some ideas from them <Emoji content="🕵️" />.
+- 添加更多节点类型  
+- 允许节点连接到其他节点的`AudioParams`  
+- 使用[`AnalyserNode`](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode)可视化节点或信号输出  
+- 任何你能想到的功能！
 
-You can use the completed [source code](https://github.com/xyflow/react-flow-web-audio)
-as a starting point, or you can just keep building on top of what we've made today.
-We'd love to see what you build so please share it with us over on our
-[Discord server](https://discord.com/invite/RVmnytFmGW)
-or [Twitter](https://twitter.com/xyflowdev).
+如果你正在寻找灵感，市面上有不少项目采用了基于节点的用户界面来处理音频相关功能。我个人最喜欢的几个包括 [Max/MSP](https://cycling74.com/products/max/)、[Reaktor](https://www.native-instruments.com/en/products/komplete/synths/reaktor-6/) 和 [Pure Data](https://puredata.info/)。其中 Max 和 Reaktor 是闭源的商业软件，但你依然可以从中借鉴一些创意思路 <Emoji content="🕵️" />。
 
-React Flow is an independent company financed by its users. If you want to support
-us you can [sponsor us on Github](https://github.com/sponsors/xyflow) or
-[subscribe to one of our Pro plans](/pro/).
+你可以将完整的[源代码](https://github.com/xyflow/react-flow-web-audio)作为起点，也可以基于我们今天构建的内容继续开发。我们非常期待看到你的创作成果，欢迎通过 [Discord 服务器](https://discord.com/invite/RVmnytFmGW) 或 [Twitter](https://twitter.com/xyflowdev) 与我们分享。
+
+React Flow 是一家由用户资助的独立公司。如果你想支持我们，可以选择 [在 Github 赞助](https://github.com/sponsors/xyflow) 或 [订阅我们的 Pro 方案](/pro/)。

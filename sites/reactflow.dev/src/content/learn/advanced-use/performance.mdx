@@ -1,25 +1,19 @@
 ---
-description: Strategies to optimize React Flow performance for large graphs.
+
+description: 针对大型图表优化 React Flow 性能的策略
 ---
 
-# Performance
+# 性能优化
 
-When dealing with a large number of nodes or complex components, managing performance can
-be challenging. Here are a few effective strategies to optimize the performance of React
-Flow.
+当处理大量节点或复杂组件时，性能管理可能颇具挑战性。以下是优化 React Flow 性能的几种有效策略。
 
-## Use memoization
+## 使用记忆化
 
-One of the main reasons for performance issues in React Flow is unnecessary re-renders.
-Since node movements trigger frequent state updates, this can lead to performance
-bottlenecks, especially in larger diagrams.
+React Flow 性能问题的主要原因之一是不必要的重新渲染。由于节点移动会触发频繁的状态更新，这可能导致性能瓶颈，特别是在大型图表中。
 
-### Memoize components
+### 记忆化组件
 
-Components provided as props to the `<ReactFlow>` component, including custom node and
-edge components, should either be memoized using `React.memo` or declared outside the
-parent component. This ensures that React does not create a new reference for the
-component on every render, which would otherwise trigger unnecessary re-renders.
+作为 props 传递给 `<ReactFlow>` 组件的元素（包括自定义节点和边组件），应当使用 `React.memo` 进行记忆化或在父组件外部声明。这能确保 React 不会在每次渲染时为组件创建新的引用，否则会触发不必要的重新渲染。
 
 ```tsx
 const NodeComponent = memo(() => {
@@ -27,13 +21,9 @@ const NodeComponent = memo(() => {
 });
 ```
 
-### Memoize functions
+### 记忆化函数
 
-Similarly, functions passed as props to `<ReactFlow>` should be memoized using
-`useCallback`. This prevents React from creating a new function reference on every render,
-which could also trigger unnecessary re-renders. Additionally, arrays and objects like
-`defaultEdgeOptions` or `snapGrid` should be memoized using `useMemo` to prevent
-unnecessary re-renders.
+同理，传递给 `<ReactFlow>` 的函数 props 应当使用 `useCallback` 进行记忆化。这能防止 React 在每次渲染时创建新的函数引用，从而避免不必要的重新渲染。此外，像 `defaultEdgeOptions` 或 `snapGrid` 这样的数组和对象也应使用 `useMemo` 进行记忆化。
 
 ```tsx
 import React, { useCallback } from 'react';
@@ -49,19 +39,13 @@ const MyDiagram = () => {
 export default MyDiagram;
 ```
 
-## Avoid accessing nodes in components
+## 避免在组件中访问节点
 
-One of the most common performance pitfalls in React Flow is directly accessing
-the `nodes` or `edges` in the components or the viewport. These objects change frequently
-during operations like dragging, panning, or zooming, which can cause unnecessary
-re-renders of components that depend on them.
+React Flow 中最常见的性能陷阱之一是在组件或视口中直接访问 `nodes` 或 `edges` 对象。这些对象在拖拽、平移或缩放等操作期间会频繁变化，可能导致依赖它们的组件不必要地重新渲染。
 
-For example, if you fetch the entire `nodes` array from the store and filter it to display
-selected node IDs, this approach can lead to performance degradation. Every update to
-the `nodes` array triggers a re-render of all dependent components, even if the change is
-unrelated to the selected nodes.
+例如，若从存储中获取整个 `nodes` 数组并过滤它以显示选中的节点 ID，这种做法会导致性能下降。每次 `nodes` 数组的更新都会触发所有依赖组件的重新渲染，即使变更与选中节点无关。
 
-### Inefficient example
+### 低效示例
 
 ```tsx
 const SelectedNodeIds = () => {
@@ -81,14 +65,11 @@ const SelectedNodeIds = () => {
 };
 ```
 
-In this example, every update to the `nodes` array causes the `SelectedNodeIds` component
-to re-render, even if the selection hasn’t changed.
+此示例中，每次 `nodes` 数组的更新都会导致 `SelectedNodeIds` 组件重新渲染，即使选中状态并未改变。
 
-### Optimized solution
+### 优化方案
 
-To avoid unnecessary re-renders, store the selected nodes in a separate field in your
-state (using Zustand, Redux, or any other state management solution). This ensures that
-the component only re-renders when the selection changes.
+为避免不必要的重新渲染，请将选中节点存储在状态的独立字段中（使用 Zustand、Redux 或其他状态管理方案）。这能确保组件仅在选中状态变化时重新渲染。
 
 ```tsx
 const SelectedNodeIds = () => {
@@ -104,15 +85,12 @@ const SelectedNodeIds = () => {
 };
 ```
 
-By decoupling the selected nodes from the `nodes` array, you prevent unnecessary updates
-and improve performance. For more information, view our
-[State Management guide](/learn/advanced-use/state-management).
+通过将选中节点与 `nodes` 数组解耦，可避免不必要的更新并提升性能。更多信息请参阅[状态管理指南](/learn/advanced-use/state-management)。
 
-## Collapse large node trees
+## 折叠大型节点树
 
-If your node tree is deeply nested, rendering all nodes at once can be inefficient.
-Instead, show only a limited number of nodes and allow users to expand them as needed. You
-can do this by modifying the node’s `hidden` property dynamically to toggle visibility.
+如果节点树层级过深，一次性渲染所有节点会导致效率低下。  
+此时应仅展示有限数量的节点，并允许用户按需展开。您可以通过动态修改节点的 `hidden` 属性来实现显隐切换。
 
 ```tsx
 const handleNodeClick = (targetNode) => {
@@ -128,19 +106,15 @@ const handleNodeClick = (targetNode) => {
 };
 ```
 
-By hiding nodes initially and rendering them only when expanded, we optimize performance
-while maintaining usability.
+通过初始隐藏节点并在展开时渲染，我们能在保持可用性的同时优化性能。
 
-## Simplify node and edge styles
+## 简化节点与边的样式
 
-If you've optimized performance in every other way, and you are still finding performance
-issues with large numbers of nodes, complex CSS styles, particularly those involving
-animations, shadows, or gradients, can significantly impact performance. Consider reducing
-complexity on your node styles in these cases.
+若已尝试其他优化手段，但大量节点仍存在性能问题，请注意复杂的 CSS 样式（特别是涉及动画、阴影或渐变的样式）会显著影响性能。此时应考虑简化节点样式。
 
-## Additional resources
+## 扩展资源
 
-Here are a few helpful resources on performance in React Flow that you can check out:
+以下是与 React Flow 性能优化相关的实用资源：
 
 - [Guide to Optimize React Flow Project Performance](https://www.synergycodes.com/blog/guide-to-optimize-react-flow-project-performance)
 - [Tuning Edge Animations ReactFlow Optimal Performance](https://liambx.com/blog/tuning-edge-animations-reactflow-optimal-performance)

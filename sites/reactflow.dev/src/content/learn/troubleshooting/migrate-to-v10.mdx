@@ -1,54 +1,55 @@
 ---
-sidebarTitle: Migrate to v10
-description: Use this guide to migrate from React Flow v9 to v10.
+
+sidebarTitle: 迁移至 v10
+description: 使用本指南从 React Flow v9 迁移至 v10。
 ---
 
-# Migrate to React Flow v10
+# 迁移至 React Flow v10
 
 import { Callout } from 'nextra/components';
 
 <Callout type="info">
-  You can find the docs for old versions of React Flow here:
+  旧版 React Flow 文档可在此查看：
   [v11](https://v11.reactflow.dev), [v10](https://v10.reactflow.dev),
   [v9](https://v9.reactflow.dev)
 </Callout>
 
-Welcome to React Flow v10! With the major version update, there are coming many new features but also some breaking changes.
+欢迎使用 React Flow v10！本次主版本更新带来了诸多新特性，同时也包含一些破坏性变更。
 
-## New Features
+## 新特性
 
-- [**Sub Flows**](/learn/layouting/sub-flows): You can now add nodes to a parent node and create groups and nested flows
-- **Node Type 'group'**: A new node type without handles that can be used as a group node
-- **Touch Device Support**: It is now possible to connect nodes on touch devices
-- **Fit View on Init**: You can use the new `fitView` prop to fit the initial view
-- **Key Handling**: Not only single keys but also multiple keys and key combinations are possible now
-- [**useKeyPress hook**](/api-reference/hooks/use-key-press): A util hook for handling keyboard events
-- [**useReactFlow hook**](/api-reference/hooks/use-react-flow): Returns a React Flow instance that exposes functions to manipulate the flow
-- **[useNodes](/api-reference/hooks/use-nodes), [useEdges](/api-reference/hooks/use-edges) and [useViewport](/api-reference/hooks/use-viewport) hooks**: Hooks for receiving nodes, edges and the viewport
-- **Edge Marker**: More options to configure the start and end markers of an edge
+- [**子流程**](/learn/layouting/sub-flows): 现在可以将节点添加到父节点中,创建分组和嵌套流程
+- **'group'节点类型**: 一种不带连接点的新节点类型,可用作分组节点
+- **触摸设备支持**: 现在可以在触摸设备上连接节点
+- **初始化时适配视图**: 可使用新的 `fitView` 属性适配初始视图
+- **按键处理**: 现在不仅支持单键,还支持多键和组合键操作
+- [**useKeyPress钩子**](/api-reference/hooks/use-key-press): 用于处理键盘事件的实用钩子
+- [**useReactFlow钩子**](/api-reference/hooks/use-react-flow): 返回一个React Flow实例,提供操作流程的各种函数
+- **[useNodes](/api-reference/hooks/use-nodes)、[useEdges](/api-reference/hooks/use-edges)和[useViewport](/api-reference/hooks/use-viewport)钩子**: 用于获取节点、边和视口的钩子
+- **边标记**: 更多配置边起始和结束标记的选项
 
-## Breaking Changes
+## 重大变更
 
-TLDR:
+简要说明:
 
-- Split the `elements` array into `nodes` and `edges` arrays and implement `onNodesChange` and `onEdgesChange` handlers (detailed guide in the [core concepts section](/learn/concepts/core-concepts))
-- Memoize your custom `nodeTypes` and `edgeTypes`
-- Rename `onLoad` to `onInit`
-- Rename `paneMoveable` to `panOnDrag`
-- Rename `useZoomPanHelper` to `useReactFlow` (and `setTransform` to `setViewport`)
-- Rename node and edge option `isHidden` to `hidden`
+- 将 `elements` 数组拆分为 `nodes` 和 `edges` 数组，并实现 `onNodesChange` 和 `onEdgesChange` 处理函数（详细指南见[核心概念章节](/learn/concepts/core-concepts)）
+- 对自定义的 `nodeTypes` 和 `edgeTypes` 进行记忆化处理
+- 将 `onLoad` 重命名为 `onInit`
+- 将 `paneMoveable` 重命名为 `panOnDrag`
+- 将 `useZoomPanHelper` 重命名为 `useReactFlow`（同时将 `setTransform` 改为 `setViewport`）
+- 将节点和边的选项 `isHidden` 重命名为 `hidden`
 
-Detailed explanation of breaking changes:
+重大变更的详细说明：
 
-### 1. ~~Elements~~ - Nodes and Edges
+### 1. ~~Elements~~ - 节点与边
 
-We saw that a lot of people struggle with the semi controlled `elements` prop. It was always a bit messy to sync the local user state with the internal state of React Flow. Some of you used the internal store that was never documented and always a kind of hacky solution. For the new version we offer two ways to use React Flow - uncontrolled and controlled.
+我们发现许多开发者对半受控的 `elements` 属性感到困惑。将本地用户状态与 React Flow 内部状态同步总是有些混乱。部分开发者使用了从未正式文档化的内部存储方案，这始终是一种临时解决方案。在新版本中，我们提供了两种使用 React Flow 的方式——非受控模式与受控模式。
 
-### 1.1. Controlled `nodes` and `edges`
+### 1.1. 受控的 `nodes` 和 `edges`
 
-If you want to have the full control and use nodes and edges from your local state or your store, you can use the `nodes`, `edges` props in combination with the `onNodesChange` and `onEdgesChange` handlers. You need to implement these handlers for an interactive flow (if you are fine with just pan and zoom you don't need them). You'll receive a change when a node(s) gets initialized, dragged, selected or removed. This means that you always know the exact position and dimensions of a node or if it's selected for example. We export the helper functions `applyNodeChanges` and `applyEdgeChanges` that you should use to apply the changes.
+若需完全掌控并使用本地状态或存储中的节点(node)和边(edge)，可结合使用 `nodes`、`edges` 属性与 `onNodesChange` 和 `onEdgesChange` 处理器。要实现交互式流程图（若仅需平移缩放则无需实现），需自行处理这些变更事件。当节点被初始化、拖拽、选中或删除时，您将收到变更通知，这意味着您始终能获取节点的精确位置、尺寸或选中状态等数据。我们提供了辅助函数 `applyNodeChanges` 和 `applyEdgeChanges` 来帮助应用这些变更。
 
-#### Old API
+#### 旧版 API
 
 ```jsx
 import { useState, useCallback } from 'react';
@@ -83,7 +84,7 @@ const BasicFlow = () => {
 export default BasicFlow;
 ```
 
-#### New API
+#### 新版 API
 
 ```jsx
 import { useState, useCallback } from 'react';
@@ -131,23 +132,23 @@ const BasicFlow = () => {
 export default BasicFlow;
 ```
 
-You can also use the new hooks `useNodesState` and `useEdgesState` for a quick start:
+也可使用新 Hook `useNodesState` 和 `useEdgesState` 快速入门：
 
 ```js
 const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
 const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 ```
 
-related changes:
+相关变更：
 
-- `onElementsClick` ->`onNodeClick` and `onEdgeClick`
-- `onElementsRemove` -> replaced by the `onNodesChange` and `onEdgesChange` handler
+- `onElementsClick` 变更为 `onNodeClick` 和 `onEdgeClick`
+- `onElementsRemove` 由 `onNodesChange` 和 `onEdgesChange` 处理器替代
 
-### 1.2 Uncontrolled `defaultNodes` and `defaultEdges`
+### 1.2 非受控模式 `defaultNodes` 与 `defaultEdges`
 
-The easiest way to get started is to use the `defaultNodes` and `defaultEdges` props. When you set these props, all actions are handled internally. You don't need to add any other handlers to get a fully interactive flow with the ability to drag nodes, connect nodes and remove nodes and edges:
+最简单的入门方式是使用 `defaultNodes` 和 `defaultEdges` 属性。设置这些属性后，所有操作将在内部处理，无需额外添加处理器即可获得完整交互功能（包括拖拽节点、连接节点及删除节点/边）：
 
-#### New API
+#### 新版 API
 
 ```jsx
 import ReactFlow from 'react-flow-renderer';
@@ -166,15 +167,15 @@ const BasicFlow = () => {
 export default BasicFlow;
 ```
 
-If you want to add, remove or update a node or edge you can only do this by using the [ReactFlow instance](/api-reference/types/react-flow-instance) that you can receive either with the new `useReactFlow` hook or by using the `onInit` handler that gets the instance as a function param.
+若需添加、移除或更新节点/边，只能通过 [ReactFlow 实例](/api-reference/types/react-flow-instance) 进行操作。该实例可通过新的 `useReactFlow` 钩子获取，或通过接收实例作为参数的 `onInit` 处理函数获得。
 
-### 2. Memoize your custom `nodeTypes` and `edgeTypes`
+### 2. 缓存自定义的 `nodeTypes` 和 `edgeTypes`
 
-Whenever you pass new node or edge types, we create wrapped node or edge component types in the background. This means that you should not create a new `nodeType` or `edgeType` object on every render. **Memoize your nodeTypes and edgeTypes or define them outside of the component when they don't change**.
+每当传入新的节点或边类型时，系统会在后台创建封装后的组件类型。这意味着**不应在每次渲染时创建新的 `nodeType` 或 `edgeType` 对象**。请缓存这些类型，或在类型不变时将其定义在组件外部。
 
-**Don't do this:**
+**错误示范：**
 
-This creates a new object on every render and leads to bugs and performance issues:
+以下写法会在每次渲染时创建新对象，导致错误和性能问题：
 
 ```jsx
 // this is bad! Don't do it.
@@ -186,7 +187,7 @@ This creates a new object on every render and leads to bugs and performance issu
 />
 ```
 
-**Do this:**
+**正确做法：**
 
 ```jsx
 function Flow() {
@@ -196,7 +197,7 @@ function Flow() {
 }
 ```
 
-or create the types outside of the component when they don't change:
+或在类型不变时将其定义在组件外部：
 
 ```jsx
 const nodeTypes = { specialType: SpecialNode };
@@ -208,9 +209,9 @@ function Flow() {
 
 ### 3. ~~Redux~~ - Zustand
 
-We switched our state management library from Redux to [Zustand](https://github.com/pmndrs/zustand). With this change we could remove about 300LOC from our state related code. If you need to access the internal store, you can use the [`useStore` hook](/api-reference/hooks/use-store):
+我们已将状态管理库从 Redux 迁移至 [Zustand](https://github.com/pmndrs/zustand)。此变更减少了约 300 行状态相关代码。如需访问内部存储，可使用 [`useStore` 钩子](/api-reference/hooks/use-store)：
 
-#### Old API
+#### 旧版 API
 
 ```jsx
 import { useStoreState, useStoreActions } from 'react-flow-renderer';
@@ -220,7 +221,7 @@ import { useStoreState, useStoreActions } from 'react-flow-renderer';
 const transform = useStoreState((store) => store.transform);
 ```
 
-#### New API
+#### 新版 API
 
 ```jsx
 import { useStore } from 'react-flow-renderer';
@@ -229,9 +230,9 @@ import { useStore } from 'react-flow-renderer';
 const transform = useStore((store) => store.transform);
 ```
 
-You still need to wrap your component with the `<ReactFlowProvider />` if you want to access the internal store.
+如需访问内部存储，仍需用 `<ReactFlowProvider />` 包裹组件。
 
-We are also exporting `useStoreApi` if you need to get the store in an event handler for example without triggering re-renders.
+我们还导出了 `useStoreApi`，以便您可以在事件处理程序中获取 store 而不会触发重新渲染。
 
 ```js
 import { useStoreApi } from 'react-flow-renderer';
@@ -247,9 +248,9 @@ const [x, y, zoom] = store.getState().transform;
 
 ### 4. ~~onLoad~~ - onInit
 
-The `onLoad` callback has been renamed to `onInit` and now fires when the nodes are initialized.
+`onLoad` 回调已重命名为 `onInit`，现在会在节点初始化时触发。
 
-#### Old API
+#### 旧版 API
 
 ```jsx
 const onLoad = (reactFlowInstance: OnLoadParams) => reactFlowInstance.zoomTo(2);
@@ -260,7 +261,7 @@ const onLoad = (reactFlowInstance: OnLoadParams) => reactFlowInstance.zoomTo(2);
 />
 ```
 
-#### New API
+#### 新版 API
 
 ```jsx
 const onInit = (reactFlowInstance: ReactFlowInstance) => reactFlowInstance.zoomTo(2);
@@ -273,9 +274,9 @@ const onInit = (reactFlowInstance: ReactFlowInstance) => reactFlowInstance.zoomT
 
 ### 5. ~~paneMoveable~~ - panOnDrag
 
-This is more consistent with the rest of the API (`panOnScroll`, `zoomOnScroll`, etc.)
+这与其他 API 更加一致（如 `panOnScroll`、`zoomOnScroll` 等）
 
-#### Old API
+#### 旧版 API
 
 ```jsx
 <ReactFlow
@@ -284,7 +285,7 @@ This is more consistent with the rest of the API (`panOnScroll`, `zoomOnScroll`,
 />
 ```
 
-#### New API
+#### 新版 API
 
 ```jsx
 <ReactFlow
@@ -293,11 +294,11 @@ This is more consistent with the rest of the API (`panOnScroll`, `zoomOnScroll`,
 />
 ```
 
-### 6. ~~useZoomPanHelper transform~~ - unified in `useReactFlow`
+### 6. ~~useZoomPanHelper transform~~ - 统一整合至 `useReactFlow`
 
-As "transform" is also the variable name of the transform in the store and it's not clear that `transform` is a setter we renamed it to `setViewport`. This is also more consistent with the other functions. Also, all `useZoomPanHelper` functions have been moved to the [React Flow instance](/api-reference/types/react-flow-instance) that you get from the [`useReactFlow` hook](/api-reference/hooks/use-react-flow) or the `onInit` handler.
+由于 "transform" 也是 store 中变换操作的变量名，且 `transform` 作为设置器不够明确，我们将其重命名为 `setViewport`。这与其他函数也更加一致。此外，所有 `useZoomPanHelper` 函数都已迁移至 [React Flow 实例](/api-reference/types/react-flow-instance)，您可以通过 [`useReactFlow` 钩子](/api-reference/hooks/use-react-flow) 或 `onInit` 处理程序获取该实例。
 
-#### Old API
+#### 旧版 API
 
 ```js
 const { transform, setCenter, setZoom  } = useZoomPanHelper();
@@ -305,7 +306,7 @@ const { transform, setCenter, setZoom  } = useZoomPanHelper();
 transform({ x: 100, y: 100, zoom: 2 });
 ```
 
-#### New API
+#### 新版 API
 
 ```js
 const { setViewport, setCenter, setZoom } = useReactFlow();
@@ -313,22 +314,22 @@ const { setViewport, setCenter, setZoom } = useReactFlow();
 setViewport({ x: 100, y: 100, zoom: 2 });
 ```
 
-New viewport functions:
+新增视口函数：
 
 - `getZoom`
 - `getViewport`
 
 ### 7. ~~isHidden~~ - hidden
 
-We mixed prefixed (`is...`) and non-prefixed boolean option names. All node and edge options are not prefixed anymore. So it's `hidden`, `animated`, `selected`, `draggable`, `selectable` and `connectable`.
+我们统一了布尔型选项的命名规范，不再混用前缀式（`is...`）和非前缀式命名。所有节点和边的选项现在均采用非前缀形式，如 `hidden`、`animated`、`selected`、`draggable`、`selectable` 和 `connectable`。
 
-#### Old API
+#### 旧版 API
 
 ```js
 const hiddenNode = { id: '1', isHidden: true, position: { x: 50, y: 50 } };
 ```
 
-#### New API
+#### 新版 API
 
 ```js
 const hiddenNode = { id: '1', hidden: true, position: { x: 50, y: 50 } };
@@ -336,15 +337,15 @@ const hiddenNode = { id: '1', hidden: true, position: { x: 50, y: 50 } };
 
 ### 8. ~~arrowHeadType~~ ~~markerEndId~~ - markerStart / markerEnd
 
-We improved the API for customizing the markers for an edge. With the new API you are able to set individual markers at the start and the end of an edge as well as customizing them with colors, strokeWidth etc. You still have the ability to set a markerEndId but instead of using different properties, the `markerStart` and `markerEnd` property accepts either a string (id for the svg marker that you need to define yourself) or a configuration object for using the built in arrowClosed or arrow markers.
+我们改进了用于自定义边线标记的 API。通过新 API，您可以在边线的起点和终点设置独立的标记，并自定义颜色、描边宽度等属性。您仍然可以使用 `markerEndId`，但现在 `markerStart` 和 `markerEnd` 属性不仅支持传入字符串（需自行定义的 SVG 标记 ID），还支持配置对象以使用内置的 `arrowClosed` 或箭头标记。
 
-#### Old API
+#### 旧版 API
 
 ```js
 const markerEdge = { source: '1', target: '2', arrowHeadType: 'arrow' };
 ```
 
-#### New API
+#### 新版 API
 
 ```js
 const markerEdge = {
@@ -357,8 +358,8 @@ const markerEdge = {
 
 ### 9. ~~ArrowHeadType~~ - MarkerType
 
-This is just a wording change for making the marker API more consistent. As we are now able to set markers for the start of the edge, the name type ArrowHeadType has been renamed to MarkerType. In the future, this can also not only contain arrow shapes but others like circles, diamonds etc.
+此为术语统一调整：由于现在支持为边线起点设置标记，原 `ArrowHeadType` 类型已更名为 `MarkerType`。未来该类型不仅支持箭头形状，还将支持圆形、菱形等其他形状。
 
-### 10. Attribution
+### 10. 版权声明
 
-This is not really a breaking change to the API but a little change in the general appearance of React Flow. We added a tiny "React Flow" attribution to the bottom right (the position is configurable via the `attributionPosition` prop). This change comes with the new "React Flow Pro" subscription model. If you want to remove the attribution in a commercial application, please subscribe to ["React Flow Pro"](/pro).
+这并非 API 的重大变更，而是 React Flow 外观的细微调整。我们在右下角添加了小型 "React Flow" 版权声明（位置可通过 `attributionPosition` 属性配置）。此变更是新推出的 "React Flow Pro" 订阅模式的一部分。如需在商业应用中移除该声明，请订阅 ["React Flow Pro"](/pro)。

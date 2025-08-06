@@ -1,27 +1,28 @@
 ---
-description: Uncontrolled inputs in React manage their own state internally. This guide shows you how to set up and use an uncontrolled flow.
+
+description: React 中的非受控输入在内部管理自身状态。本指南展示如何设置和使用非受控流程。
 ---
 
 import { Callout } from 'nextra/components';
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Uncontrolled Flow
+# 非受控流程
 
-There are two ways to use React Flow - controlled or uncontrolled. Controlled means, that you are in control of the state of the nodes and edges. In an uncontrolled flow the state of the nodes and edges is handled by React Flow internally. In this part we will show you how to work with an uncontrolled flow.
+使用 React Flow 有两种方式——受控或非受控。受控意味着您需要自行管理节点和边的状态。在非受控流程中，节点和边的状态由 React Flow 内部处理。本节我们将展示如何操作非受控流程。
 
-An implementation of an uncontrolled flow is simpler, because you don't need to pass any handlers:
+非受控流程的实现更为简单，因为您无需传递任何处理函数：
 
 <RemoteCodeViewer route="learn/uncontrolled" framework="react" />
 
-As you can see, we are passing `defaultEdgeOptions` to define that edges are animated. This is helpful, because you can't use the `onConnect` handler anymore to pass custom options to a newly created edge. Try to connect "Node B" with "Node C" and you see that the new edge is animated.
+如您所见，我们通过传递 `defaultEdgeOptions` 来定义边具有动画效果。这很有帮助，因为您无法再使用 `onConnect` 处理函数为新创建的边传递自定义选项。尝试连接"Node B"和"Node C"，您会发现新创建的边具有动画效果。
 
-## Updating nodes and edges
+## 更新节点和边
 
-Since you don't have nodes and edges in your local state, you can't update them directly. To do so, you need to use the [React Flow instance](/api-reference/types/react-flow-instance) that comes with functions for updating the internal state. You can receive the instance via the `onInit` callback or better by using the [`useReactFlow` hook](/api-reference/hooks/use-react-flow). Let's create a button that adds a new node at a random position. For this, we are wrapping our flow with the [`ReactFlowProvider`](/api-reference/react-flow-provider) and use the [`addNodes` function](/api-reference/types/react-flow-instance#nodes-and-edges).
+由于您的本地状态中不包含节点(node)和边(edge)，因此无法直接更新它们。为此，您需要使用[React Flow实例](/api-reference/types/react-flow-instance)，它提供了更新内部状态的函数。您可以通过`onInit`回调或更推荐的方式——使用[`useReactFlow`钩子](/api-reference/hooks/use-react-flow)来获取该实例。下面我们创建一个按钮，用于在随机位置添加新节点。为此，我们将用[`ReactFlowProvider`](/api-reference/react-flow-provider)包裹流程组件，并使用[`addNodes`函数](/api-reference/types/react-flow-instance#nodes-and-edges)。
 
 <Callout>
-  The `Flow` component in this example is wrapped with the `ReactFlowProvider`
-  to use the `useReactFlow` hook.
+  本示例中的`Flow`组件被`ReactFlowProvider`包裹，
+  以便使用`useReactFlow`钩子。
 </Callout>
 
 <RemoteCodeViewer route="learn/uncontrolled-2" framework="react" />

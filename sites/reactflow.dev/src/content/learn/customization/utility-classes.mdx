@@ -1,28 +1,20 @@
 ---
-description:
-  This guide gives you an overview of utility classes in React Flow that help you control
-  interactions within custom nodes.
+
+description: 本指南概述了 React Flow 中的实用工具类，帮助您控制自定义节点内的交互行为。
 ---
 
 import { Callout } from 'nextra/components';
 import { RemoteCodeViewer } from 'xy-shared/server';
 
-# Utility Classes
+# 实用工具类
 
-React Flow provides several built-in utility CSS classes to help you fine-tune how
-interactions work within your custom elements.
+React Flow 提供了多个内置的实用 CSS 类，可帮助您微调自定义元素内的交互方式。
 
 ## `nodrag`
 
-Adding the class `nodrag` to an element ensures that interacting with it doesn't trigger a
-drag. This is particularly useful for elements like buttons or inputs that should not
-initiate a drag operation when clicked.
+为元素添加 `nodrag` 类可确保与其交互时不会触发拖拽操作。这对于按钮或输入框等不应在点击时启动拖拽的元素特别有用。
 
-Nodes have a `drag` class name in place by default. However, this class name can affect
-the behaviour of the event listeners inside your custom nodes. To prevent unexpected
-behaviours, add a `nodrag` class name to elements with an event listener. This prevents
-the default drag behavior as well as the default node selection behavior when elements
-with this class are clicked.
+节点默认带有 `drag` 类名。但该类名可能会影响自定义节点内事件监听器的行为。为避免意外行为，请为带有事件监听器的元素添加 `nodrag` 类名。这样既能阻止默认拖拽行为，也能防止点击带此类的元素时触发默认节点选择行为。
 
 ```tsx
 export default function CustomNode(props: NodeProps) {
@@ -36,9 +28,7 @@ export default function CustomNode(props: NodeProps) {
 
 ## `nopan`
 
-If an element in the canvas does not stop mouse events from propagating, clicking and
-dragging that element will pan the viewport. Adding the "nopan" class prevents this
-behavior and this prop allows you to change the name of that class.
+若画布中的元素未阻止鼠标事件传播，点击并拖动该元素会导致视口平移。添加 "nopan" 类可阻止此行为，该属性允许您修改该类的名称。
 
 ```tsx
 export default function CustomNode(props: NodeProps) {
@@ -52,9 +42,7 @@ export default function CustomNode(props: NodeProps) {
 
 ## `nowheel`
 
-If your custom element contains scrollable content, you can apply the `nowheel` class.
-This disables the canvas' default pan behavior when you scroll inside your custom node,
-ensuring that only the content scrolls instead of moving the entire canvas.
+如果自定义元素包含可滚动内容，您可以应用 `nowheel` 类。这会在自定义节点内滚动时禁用画布的默认平移行为，确保只有内容滚动而不会移动整个画布。
 
 ```tsx
 export default function CustomNode(props: NodeProps) {
@@ -66,12 +54,12 @@ export default function CustomNode(props: NodeProps) {
 }
 ```
 
-Applying these utility classes helps you control interaction on a granular level. You can
-customize these class names inside React Flow's
-[style props](/api-reference/react-flow/#style-props).
+应用这些实用类可以帮助您精细控制交互行为。您可以通过 React Flow 的
+[样式属性](/api-reference/react-flow/#style-props)
+来自定义这些类名。
 
 <Callout type="info">
-  When creating your own custom nodes, you will also need to remember to style them!
-  Unlike the built-in nodes, custom nodes have no default styles, so feel free to use any
-  styling method you prefer, such as [Tailwind CSS](/examples/styling/tailwind).
+  创建自定义节点时，您还需要记住为其添加样式！
+  与内置节点不同，自定义节点没有默认样式，因此可以使用您偏好的任何
+  样式方法，例如 [Tailwind CSS](/examples/styling/tailwind)。
 </Callout>
