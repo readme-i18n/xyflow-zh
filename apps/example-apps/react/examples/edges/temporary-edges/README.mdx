@@ -1,49 +1,29 @@
 ---
-title: Temporary Edges
-description: Push what React Flow edges are capable of by rendering invisible ghost nodes.
+
+title: 临时边
+description: 通过渲染不可见的幽灵节点，突破 React Flow 边的能力边界。
 ---
 
-In React Flow, almost everything is built around the concepts of nodes and edges.
-Edges are the connections between nodes, but what if we want to create an edge
-that is only connected to one node? What about an "edge" not connected to any
-nodes at all?
+在 React Flow 中，几乎所有功能都围绕节点和边的概念构建。边是节点之间的连接，但如果我们想创建仅连接单个节点的边呢？甚至完全不连接任何节点的"边"呢？
 
-This example shows how to create an "incomplete" edge when a user releases a
-connection line without making a connection. A ghost node is rendered where the
-connection line was released, and a temporary edge is added to the flow. Making
-use of editable edges, the user can pick the edge back up and complete the
-connection at which point the ghost node is removed!
+本示例展示了当用户释放连接线却未建立连接时，如何创建"不完整"的边。系统会在释放连接线的位置渲染一个幽灵节点，并向流程图中添加临时边。利用可编辑边的特性，用户可以重新拾取该边并完成连接，此时幽灵节点将被移除！
 
 <Callout type="info">
-  Instead of connecting `A` directly to `B` in the flow, try releasing the
-  connection line in an empty space to create a temporary edge!
+  不要直接在流程中将 `A` 连接到 `B`，尝试在空白处释放连接线来创建临时边！
 </Callout>
 
 <RemoteCodeViewer route="examples/edges/temporary-edges" framework="react" />
 
-We've defined a `useIncompleteEdge` hook that encapsulates the logic for creating
-and managing a "ghost node". It returns a number of event handlers intended to be
-passed to the `<ReactFlow />` component.
+我们定义了一个 `useIncompleteEdge` 钩子，封装了创建和管理"幽灵节点"的逻辑。它返回多个事件处理器，旨在传递给 `<ReactFlow />` 组件。
 
-- [`onConnect`](/api-reference/react-flow#on-connect) is called when a complete
-  connection is made.
+- [`onConnect`](/api-reference/react-flow#on-connect) 在成功建立完整连接时触发。
 
-- [`onConnectEnd`](/api-reference/react-flow#on-connect-end) is called when the
-  user releases a connection line. The second `connectionState` param can be used
-  to determine if the connection was successful or not and where it started
-  (and ended if the connection is valid). This callback creates a ghost node and a
-  temporary edge from the `connectionState.fromNode.id` to that ghost node. The temporary
-  edge is marked as `reconnectable` so that the user can pick it back up and
-  complete the connection.
+- [`onConnectEnd`](/api-reference/react-flow#on-connect-end) 在用户释放连接线时触发。第二个参数 `connectionState` 可用于判断连接是否成功及其起始位置（若连接有效则包含结束位置）。该回调会创建一个幽灵节点和一条从 `connectionState.fromNode.id` 指向该幽灵节点的临时边。临时边会被标记为 `reconnectable`，以便用户可重新拾取并完成连接。
 
-- [`onReconnect`](/api-reference/react-flow#on-reconnect) is called when a complete
-  reconnection is made.
+- [`onReconnect`](/api-reference/react-flow#on-reconnect) 在成功完成重新连接时触发。
 
-- [`onReconnectEnd`](/api-reference/react-flow#on-reconnect-start) is called when
-  the user releases a reconnection line. This callback removes the ghost node and
-  temporary edge. A new one may be added back when `onConnectEnd` is called.
+- [`onReconnectEnd`](/api-reference/react-flow#on-reconnect-start) 在用户释放重新连接线时触发。该回调会移除幽灵节点和临时边。当 `onConnectEnd` 被调用时，可能会重新添加新的幽灵节点和临时边。
 
 <Callout type="info">
-  This example is an adaptation of our [add node on edge
-  drop](/examples/nodes/add-node-on-edge-drop) example!
+  本示例改编自我们的 [在边拖放时添加节点](/examples/nodes/add-node-on-edge-drop) 示例！
 </Callout>

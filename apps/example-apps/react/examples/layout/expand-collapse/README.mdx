@@ -1,18 +1,19 @@
 ---
-title: Expand and Collapse
-description: Create hierarchical trees with expandable and collapsible nodes using dagre for automatic layouts
+
+title: 展开与折叠
+description: 使用 dagre 自动布局创建具有可展开/折叠节点的层级树结构
 is_pro_example: true
 ---
 
-This example demonstrates how to implement expandable and collapsible nodes in a hierarchical tree structure. Nodes with children can be expanded or collapsed by clicking on them, revealing or hiding their descendants. The implementation uses a custom `useExpandCollapse` hook that maintains the complete graph structure while only rendering the currently visible portions.
+本示例演示如何在层级树结构中实现可展开和折叠的节点。通过点击含有子节点的节点，可以展开或折叠显示其子代节点。实现中使用了一个自定义的 `useExpandCollapse` hook，该 hook 维护完整的图结构但仅渲染当前可见部分。
 
 <ProExampleViewer slug="expand-collapse" />
 
-### About this Pro Example
+### 关于此专业版示例
 
-- Dependencies: [@xyflow/react](https://www.npmjs.com/package/@xyflow/react), [@dagrejs/dagre](https://www.npmjs.com/package/@dagrejs/dagre)
-- Implements a reusable `useExpandCollapse` hook that handles visibility logic
-- Demonstrates dynamic node addition with automatic layout recalculation
-- Uses node data properties to track expanded/collapsed state
-- Provides interactive controls to expand/collapse nodes and add children
-- License: [xyflow Pro License](https://xyflow.com/pro-license)
+- 依赖项: [@xyflow/react](https://www.npmjs.com/package/@xyflow/react), [@dagrejs/dagre](https://www.npmjs.com/package/@dagrejs/dagre)
+- 实现可复用的 `useExpandCollapse` hook 处理可见性逻辑
+- 演示动态添加节点时自动重新计算布局
+- 使用节点数据属性跟踪展开/折叠状态
+- 提供交互控件来展开/折叠节点及添加子节点
+- 许可协议: [xyflow Pro License](https://xyflow.com/pro-license)

@@ -1,10 +1,11 @@
 ---
+
 title: ReactFlowProvider
-description: For working with multiple flows on a page, so that each has a separate store instance
+description: 用于在页面中处理多个流程图，确保每个流程图拥有独立的存储实例
 hidden: true
 ---
 
-If you are working with multiple flows on a page or if you are using a client side router you need to wrap each flow with a [`ReactFlowProvider`](/api-reference/react-flow-provider) so that every flow has its own store instance.
-Using a `ReactFlowProvider` is also mandatory if you want to access the internal state outside of the `ReactFlow` component.
+若需在单个页面中处理多个流程图，或使用客户端路由时，必须用 [`ReactFlowProvider`](/api-reference/react-flow-provider) 包裹每个流程图组件，以确保每个流程图拥有独立的存储实例。
+当需要在 `ReactFlow` 组件外部访问内部状态时，也必须使用 `ReactFlowProvider`。
 
 <RemoteCodeViewer route="examples/misc/provider" framework="react" />

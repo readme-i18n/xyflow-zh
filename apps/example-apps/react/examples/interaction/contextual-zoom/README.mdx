@@ -1,10 +1,11 @@
 ---
-title: Contextual Zoom
-description: Only display the content of a node when you are zoomed in close enough
+
+title: 上下文缩放
+description: 仅在足够接近的缩放级别时显示节点内容
 ---
 
-This example shows how the current zoom level can be used by a node to decide which content to show.
-We are using selecting the zoom via the [`useStore` hook](/api-reference/hooks/use-store) to update our custom node whenever the zoom changes.
+本示例展示了节点如何利用当前缩放级别来决定显示哪些内容。
+我们通过 [`useStore` hook](/api-reference/hooks/use-store) 获取缩放状态，在缩放变化时更新自定义节点。
 
 <RemoteCodeViewer
   route="examples/interaction/contextual-zoom"

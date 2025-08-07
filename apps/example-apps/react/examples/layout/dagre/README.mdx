@@ -1,13 +1,11 @@
 ---
-title: Dagre Tree
-description: Integrate dagre js with React Flow to create simple tree layouts
+
+title: Dagre 树状布局
+description: 将 dagre js 与 React Flow 集成以创建简单树状布局
 ---
 
-This example shows how you can integrate [dagre.js](https://github.com/dagrejs/dagre) with React Flow to create simple tree layouts. Good alternatives to dagre are [d3-hierarchy](https://github.com/d3/d3-hierarchy) or [elkjs](https://github.com/kieler/elkjs) if you are looking for a more advanced layouting library.
+本示例展示如何将 [dagre.js](https://github.com/dagrejs/dagre) 与 React Flow 集成来创建简单树状布局。如果您需要更高级的布局库，[d3-hierarchy](https://github.com/d3/d3-hierarchy) 或 [elkjs](https://github.com/kieler/elkjs) 是 dagre 的良好替代方案。
 
 <RemoteCodeViewer route="examples/layout/dagre" framework="react" />
 
-This example is a demonstration of _static_ layouting. If the nodes or edges in
-the graph change, the layout _won't_ recalculate! It is possible to do dynamic
-layouting with dagre (and other libraries), though: see the [auto layout](/examples/layout/auto-layout)
-pro example for an example of this.
+此示例演示的是_静态_布局。如果图中的节点或边发生变化，布局_不会_重新计算！不过使用 dagre（及其他库）实现动态布局是可行的：可参考专业版示例 [自动布局](/examples/layout/auto-layout) 了解具体实现。

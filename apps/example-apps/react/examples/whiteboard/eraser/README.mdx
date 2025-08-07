@@ -1,18 +1,19 @@
 ---
-title: Eraser Tool
-description: A tool that let's you delete nodes and edges by wiping
+
+title: 橡皮擦工具
+description: 可通过擦除操作删除节点与连线的工具
 created_at: 2025-06-19
 ---
 
-This example shows how to create an eraser tool that allows you to delete nodes and edges by wiping them out.
-It's made up of two parts:
+本示例展示如何创建一个橡皮擦工具，通过擦除操作来删除节点和连线。
+该工具由两部分组成：
 
-1. The `Eraser` component that handles the erasing logic and rendering of the eraser trail.
-2. The custom `ErasableNode` and `ErasableEdge` that reacts to the `toBeDeleted` flag.
+1. 处理擦除逻辑和橡皮擦轨迹渲染的 `Eraser` 组件
+2. 响应 `toBeDeleted` 标志的自定义 `ErasableNode` 和 `ErasableEdge` 组件
 
-Determining if the trail intersects with a node is fairly straight forward - however detecting intersections between the trail and an edge is a bit more complex:
-We sample points along the edge through the [`getPointAtLength`](https://developer.mozilla.org/en-US/docs/Web/API/SVGGeometryElement/getPointAtLength) method of the SVG path element,
-construct a polyline that we can then use to detect intersections with the eraser trail.
-This is a trade-off between performance and accuracy - you can play around with the `sampleDistance` variable to see the effect it has on the eraser trail.
+判断轨迹是否与节点相交相对简单，但检测轨迹与连线的交点则更为复杂：
+我们通过 SVG 路径元素的 [`getPointAtLength`](https://developer.mozilla.org/en-US/docs/Web/API/SVGGeometryElement/getPointAtLength) 方法沿连线采样点，
+构建一个可用于检测与橡皮擦轨迹交点的折线。
+这是在性能与精度之间的权衡 - 您可以调整 `sampleDistance` 变量来观察它对橡皮擦轨迹的影响。
 
 <RemoteCodeViewer route="examples/whiteboard/eraser" framework="react" />

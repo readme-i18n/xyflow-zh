@@ -1,10 +1,11 @@
 ---
-title: Connection Limit
-description: Use the `isConnectable` prop to limit the number of connections a handle can have
+
+title: 连接限制
+description: 使用 `isConnectable` 属性来限制一个连接点可以拥有的连接数量
 ---
 
-This is an example of a custom node with a custom handle that can limit the amount of connections a handle can have using the `isConnectable` prop.
-You can use a boolean, a number (the number of max. connections the handle should have) or a callback function that returns a boolean
-as an arg for the `isConnectable` prop of the CustomHandle component.
+这是一个自定义节点的示例，其中包含一个可以通过 `isConnectable` 属性限制连接数量的自定义连接点。
+你可以使用布尔值、数字（表示该连接点应具备的最大连接数）或返回布尔值的回调函数
+作为 CustomHandle 组件的 `isConnectable` 属性参数。
 
 <RemoteCodeViewer route="examples/nodes/connection-limit" framework="react" />

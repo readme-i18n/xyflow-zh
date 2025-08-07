@@ -1,32 +1,23 @@
 ---
-title: Reconnect Edge
-description: Click-drag to move an existing edge from one handle to another
+
+title: 重新连接边线
+description: 通过点击拖动将现有边线从一个连接点移动到另一个
 ---
 
-An edge is reconnectable by dragging it to another handle if you are using the
-[`onReconnect` handler prop](/api-reference/react-flow#edges). The handler gets
-called after the edge gets dropped to a new handle. You can use the
-[`reconnectEdge`](/api-reference/utils/reconnect-edge) helper function to update your
-edges state accordingly.
+当使用 [`onReconnect` 处理函数属性](/api-reference/react-flow#edges)时，可通过拖动边线到其他连接点实现重新连接。该处理函数会在边线被放置到新连接点后触发。您可以使用 [`reconnectEdge`](/api-reference/utils/reconnect-edge) 辅助函数来相应更新边线状态。
 
 <RemoteCodeViewer route="examples/edges/reconnect-edge" framework="react" />
 
-A couple of properties interact with one another to determine whether an edge is
-updatable or not:
+以下属性共同作用决定边线是否可更新：
 
-- By default the [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable) is
-  set to `true`.
+- 默认情况下 [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable) 设置为 `true`
 
-- For edges to actually be draggable, though, it is also necessary to define a
-  [`onReconnect`](/api-reference/react-flow#onReconnect) handler.
+- 但要使边线实际可拖动，还必须定义 [`onReconnect`](/api-reference/react-flow#onReconnect) 处理函数
 
-- Individual edges can refine or override the [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable)
-  prop by setting their [`updatable`](/api-reference/types/edge#updatable) property.
+- 单个边线可通过设置其 [`updatable`](/api-reference/types/edge#updatable) 属性来细化或覆盖 [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable) 属性
 
-  - `true` means the edge is updatable even if [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable)
+  - `true` 表示即使 [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable) 为 false 边线仍可更新
 
-  - `"source"` or `"target"` means the edge is updatable only from the source or
-    target handle regardless of the [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable) prop.
+  - `"source"` 或 `"target"` 表示边线仅能从源或目标连接点更新，不受 [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable) 属性影响
 
-  - `false` means the edge is not updatable even if [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable)
-    is set to `true`.
+  - `false` 表示即使 [`edgesReconnectable`](/api-reference/react-flow#edgesReconnectable) 设为 `true` 边线也不可更新

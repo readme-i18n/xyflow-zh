@@ -1,17 +1,17 @@
 ---
-title: Edge Intersection
-description: Detect edge intersections with nodes while dragging.
+
+title: 边缘交叉检测
+description: 在拖拽过程中检测节点与边的交叉情况。
 ---
 
-This example shows how you can detect an intersection between a dragged node and an edge.
+本示例展示了如何检测被拖拽节点与边之间的交叉情况。
 
 <Callout type="info">
-  The default
+  通过
+  [`defaultEdgeOptions`](/api-reference/react-flow#default-edge-options)
+  将边的默认
   [`interactionWidth`](/api-reference/types/default-edge-options#interaction-width)
-  of the edges is set to `75` via the
-  [`defaultEdgeOptions`](/api-reference/react-flow#default-edge-options). We set
-  a wider interaction area so that we can easily find the edge and node
-  intersections.
+  设置为 `75`。我们设置了更宽的交互区域，以便更容易发现边与节点的交叉情况。
 </Callout>
 
 <RemoteCodeViewer route="examples/edges/edge-intersection" framework="react" />

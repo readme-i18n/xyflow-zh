@@ -1,61 +1,36 @@
 ---
-title: Connection Events
-description:
-  React Flow emits different events during the connection process. Use this example
-  to get an overview of those events and what order they are called in.
+
+title: 连接事件
+description: React Flow 在连接过程中会触发不同事件。通过此示例可了解这些事件及其触发顺序。
 ---
 
-React Flow emits different events during the connection process that you can use
-to update your UI or your flow in different ways. The example below demonstrates
-which events are fired and when.
+React Flow 在连接过程中会触发不同事件，您可利用这些事件以多种方式更新界面或流程。下方示例展示了各事件的触发时机。
 
 <RemoteCodeViewer
   route="examples/interaction/connection-events"
   framework="react"
 />
 
-For a **new connection** created by dragging from a handle, the following events
-are called in order:
+当通过从手柄拖拽创建**新连接**时，将按顺序触发以下事件：
 
-- [`onConnectStart`](/api-reference/react-flow#on-connect-start) is called with
-  the mouse event and an object containing the source node, potentially the source
-  handle id, and the handle type.
+- [`onConnectStart`](/api-reference/react-flow#on-connect-start) 触发时携带鼠标事件对象及包含源节点（可能包含源手柄ID）和手柄类型的参数对象
 
-- [`onConnect`](/api-reference/react-flow#on-connect) is only called when the
-  connection is released on a handle that [is connectable](/api-reference/components/handle#is-connectable).
-  It is called with a complete [connection object](/api-reference/types/connection)
-  containing the source and target node, and the source and target handle ids if
-  present.
+- [`onConnect`](/api-reference/react-flow#on-connect) 仅当连接释放至[可连接手柄](/api-reference/components/handle#is-connectable)时触发。参数为完整的[连接对象](/api-reference/types/connection)，包含源/目标节点及手柄ID（如存在）
 
-- [`onConnectEnd`](/api-reference/react-flow#on-connect-end) is called when a
-  connection is released, regardless of whether it was successful or not. It is
-  called with the mouse event.
+- [`onConnectEnd`](/api-reference/react-flow#on-connect-end) 在连接释放时触发（无论成功与否），参数为鼠标事件对象
 
-When an edge is **reconnected** by dragging an existing edge, the following events
-are called in order:
+当通过拖拽现有边进行**重连接**时，将按顺序触发以下事件：
 
-- [`onReconnectStart`](/api-reference/react-flow#on-reconnect-start) is called when
-  a [reconnectable edge](/api-reference/types/edge#reconnectable) is picked up.
-  It is called with the mouse event, the edge object that is being reconnected,
-  and the type of the stable handle.
+- [`onReconnectStart`](/api-reference/react-flow#on-reconnect-start) 在拾取[可重连边](/api-reference/types/edge#reconnectable)时触发。调用时会传入鼠标事件、正在重连的边对象以及稳定手柄的类型。
 
-- [`onConnectStart`](/api-reference/react-flow#on-connect-start) is called as
-  above.
+- [`onConnectStart`](/api-reference/react-flow#on-connect-start) 触发机制同上。
 
-- [`onReconnect`](/api-reference/react-flow#on-reconnect) is called when the edge
-  is released on a handle that is [reconnectable](/api-reference/types/edge#reconnectable).
-  It is called with the old [edge object](/api-reference/types/edge) and the new
-  [connection object](/api-reference/types/connection).
+- [`onReconnect`](/api-reference/react-flow#on-reconnect) 当边被释放到[可重连](/api-reference/types/edge#reconnectable)的手柄上时触发。调用时会传入旧的[边对象](/api-reference/types/edge)和新的[连接对象](/api-reference/types/connection)。
 
-- [`onConnectEnd`](/api-reference/react-flow#on-connect-end) is called as above.
+- [`onConnectEnd`](/api-reference/react-flow#on-connect-end) 触发机制同上。
 
-- [`onReconnectEnd`](/api-reference/react-flow#on-reconnect-end) is called when
-  the edge is released, regardless of whether the reconnection was successful or
-  not. It is called with the mouse event, the edge that was picked up, and the
-  type of the stable handle.
+- [`onReconnectEnd`](/api-reference/react-flow#on-reconnect-end) 在边被释放时触发（无论重连是否成功）。调用时会传入鼠标事件、被拾取的边对象以及稳定手柄的类型。
 
 <Callout type="info">
-  You can see many of these events in use in our [add node on edge
-  drop](/examples/nodes/add-node-on-edge-drop) and [temporary
-  edges](/examples/edges/temporary-edges) examples!
+  您可以在我们的[边拖放添加节点](/examples/nodes/add-node-on-edge-drop)和[临时边](/examples/edges/temporary-edges)示例中查看这些事件的实际应用！
 </Callout>

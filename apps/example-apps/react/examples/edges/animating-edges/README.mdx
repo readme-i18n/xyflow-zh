@@ -1,40 +1,29 @@
 ---
-title: Animating Edges
-description: Create edge animations that go beyond the built-in animated edge.
+
+title: 边缘动画
+description: 创建超越内置动画边缘的高级边缘动画效果。
 preview_path: react/examples/edges/animating-edges-svg/preview.jpg
 ---
 
-React Flow provides a simple built-in animation for the default edge type, but
-it is possible to create more advanced animations by using custom edges. Below
-are a collection of examples showing different ways an edge path might be used
-in
+React Flow 为默认边缘类型提供了简单的内置动画，但通过使用自定义边缘可以实现更高级的动画效果。以下是展示边缘路径不同应用方式的示例集合。
 
-## Animating SVG elements
+## SVG元素动画
 
-It is possible to animate an SVG element along a path using the `<animateMotion />`
-element. This example creates a custom edge that animates a circle along the edge
-path.
+可以使用 `<animateMotion />` 元素实现SVG元素沿路径运动。此示例创建了一个自定义边缘，使圆形沿边缘路径产生动画效果。
 
 <RemoteCodeViewer
   route="examples/edges/animating-edges-svg"
   framework="react"
 />
 
-## Animating other nodes
+## 其他节点动画
 
-If you want to animate more than SVG along an edge, you can do that with the
-Web Animations API. This example demonstrates how to animate another node in the
-flow along an edge path by using the `offsetPath` property and animating the
-`offsetDistance` property.
+若需实现比SVG更复杂的边缘动画，可以使用Web Animations API。本示例演示如何通过`offsetPath`属性和`offsetDistance`属性动画，使流程中的另一个节点沿边缘路径运动。
 
 <RemoteCodeViewer route="examples/edges/animating-edges" framework="react" />
 
-There are some important details in this example to take note of:
+此示例中有几个重要细节需要注意：
 
-- The animated node has its [`draggable`](/api-reference/types/node#draggable)
-  property set to `false` while the animation is running. This prevents a user
-  moving the node around and breaking the animation path.
+- 动画节点在运行动画时将其[`draggable`](/api-reference/types/node#draggable)属性设为`false`，防止用户移动节点导致动画路径中断
 
-- The animation path and the animation itself are set up in separate `useEffect`
-  hooks. This lets the animation continue playing smoothly even if the edge path
-  is recalculated (for example when the source or target nodes are dragged.)
+- 动画路径和动画本身分别在独立的`useEffect`钩子中设置。这样即使边缘路径重新计算（例如拖动源节点或目标节点时），动画也能保持流畅播放
