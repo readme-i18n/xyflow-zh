@@ -20,11 +20,11 @@ function GettingStarted({ libraryName, packageName }: GettingStartedProps) {
       >
         <div className="px-4 pt-12 pb-4">
           <Text size="lg" className="font-bold mb-2 text-center text-primary">
-            Getting Started with {libraryName}
+            {libraryName} 入门指南
           </Text>
           <Text className="text-center max-w-lg mx-auto mb-6 lg:mb-8">
-            Make sure you’ve installed npm, pnpm or yarn. Then you can install{' '}
-            {libraryName} via:
+            请确保你已经安装了 npm、pnpm 或 yarn。然后你可以通过以下方式安装 {libraryName}
+            ：
           </Text>
 
           <AppWindow>
@@ -37,7 +37,7 @@ function GettingStarted({ libraryName, packageName }: GettingStartedProps) {
         <div className="flex justify-center mt-5 py-3 bg-black/90 border-t border-gray-700">
           <Button variant="link" className="text-white font-bold" asChild>
             <Link href={`/learn`}>
-              See full Quickstart guide{' '}
+              查看完整快速上手指南{' '}
               <ArrowLongRightIcon className="ml-2 w-4 h-4 stroke-2" />
             </Link>
           </Button>

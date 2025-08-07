@@ -24,35 +24,35 @@ import WhatsNewPreview from '@/components/whats-new-preview';
 export const revalidate = 3600; // 60 * 60
 
 export const metadata: Metadata = {
-  title: 'Node-Based UIs in React',
+  title: 'React 中的节点式 UI',
   description:
-    'Highly customizable React library for workflow builders, no-code apps, image processing, visualizers, and more',
+    '高度可定制的 React 库，适用于工作流构建器、无代码应用、图像处理、可视化工具等。',
 };
 
 const features = [
   {
-    title: 'Ready out-of-the-box',
-    text: 'The things you need are already there: dragging nodes, zooming, panning, selecting multiple nodes, and adding/removing elements are all built-in.',
+    title: '开箱即用',
+    text: '你需要的功能都已经内置：拖动节点、缩放、平移、多选节点、添加/删除元素等。',
     route: '/learn' satisfies InternalRoute,
-    linkLabel: 'Get started',
+    linkLabel: '开始使用',
     flowComponent: <FlowA />,
   },
   {
     title: (
       <>
-        Powered by us.
+        由我们驱动。
         <br />
-        Designed by you.
+        由你设计。
       </>
     ),
-    text: 'React Flow nodes are simply React components, ready for your interactive elements. We play nice with Tailwind and plain old CSS.',
+    text: 'React Flow 的节点就是普通的 React 组件，适合用于交互式元素。完美兼容 Tailwind 和传统 CSS。',
     route: '/learn/customization/custom-nodes' satisfies InternalRoute,
-    linkLabel: 'Custom nodes guide',
+    linkLabel: '自定义节点指南',
     flowComponent: <FlowB />,
   },
   {
-    title: 'All the right plugins',
-    text: 'Make more advanced apps with the Background, Minimap, Controls, Panel, NodeToolbar, and NodeResizer components.',
+    title: '丰富的内置插件',
+    text: '使用 Background、Minimap、Controls、Panel、NodeToolbar 和 NodeResizer 组件构建更强大的应用。',
     route: '/learn/concepts/built-in-components' satisfies InternalRoute,
     flowComponent: <FlowC framework="react" />,
   },
@@ -60,20 +60,20 @@ const features = [
 
 const sliderItems = [
   {
-    name: 'Stripe Docs',
-    text: 'Diagrams for process documentation with interactive nodes',
+    name: 'Stripe 文档',
+    text: '用于流程文档的交互式节点图示',
     content: (
       <Image
         className="rounded-xl object-cover"
         src="/img/featured/stripe.png"
-        alt="Stripe Docs"
+        alt="Stripe 文档"
         fill
       />
     ),
   },
   {
     name: 'DoubleLoop',
-    text: 'Node-based dashboard builder to monitor business metrics',
+    text: '用于监控业务指标的节点式仪表板构建器',
     content: (
       <Image
         className="rounded-xl object-cover"
@@ -85,7 +85,7 @@ const sliderItems = [
   },
   {
     name: 'TypeForm',
-    text: 'Interactive tool to build and visualize complex survey logic',
+    text: '构建并可视化复杂问卷逻辑的交互式工具',
     content: (
       <Image
         className="rounded-xl object-cover"
@@ -107,13 +107,13 @@ const Page: FC = async () => {
       <HeroFlow
         title="React Flow"
         initialColor="#ff0071"
-        subtitle="A customizable React component for building node-based editors and interactive diagrams"
+        subtitle="一个可定制的 React 组件，用于构建节点式编辑器和交互式图表"
         action={
           <div className="flex">
             <Button size="lg" asChild className="mr-3 ">
               <Link href="/learn">
                 <BoltIcon className="w-5 h-5 mr-1" />
-                Quickstart
+                快速开始
               </Link>
             </Button>
             <Button size="lg" variant="pro" asChild>
@@ -128,14 +128,14 @@ const Page: FC = async () => {
       <Section className="mt-6 lg:mt-10 lg:px-10">
         <Stats
           stats={[
-            { label: 'Github Stars', value: `${(stars / 1000).toFixed(1)}K` },
+            { label: 'GitHub Star 数', value: `${(stars / 1000).toFixed(1)}K` },
             {
-              label: 'Weekly Installs',
+              label: '每周安装量',
               value: `${(downloads / 1000000).toFixed(2)}M`,
             },
-            { label: 'License', value: 'MIT' },
+            { label: '许可证', value: 'MIT' },
           ]}
-          description="React Flow is a MIT-licensed open source library. You can help us to ensure the further development and maintenance by subscribing to React Flow Pro."
+          description="React Flow 是一个 MIT 协议的开源库。通过订阅 React Flow Pro，你可以支持我们的持续开发与维护。"
           link="/pro"
           linkLabel={
             <>

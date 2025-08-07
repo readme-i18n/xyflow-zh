@@ -13,35 +13,32 @@ function AboutSection({ imageSrc, colorizeImage = true }: AboutSectionProps) {
   return (
     <Section>
       <Heading size="sm" className="text-center mb-2">
-        A project by the xyflow team
+        来自 xyflow 团队的项目
       </Heading>
       <Text className="text-center max-w-xl mx-auto mb-6" variant="light">
-        We are Christopher, Peter, Abbey and Moritz. We are the maintainers of
-        React Flow, Svelte Flow, and the communities around them
+        我们是 Christopher、Peter、Abbey 和 Moritz。我们是 React Flow、Svelte Flow
+        及其社区的维护者。
       </Text>
 
       <div className="flex flex-wrap justify-center space-x-8 mb-16">
         <Button asChild variant="link">
           <Link href="https://xyflow.com/blog" className="flex items-center">
-            Blog <ArrowRightCircleIcon className="w-4 h-4 ml-1" />
+            博客 <ArrowRightCircleIcon className="w-4 h-4 ml-1" />
           </Link>
         </Button>
         <Button asChild variant="link">
           <Link href="https://xyflow.com/about" className="flex items-center">
-            About us <ArrowRightCircleIcon className="w-4 h-4 ml-1" />
+            关于我们 <ArrowRightCircleIcon className="w-4 h-4 ml-1" />
           </Link>
         </Button>
         <Button asChild variant="link">
-          <Link
-            href="https://xyflow.com/open-source"
-            className="flex items-center"
-          >
-            Open Source <ArrowRightCircleIcon className="w-4 h-4 ml-1" />
+          <Link href="https://xyflow.com/open-source" className="flex items-center">
+            开源项目 <ArrowRightCircleIcon className="w-4 h-4 ml-1" />
           </Link>
         </Button>
         <Button asChild variant="link">
           <Link href="https://xyflow.com/contact" className="flex items-center">
-            Contact Us <ArrowRightCircleIcon className="w-4 h-4 ml-1" />
+            联系我们 <ArrowRightCircleIcon className="w-4 h-4 ml-1" />
           </Link>
         </Button>
       </div>
@@ -55,7 +52,7 @@ function AboutSection({ imageSrc, colorizeImage = true }: AboutSectionProps) {
           <Image
             className="grayscale mix-blend-multiply"
             src={imageSrc}
-            alt="photo of the xyflow team"
+            alt="xyflow 团队照片"
           />
         </div>
       )}

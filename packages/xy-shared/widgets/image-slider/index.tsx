@@ -16,15 +16,14 @@ type ImageSliderProps = {
 };
 
 function ImageSlider({
-  kicker = 'Project Showcase',
-  title = 'Used by thousands of people',
+  kicker = '项目展示',
+  title = '被上千人使用',
   description = `
-  From solo open-source developers, to companies like Stripe and
-  Typeform. We’ve seen the library used for data processing tools,
-  chatbot builders, machine learning, musical synthesizers, and
-  more.
+  从个人开源开发者到像 Stripe 和 Typeform 这样的公司，
+  我们见证了这个库在数据处理工具、聊天机器人构建器、
+  机器学习、音乐合成器等领域的广泛应用。
   `,
-  buttonText = 'See all projects',
+  buttonText = '查看所有项目',
   buttonLink = '/showcase',
   className,
   items = [],
@@ -34,9 +33,7 @@ function ImageSlider({
       <div className="p-4 md:p-8 lg:p-14">
         <div className="grid lg:grid-cols-2 lg:gap-40">
           <div>
-            <Text className="font-bold mb-2 text-accent tracking-wide">
-              {kicker}
-            </Text>
+            <Text className="font-bold mb-2 text-accent tracking-wide">{kicker}</Text>
 
             <Heading className="mb-4 tracking-normal">{title}</Heading>
           </div>
@@ -50,11 +47,7 @@ function ImageSlider({
 
         <div className="mt-8">
           {!!items.length && (
-            <ImageSliderItems
-              items={items}
-              duration={5000}
-              start={items[0].name}
-            />
+            <ImageSliderItems items={items} duration={5000} start={items[0].name} />
           )}
         </div>
       </div>
