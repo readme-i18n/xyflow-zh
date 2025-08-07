@@ -1,17 +1,11 @@
 ---
-description:
-  "This hook makes it easy to prototype a controlled flow where you manage the
-  state of nodes and edges outside the ReactFlowInstance. You can think of it
-  like React's `useState` hook with an additional helper callback."
+description: "该钩子简化了受控流程的原型设计，使您能够在 ReactFlowInstance 外部管理节点和边的状态。可以将其视为带有额外辅助回调的 React `useState` 钩子。"
 ---
-
 # useNodesState()
 
-[Source on GitHub](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useNodesEdgesState.ts)
+[GitHub 源码](https://github.com/xyflow/xyflow/blob/main/packages/react/src/hooks/useNodesEdgesState.ts)
 
-This hook makes it easy to prototype a controlled flow where you manage the
-state of nodes and edges outside the `ReactFlowInstance`. You can think of it
-like React's `useState` hook with an additional helper callback.
+该钩子简化了受控流程的原型设计，使您能够在 `ReactFlowInstance` 外部管理节点和边的状态。可以将其视为带有额外辅助回调的 React `useState` 钩子。
 
 ```jsx
 import { ReactFlow, useNodesState, useEdgesState } from '@xyflow/react';
@@ -34,22 +28,19 @@ export default function () {
 }
 ```
 
-## Signature
+## 签名
 
 <APIDocs functionName="useNodesState" />
 
 ## TypeScript
 
-This hook accepts a generic type argument of custom node types. See this
-[section in our TypeScript guide](/learn/advanced-use/typescript#nodetype-edgetype-unions) for more information.
+该钩子接受自定义节点类型的泛型参数。更多信息请参阅
+[TypeScript指南中的相关章节](/learn/advanced-use/typescript#nodetype-edgetype-unions)。
 
 ```tsx
 const nodes = useNodesState<CustomNodeType>();
 ```
 
-## Notes
+## 注意事项
 
-- This hook was created to make prototyping easier and our documentation
-  examples clearer. Although it is OK to use this hook in production, in
-  practice you may want to use a more sophisticated state management solution
-  like [Zustand](/docs/guides/state-management/) instead.
+- 创建此钩子旨在简化原型设计并使文档示例更清晰。虽然在生产环境中使用此钩子没有问题，但在实践中您可能需要使用更复杂的状态管理方案，例如 [Zustand](/docs/guides/state-management/)。
