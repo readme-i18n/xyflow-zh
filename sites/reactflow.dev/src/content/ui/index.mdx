@@ -1,44 +1,29 @@
 # React Flow UI
 
-Ready-to-use React Flow components built with [shadcn/ui](https://ui.shadcn.com/)
-components and [Tailwind CSS](https://tailwindcss.com/). Useful for new projects, MVPs, or
-when you need to get up and running quickly.
+基于 [shadcn/ui](https://ui.shadcn.com/) 组件和 [Tailwind CSS](https://tailwindcss.com/) 构建的开箱即用 React Flow 组件。适用于新项目、MVP 或需要快速启动的场景。
 
-## Prerequisites
+## 前置条件
 
-You need to have **shadcn and tailwind configured in your project**. If you haven't
-installed it, you can follow the steps explained in the
-[shadcn installation guide](https://ui.shadcn.com/docs/installation). If shadcn and
-tailwind are part of your project, you can initialize shadcn-ui by running:
+您的项目需要**已配置 shadcn 和 tailwind**。若尚未安装，可按照 [shadcn 安装指南](https://ui.shadcn.com/docs/installation) 的步骤操作。若项目中已包含 shadcn 和 tailwind，可通过以下命令初始化 shadcn-ui：
 
 ```bash copy npm2yarn
 npx shadcn@latest init
 ```
 
-If you want to learn more about the motivation behind this project, you can find a
-detailed blog post [here](https://xyflow.com/blog/react-flow-components). For a more
-in-depth tutorial, we also recently published a new guide on
-[getting started with React Flow UI](/learn/tutorials/getting-started-with-react-flow-components).
+如需了解本项目的设计初衷，可查阅详细博文 [此处](https://xyflow.com/blog/react-flow-components)。我们还发布了 [React Flow UI 入门指南](/learn/tutorials/getting-started-with-react-flow-components) 提供更深入的教程。
 
-## Usage
+## 使用指南
 
-Find a component you like and run the command to add it to your project.
+选择所需组件后运行命令即可添加到项目。
 
 ```bash copy npm2yarn
 npx shadcn@latest add https://ui.reactflow.dev/component-name
 ```
 
-- This command copies the component code inside your components folder. You can change
-  this folder by adding an alias inside your `components.json`.
+- 该命令会将组件代码复制到您的组件目录（可通过 `components.json` 中的别名修改目标目录）
+- 自动安装所有必要依赖项
+- 智能复用已添加或修改过的组件，或询问是否覆盖
+- 兼容现有 tailwind 配置
+- 组件**非黑盒设计**，可**自由修改扩展**以满足需求
 
-- It automatically installs all necessary dependencies
-
-- It utilizes previously added and even modified components or asks you if you'd like to
-  overwrite them.
-
-- It uses your existing tailwind configuration.
-
-- The components are **not black-boxes** and can be **modified and extended** to fit your
-  needs.
-
-For more information visit the [shadcn documentation](https://ui.shadcn.com/docs).
+更多信息请访问 [shadcn 文档](https://ui.shadcn.com/docs)。

@@ -1,41 +1,38 @@
 ---
-description: A node component with basic styling
+
+description: 带有基础样式的节点组件
 ---
 
 import UiComponentViewer from '@/components/ui-component-viewer.mdx';
 
-# Base Node
+# 基础节点
 
-A node wrapper with some basic styling used for creating a shared design among all nodes in your application.
-Similarly to [shadcn ui's card](https://ui.shadcn.com/docs/components/card) the components file exports:
+一个带有基础样式的节点包装器，用于为应用程序中的所有节点创建统一的设计风格。
+类似于 [shadcn ui 的卡片组件](https://ui.shadcn.com/docs/components/card)，该组件文件导出以下内容：
 
-- The `BaseNode` main container,
-- The `BaseNodeHeader` container where you would usually add actions and a `BaseNodeHeaderTitle`
-- The `BaseNodeContent` container where you would add the main contents of the node.
-- The `BaseNodeFooter` container where you may want to add extra information, or visible actions.
+- `BaseNode` 主容器
+- `BaseNodeHeader` 容器（通常用于添加操作和 `BaseNodeHeaderTitle`）
+- `BaseNodeContent` 容器（用于添加节点的主要内容）
+- `BaseNodeFooter` 容器（可用于添加额外信息或可见操作）
 
-In case you need to fine-tune how interactions like dragging and scrolling work with your custom components, 
-React Flow provides [several CSS utility classes](/learn/customization/utility-classes)
+如需微调自定义组件与拖拽、滚动等交互行为，
+React Flow 提供了 [多个 CSS 实用类](/learn/customization/utility-classes)
 
-You should use the `nodrag` [React Flow utility class](/learn/customization/utility-classes)
-in interactive components of your node such as buttons, to disable dragging
-the node inside the flow when the user is interacting with buttons or sliders.
+对于节点中的交互式组件（如按钮），应使用 React Flow 的 `nodrag` [实用类](/learn/customization/utility-classes)，
+以防止用户在操作按钮或滑块时意外拖动流程中的节点。
 
 <UiComponentViewer id="base-node" />
 
-## Theming
+## 主题定制
 
-To customize the visual appearance of your custom nodes, you can simply use
-[Tailwind CSS](https://tailwindcss.com/) classes. All of the React Flow
-components are based on [shadcn UI](https://ui.shadcn.com/), and you should follow
-the [shadcn UI theming guide](https://ui.shadcn.com/docs/theming) to customize aspects like typography and colors
-in your application.
+要自定义节点的视觉外观，可直接使用
+[Tailwind CSS](https://tailwindcss.com/) 类。所有 React Flow
+组件都基于 [shadcn UI](https://ui.shadcn.com/)，建议遵循
+[shadcn UI 主题指南](https://ui.shadcn.com/docs/theming) 来定制应用程序中的排版和颜色等样式。
 
-In most occasions though, when developing custom nodes, you may simply need to
-add custom Tailwind CSS classes. All of the `BaseNode` components are just light wrappers around `<div>`.
+不过在大多数情况下，开发自定义节点时，你可能只需要添加自定义的 Tailwind CSS 类。所有 `BaseNode` 组件都只是 `<div>` 元素的轻量级封装。
 
-For example, to change the border color of a node, based on an hypothetical execution status,
-you can pass extra `className`s:
+例如，要根据假设的执行状态更改节点的边框颜色，你可以传递额外的 `className`：
 
 ```tsx
 // Assuming your component is receiving a `data` prop

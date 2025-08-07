@@ -1,21 +1,22 @@
 ---
+
 sidebarTitle: Edge with Node Data
-description: A custom edge component that shows a value from the source node's data.
+description: 显示源节点数据值的自定义边组件。
 ---
 
 import UiComponentViewer from '@/components/ui-component-viewer.mdx';
 
-# Data Edge
+# 数据边
 
-An edge that displays one field from the source node's `data` object.
+一种显示源节点`data`对象中某个字段的边。
 
 <UiComponentViewer id="data-edge" />
 
-## Additional type safety
+## 额外类型安全
 
-When creating new edges of this type, you can use TypeScript's `satisfies` predicate
-along with the specific type of a node in your application to ensure the `key`
-property of the edge's data is a valid key of the node's data.
+创建此类新边时，可以使用TypeScript的`satisfies`谓词
+结合应用中节点的具体类型，确保边的数据`key`
+属性是节点数据的有效键名。
 
 ```ts
 type CounterNode = Node<{ count: number }>;
@@ -33,7 +34,7 @@ const initialEdges = [
 ];
 ```
 
-If you try to use a key that is not present in the node's data, TypeScript will
-show an error message like:
+如果尝试使用节点数据中不存在的键名，TypeScript会
+显示如下错误信息：
 
-> ts: Type '"value"' is not assignable to type '"count"'.
+> ts: 类型'"value"'不能赋值给类型'"count"'。

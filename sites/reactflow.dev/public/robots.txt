@@ -4,6 +4,3 @@ Allow: /
 
 # Host
 Host: https://reactflow.dev
-
-# Sitemaps
-Sitemap: https://reactflow.dev/sitemap.xml

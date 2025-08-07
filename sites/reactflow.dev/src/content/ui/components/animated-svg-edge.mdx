@@ -1,26 +1,22 @@
 ---
-description: An edge that animates a custom SVG element along the edge's path.
+
+description: 一种沿边缘路径动画化自定义SVG元素的边。
 ---
 
 import { Callout } from 'nextra/components';
 import UiComponentViewer from '@/components/ui-component-viewer.mdx';
 
-# Animated SVG Edge
+# 动画SVG边
 
-An edge that animates a custom SVG element along the edge's path. This component
-is based on the [animating SVG elements example](/examples/edges/animating-edges).
+一种沿边缘路径动画化自定义SVG元素的边。该组件基于[动画化SVG元素示例](/examples/edges/animating-edges)。
 
 <UiComponentViewer id="animated-svg-edge" />
 
-## Custom shapes
+## 自定义形状
 
-It is intended that you add your own SVG shapes to the module. Each shape should
-be a React component that takes one prop, `animateMotionProps`, and returns some
-SVG.
+建议您向模块添加自己的SVG形状。每个形状应是一个接收`animateMotionProps`属性并返回SVG的React组件。
 
-You can define these shapes in a separate file or in the same file as the edge
-component. In order to use them, you need to add them to the `shapes` record like
-so:
+您可以在单独文件中定义这些形状，也可以与边组件定义在同一文件中。要使用它们，需要像这样将它们添加到`shapes`记录中：
 
 ```tsx
 const shapes = {
@@ -32,8 +28,7 @@ const shapes = {
 } satisfies Record<string, AnimatedSvg>;
 ```
 
-The keys of the `shapes` record are valid values for the `shape` field of the
-edge's data:
+`shapes`记录的键是边数据中`shape`字段的有效值：
 
 ```ts
 const initialEdges = [
@@ -49,8 +44,5 @@ const initialEdges = [
 ```
 
 <Callout type="info">
-  If you want to render regular HTML elements, be sure to wrap them in an SVG
-  `<foreignObject />` element. Make sure to give the `<foreignObject />` an `id`
-  attribute and use that as the `href` attribute when rendering the  `<animateMotion />`
-  element.
+  如果要渲染常规HTML元素，请确保将它们包裹在SVG的`<foreignObject />`元素中。务必给`<foreignObject />`添加`id`属性，并在渲染`<animateMotion />`元素时将其用作`href`属性。
 </Callout>
