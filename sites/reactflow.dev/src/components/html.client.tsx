@@ -14,7 +14,7 @@ export const Html: FC<{ children: ReactNode }> = ({ children }) => {
     <html
       className={cn(ntDapperFont.className, routeSegment)}
       dir="ltr"
-      lang="en"
+      lang="zh"
       suppressHydrationWarning
     >
       {children}
