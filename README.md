@@ -2,117 +2,91 @@
 
 # xyflow/web
 
-This monorepo contains our team website and the docs for our libraries.
+该单体仓库包含我们的团队网站及库文档。
 
-- [xyflow.com](https://xyflow.com) - our team website and blog
-- [reactflow.dev](https://reactflow.dev) - the website and documentation for the React Flow library
-- [svelteflow.dev](https://svelteflow.dev) - the website and documentation for the Svelte Flow library
+- [xyflow.com](https://xyflow.com) - 团队官网与博客
+- [reactflow.dev](https://reactflow.dev) - React Flow 库的官网与文档
+- [svelteflow.dev](https://svelteflow.dev) - Svelte Flow 库的官网与文档
 
-## What's inside?
+## 包含内容
 
-We're using [Turborepo](https://turbo.build/repo) to manage this monorepo because
-there's a lot going on.
+我们使用 [Turborepo](https://turbo.build/repo) 管理这个单体仓库，因其涉及大量模块。
 
 ### apps/
 
-The apps directory contains projects that run on the backend or applications we
-might want to run during development:
+apps 目录包含后端运行项目或开发期间可能需要运行的应用程序：
 
-- `apps/example-apps` contains all of our examples and tutorials for ReactFlow and SvelteFlow.
-- `apps/ui-components` houses all of the components for [React Flow Components](https://reactflow.dev/components).
+- `apps/example-apps` 存放 ReactFlow 和 SvelteFlow 的所有示例与教程
+- `apps/ui-components` 包含 [React Flow Components](https://reactflow.dev/components) 的所有组件
 
 ### packages/
 
-The packages in this monorepo are reusable self-contained bits that we want to
-share across our apps and websites. Much of it is configuration for the different
-tools we use:
+该仓库中的 packages 是可复用的独立模块，用于在应用和网站间共享。大部分内容是我们所用工具的相关配置：
 
 - `packages/eslint-config-xyflow`
-- `packages/xy-tailwind-config`
-- `packages/xy-tsconfig`
-- `packages/xy-ui` is a React component library that contains any components that
-  we want to share across our websites. The package encompasses everything from
-  page layouts, UI building blocks, and complex widgets. We often use
-  [Shadcn](https://ui.shadcn.com) when looking to add new components, and we style
-  everything with [Tailwind](https://tailwindcss.com).
+- `packages/xy-tailwind-config`  
+- `packages/xy-tsconfig`  
+- `packages/xy-ui` 是一个 React 组件库，包含我们在各网站间共享的所有组件。该包涵盖从页面布局、UI 基础构件到复杂小部件的所有内容。我们经常使用 [Shadcn](https://ui.shadcn.com) 来添加新组件，并使用 [Tailwind](https://tailwindcss.com) 进行样式设计。
 
 ### sites/
 
-Each directory in the sites folder is a separate website that we deploy. The name
-of the directory always corresponds to the domain name of the website:
+sites 文件夹中的每个目录都是我们部署的独立网站，目录名称始终对应网站的域名：
 
-- `sites/reactflow.dev` is the documentation site for React Flow. It, and the
-  rest of sites, are built with [Nextra](https://nextra.site/) and
-  [Next.js](https://nextjs.org/).
-- `sites/svelteflow.dev` is the documentation for our newest library, Svelte Flow.
-- `sites/xyflow.com` is the new home page for our organization. It contains our
-  blog and some information on how we approach open source development.
+- `sites/reactflow.dev` 是 React Flow 的文档站点，它与其余站点均使用 [Nextra](https://nextra.site/) 和 [Next.js](https://nextjs.org/) 构建  
+- `sites/svelteflow.dev` 是我们最新库 Svelte Flow 的文档  
+- `sites/xyflow.com` 是我们组织的新首页，包含博客和一些关于我们开源开发方式的信息
 
-## Getting started
+## 快速开始
 
-To run any of the websites locally, you'll first need to install the dependencies
-and packages. We recommend using [pnpm](https://pnpm.io/) to manage your dependencies.
+要在本地运行任何网站，首先需要安装依赖项和包。我们推荐使用 [pnpm](https://pnpm.io/) 管理依赖项。
 
 ```sh
 pnpm install
 ```
 
-If you take a peek in `package.json` you'll see we have a few different scripts
-to run our apps. If you just want to run everything at once, you can just do:
+查看 `package.json` 可以看到我们有几个不同的脚本来运行应用。如果想一次性运行所有内容，只需执行：
 
 ```sh
 pnpm run dev
 ```
 
-To run the two documentation sites you can use:
+运行两个文档站点可以使用：
 
 ```sh
 pnpm run dev:docs
 ```
 
-For everything else, there is an individual script to run each app independently:
+对于其他应用，每个都有独立的运行脚本：
 
 - `pnpm run dev:reactflow.dev`
 - `pnpm run dev:svelteflow.dev`
 - `pnpm run dev:xyflow.com`
 - `pnpm run dev:style`
 
-### Displaying Showcase Projects
+### 展示案例项目
 
-We have a database of projects that use our libraries stored in notion. Both the
-React Flow and Svelte Flow sites are fetching this data at build time using `getStaticProps`. You need to have a `.env.local` file with a `NOTION_API_SECRET` to make this work locally. Otherwise, placeholder showcases are shown.
+我们在Notion中建立了使用我们库的项目数据库。React Flow和Svelte Flow网站都通过`getStaticProps`在构建时获取这些数据。本地运行时需要配置包含`NOTION_API_SECRET`的`.env.local`文件，否则将显示占位案例。
 
-### Update React Flow and Svelte Flow dependencies
+### 更新React Flow和Svelte Flow依赖
 
-There is a Github action that checks the latest React Flow and Svelte Flow versions
-daily and creates a PR if there is a new version.
+我们设有每日检查React Flow和Svelte Flow最新版本的GitHub Action，发现新版本时会自动创建PR。
 
 ---
 
-## Support our work with React Flow Pro
+## 通过React Flow Pro支持我们
 
-React Flow and Svelte Flow are open-source MIT-licensed libraries, and it will
-be forever. Our libraries enable thousands of solo developers and organizations
-like Stripe and Linkedin to build their node-based apps. With so many active
-users, it takes time and effort to maintain the library, docs, and community.
-We can’t do that without your support.
+React Flow和Svelte Flow是永久开源的MIT许可库，已助力Stripe、Linkedin等数千名独立开发者和组织构建节点应用。面对庞大的活跃用户群，维护库、文档和社区需要持续投入，您的支持至关重要。
 
 [<img src="./assets/readme-pro.png">](https://reactflow.dev/pro)
 
-Why Subscribe? With your subscription, you are ensuring the sustainable
-maintenance and development of both React Flow and Svelte Flow. This is how we
-make sure these libraries stay MIT-licensed. In return, you get high-quality,
-maintained, updated libraries, along with benefits like direct support,
-prioritized feature requests, and access to our Pro Examples.
+为何订阅？您的订阅将确保 React Flow 和 Svelte Flow 获得可持续的维护与开发。这是我们保持这些库始终采用 MIT 许可证的方式。作为回报，您将获得高质量、持续维护且定期更新的库，同时享有直接技术支持、优先功能请求处理权限以及专业示例访问等权益。
 
 ---
 
-## Contact us
+## 联系我们
 
-We're happy to try and answer any questions you have about our libraries. We're
-also always excited when folks want to share their projects with us. There are
-a few ways you can get in touch:
+我们很乐意解答您关于库的任何疑问，也始终期待看到大家分享的项目成果。您可以通过以下方式与我们取得联系：
 
-- Use the contact form on our [website](https://xyflow.com/contact).
-- Drop us an email at [info@xyflow.com](mailto:info@xyflow.com)
-- Join our [Discord server](https://discord.com/invite/RVmnytFmGW)
+- 通过[官网](https://xyflow.com/contact)联系表单
+- 发送邮件至 [info@xyflow.com](mailto:info@xyflow.com)
+- 加入我们的[Discord社区](https://discord.com/invite/RVmnytFmGW)
